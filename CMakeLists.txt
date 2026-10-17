@@ -1,0 +1,31 @@
+cmake_minimum_required(VERSION 3.15)
+project(coral_concrete CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
+# SQLite: the system library (Linux/macOS: libsqlite3-dev / Xcode SDK). On Windows, point
+# SQLITE3_INCLUDE_DIR / SQLITE3_LIBRARY at the amalgamation or winsqlite3 (ASSUMPTIONS.md A-05).
+find_path(SQLITE3_INCLUDE_DIR sqlite3.h)
+find_library(SQLITE3_LIBRARY NAMES sqlite3 winsqlite3)
+if(NOT SQLITE3_INCLUDE_DIR OR NOT SQLITE3_LIBRARY)
+  message(FATAL_ERROR "sqlite3 not found: set SQLITE3_INCLUDE_DIR and SQLITE3_LIBRARY")
+endif()
+
+add_executable(coral-service service/main.cpp)
+add_executable(service-gate service/gate.cpp)
+foreach(t coral-service service-gate)
+  target_include_directories(${t} PRIVATE service ${SQLITE3_INCLUDE_DIR})
+  target_link_libraries(${t} PRIVATE ${SQLITE3_LIBRARY})
+  if(MSVC)
+    target_compile_options(${t} PRIVATE /W4)
+    target_link_libraries(${t} PRIVATE ws2_32)
+  else()
+    target_compile_options(${t} PRIVATE -Wall -Wextra)
+  endif()
+endforeach()
+
+enable_testing()
+add_test(NAME service-gate COMMAND service-gate)
