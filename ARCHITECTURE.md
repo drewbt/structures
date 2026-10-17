@@ -21,10 +21,13 @@ app/                the browser application: vanilla JS modules, native web comp
   core/geometry.js  mesh builders in doubles (engineering geometry), ear-clipping, exact prism volumes
   core/hash.js      SHA-256 + canonical forms (canonicalJSON, modelCanonical == store.h canonical())
   core/units.js     explicit units; SI inside, conversion only at the edges
+  core/structure.js the beam chain: beamModel → (service, engine) → beamResults → rcBeamDesign → beamBars
+  core/standards/aci318-19.js   the design ruleset as data, a clause per value
   core/api.js       the service client
   render/webgl.js   the 3D viewer: reduced Float32 copy of the meshes, pick pass, section cut, transparency
   ui/app.js         <coral-app>: layout, routing (#source #trace #architecture), save/reload, selection
   ui/tree.js        <coral-tree>        ui/properties.js <coral-properties>      ui/timeline.js <coral-timeline>
+  pages/structure.js <page-structure> 03 (analysis, design, bar generation)
   pages/source.js   <page-source> 00    pages/trace.js <page-trace> 01            pages/architecture.js <page-architecture> 02
   fixtures/plan-fixture.svg  a SYNTHETIC drawing with known dimensions (not an ArchDaily drawing)
 tests/unit/*.test.mjs   28 tests under `node --test`         tests/e2e/slice.mjs   38 checks in headless Chromium
@@ -64,8 +67,17 @@ on upload and never reads them back; engineering values come from the double-pre
 are gated by the divergence theorem to 1e-9 m³. Redraw only on change. Selection by an id-colour pick
 pass. Section cut by fragment discard above z. Transparent items drawn last, far to near by centroid.
 
+## Analysis path
+
+The browser builds the engine's JSON model with `structure.beamModel`; `POST /api/projects/:p/analyse`
+writes it to a file beside the database, runs `stiffness <in> -o <out> --compact` (the binary named by
+`--engine`), and stores the output in `results` keyed by element, function@version + engine SHA-256 and
+the SHA-256 of the model text. A repeat of the same text through the same binary is served from SQLite.
+The browser post-processes (`beamResults`), designs (`rcBeamDesign`) and generates bars (`beamBars`);
+bars become `rebar` elements with a `basis` hash so a changed beam shows them stale.
+
 ## Not in this repository (owed)
 
-Pages 03–11, the structural engine integration (drewbt/stiffness is the engine; see DECISIONS D-04),
+Pages 05–11, frames of many members, plates and punching shear,
 instancing/LOD/frustum culling, holes in slabs, non-rectangular columns, automated tracing, the
 `.fi` reader, multi-user access.

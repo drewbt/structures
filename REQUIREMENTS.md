@@ -15,7 +15,9 @@ Section numbers are the specification's.
 | 4 | PAGE 00 Source: registration, import, identification, scale refs, revision, attribution, quality, missing register | partial | registration, import (artifacts by SHA-256), attribution, missing list, status; revision tracking of sources is by `updated` only (owed: source revisions) |
 | 4 | PAGE 01 Trace: alignment, calibration, coordinate system, line/polygon tracing, walls, columns, slabs, openings, levels, snapping, undo/redo, provenance, validation | partial | all listed except arcs, stairs and dimension constraints (owed); validation = function errors in the timeline |
 | 4 | PAGE 02 Architecture: parametric walls, slabs, columns, openings, levels; editable, persistent, regenerating | partial | those five types; owed: grids, roofs, beams, doors/windows as typed objects, stairs, balconies, spaces, finishes, site |
-| 4 | PAGES 03–11 | owed | — |
+| 4 | PAGE 03 Structural engineering | partial | one beam: supports, materials, D/L cases, ACI combinations, Timoshenko frame analysis by the stiffness engine, internal forces, reactions, deflections, design ratios. Owed: frames of many members, plates/shells, wind, seismic, foundations, nonlinearity, construction stages |
+| 4 | PAGE 04 Concrete design and reinforcement | partial | beam flexure, shear, deflection (Ie, long-term), development length, minimum steel, bar spacing; bars as first-class elements with basis hash and status. Owed: punching shear, torsion, columns, slabs, crack control, laps, couplers, clash detection, fire, durability |
+| 4 | PAGES 05–11 | owed | — |
 | 5 | Construction simulation engine | owed | the event log exists (append-only, service `events`), the simulation does not |
 | 6 | Human/equipment agents | owed | — |
 | 7 | Normalized SQLite schema: projects, sources, artifacts, revisions, elements, parameters, provenance, events, functions, results | built | store.h schema (functions/results tables exist, unused yet) |
@@ -26,5 +28,5 @@ Section numbers are the specification's.
 | 10 | Standing records | built | this set of files |
 | 11 | Tests per category | built for this slice | TEST_REGISTRY.md |
 | 12 | First milestone: drawing → calibrate → trace → components → 3D → tree → edit → regenerate → SQLite save/reload → provenance → export → tests | built, with one qualification | tests/e2e/slice.mjs 38/38; the drawing is the synthetic fixture, not an ArchDaily plan (ASSUMPTIONS A-01) |
-| 13 | Second milestone (first structural component) | owed | NEXT_ACTION.md |
+| 13 | Second milestone (first structural component) | built for a typed beam; owed on a traced Fallingwater beam | geometry → materials → loads → analysis → design → reinforcement → verification, gated (structure.test.mjs, e2e); the beam is typed, not traced, until the HABS sheets arrive (A-12); design not yet benchmarked against a published example (A-17) |
 | 14 | Third milestone (first pour) | owed | — |

@@ -32,10 +32,11 @@ export class CoralProperties extends HTMLElement {
     const e = m.get(ids[0]); const res = m.results.get(e.id); const fn = fnFor(e.type); const err = this.app.lastRegenerate?.errors?.[e.id];
     const rows = Object.keys(e.params).sort().map(k => {
       const p = e.params[k]; const isLen = LENGTH.has(p.unit) && typeof p.value === 'number';
-      const shown = isLen ? `${+convert(p.value, p.unit, 'mm').toFixed(3)}` : JSON.stringify(p.value);
+      const isText = typeof p.value === 'string';
+      const shown = isLen ? `${+convert(p.value, p.unit, 'mm').toFixed(3)}` : isText ? p.value : JSON.stringify(p.value);
       const unit = isLen ? 'mm' : p.unit;
       const ref = p.unit === 'id';
-      return `<div class="row"><label title="${esc(k)} [${esc(p.unit)}]">${esc(k)} <span class="mono">${esc(unit)}</span></label>${ref ? `<select data-k="${esc(k)}">${m.all().filter(x => x.type === 'wall').map(x => `<option value="${esc(x.id)}" ${x.id === p.value ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select>` : `<input data-k="${esc(k)}" data-len="${isLen ? 1 : 0}" value="${esc(shown)}">`}</div>`;
+      return `<div class="row"><label title="${esc(k)} [${esc(p.unit)}]">${esc(k)} <span class="mono">${esc(unit)}</span></label>${ref ? `<select data-k="${esc(k)}">${m.all().filter(x => x.type === 'wall').map(x => `<option value="${esc(x.id)}" ${x.id === p.value ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select>` : `<input data-k="${esc(k)}" data-len="${isLen ? 1 : 0}" data-text="${isText ? 1 : 0}" value="${esc(shown)}">`}</div>`;
     }).join('');
     this.innerHTML = `
       <section><h3>${esc(e.type)}</h3><div class="row"><label>name</label><input id="name" value="${esc(e.name)}"></div>
@@ -59,6 +60,7 @@ export class CoralProperties extends HTMLElement {
         let v;
         if (inp.tagName === 'SELECT') v = inp.value;
         else if (inp.dataset.len === '1') v = convert(parseLength(inp.value, 'mm'), 'mm', p.unit);   // shown in mm, so a bare number is mm; a suffix is honoured
+        else if (inp.dataset.text === '1') v = inp.value;
         else v = JSON.parse(inp.value);
         m.set(e.id, k, v, p.unit); this.app.regenerate();
       } catch (err) { inp.style.borderColor = 'var(--bad)'; inp.title = err.message; }
@@ -71,7 +73,7 @@ export class CoralProperties extends HTMLElement {
     for (const inp of this.querySelectorAll('input[data-k], select[data-k]')) {
       if (inp === document.activeElement) continue;   // never overwrite what is being typed
       const p = e.params[inp.dataset.k]; if (!p) return false;
-      const shown = inp.tagName === 'SELECT' ? p.value : inp.dataset.len === '1' ? `${+convert(p.value, p.unit, 'mm').toFixed(3)}` : JSON.stringify(p.value);
+      const shown = inp.tagName === 'SELECT' ? p.value : inp.dataset.len === '1' ? `${+convert(p.value, p.unit, 'mm').toFixed(3)}` : inp.dataset.text === '1' ? p.value : JSON.stringify(p.value);
       if (inp.value !== String(shown)) { inp.value = shown; inp.style.borderColor = ''; inp.title = ''; }
     }
     const name = this.querySelector('#name'); if (name && name !== document.activeElement && name.value !== e.name) name.value = e.name;
@@ -84,9 +86,10 @@ export class CoralProperties extends HTMLElement {
   provHTML(e) { const prov = e.provenance; return prov ? `<div class="prov ${esc(prov.method || '')}"><b>${esc(prov.method || '?')}</b> · source <span class="mono">${esc(prov.source || '—')}</span><br>trace <span class="mono">${esc(prov.trace || '—')}</span>${prov.note ? `<br>${esc(prov.note)}` : ''}</div>` : '<div class="hint">none recorded</div>'; }
   summary() {
     const m = this.app.model; const vols = {};
-    for (const e of m.all()) { const r = m.result(e.id); if (r?.volume_m3 !== undefined) vols[e.type] = (vols[e.type] || 0) + r.volume_m3; }
+    let steel = 0;
+    for (const e of m.all()) { const r = m.result(e.id); if (e.type === 'rebar') { steel += r?.mass_kg || 0; continue; } if (r?.volume_m3 !== undefined) vols[e.type] = (vols[e.type] || 0) + r.volume_m3; }
     const total = Object.values(vols).reduce((s, v) => s + v, 0);
-    return `<section><h3>Quantities</h3>${Object.entries(vols).map(([t, v]) => `<div class="row"><label>${esc(t)}</label><span>${v.toFixed(3)} m³</span></div>`).join('')}<div class="row"><label><b>concrete</b></label><span><b>${total.toFixed(3)} m³</b></span></div>
+    return `<section><h3>Quantities</h3>${Object.entries(vols).map(([t, v]) => `<div class="row"><label>${esc(t)}</label><span>${v.toFixed(3)} m³</span></div>`).join('')}<div class="row"><label><b>concrete</b></label><span><b>${total.toFixed(3)} m³</b></span></div>${steel ? `<div class="row"><label><b>reinforcement</b></label><span><b>${steel.toFixed(1)} kg</b></span></div>` : ''}
       <div class="hint">Exact prism volumes of the generated geometry; junction overlaps not deducted (ASSUMPTIONS A-07).</div></section>
       <section><h3>Model</h3><div class="row"><label>hash</label><span class="mono">${m.hash().slice(0, 16)}…</span></div><div class="row"><label>computed / cached</label><span>${m.stats.computed} / ${m.stats.cached}</span></div></section>`;
   }

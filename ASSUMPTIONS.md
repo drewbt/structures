@@ -49,3 +49,27 @@ machine. A bind to a non-loopback address is possible but there is no authentica
 no instancing, culling or LOD. The 60 FPS target is not claimed.
 
 **A-11 · Visual correctness is judged from screenshots by a person**, not by a pixel oracle.
+
+**A-12 · loc.gov, tile.loc.gov, wikimedia and archive.org are denied by this environment's network policy**
+(proxy CONNECT 403, rechecked 2026-10-17 after the owner said to procure what is needed). The HABS sheets
+for Fallingwater are therefore not in the repository. tools/fetch-habs.mjs downloads them where the
+network allows; it has not been run against the live API.
+
+**A-13 · Bar geometry is drawn with sharp corners and no hooks;** bend radii and hook geometry belong to
+fabrication (page 05, owed).
+
+**A-14 · Concrete Poisson's ratio 0.2** for G in the analysis; not taken from a clause here.
+
+**A-15 · Reinforced-concrete unit weight 23.6 kN/m³ (150 pcf)** unless an element states one: a customary
+US value, not a code value.
+
+**A-16 · The ACI 318-19 ruleset is written from the provisions as known, not read from the printed code**
+in this environment. Every row cites its clause so it can be checked; until then results are labelled
+unverified on page 03.
+
+**A-17 · Design is not yet benchmarked against a published worked example.** Its arithmetic is gated by
+identities (equilibrium, φMn = Mu at the computed As) and one hand-worked section; a published example
+(e.g. a textbook or the ACI Reinforced Concrete Design Manual) is owed.
+
+**A-18 · Analysis uses the gross concrete section.** Cracked stiffness enters only the deflection check,
+through Ie with the analysis deflection scaled by Ig/Ie of the governing section (uniform along the member).

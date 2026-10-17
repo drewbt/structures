@@ -223,6 +223,25 @@ public:
         return out;
     }
     // Parameter history of one element: every row ever written, oldest first.
+    // ---- results: a computation's output keyed by what produced it ---------------------------------
+    // key = (project, element, function, version, input_hash). For the engine, version carries the
+    // engine binary's SHA-256 and input_hash is the SHA-256 of the exact model text it read.
+    bool get_result(const std::string& project, const std::string& element, const std::string& fn, const std::string& version, const std::string& input_hash, std::string& out) {
+        Stmt s(db_, "SELECT output_json FROM results WHERE project_id=? AND element_id=? AND function=? AND version=? AND input_hash=?");
+        s.bind(1, project).bind(2, element).bind(3, fn).bind(4, version).bind(5, input_hash);
+        if (!s.step()) return false;
+        out = s.text(0); return true;
+    }
+    void put_result(const std::string& project, const std::string& element, const std::string& fn, const std::string& version, const std::string& input_hash, const std::string& output) {
+        Stmt s(db_, "INSERT OR REPLACE INTO results(project_id,element_id,function,version,input_hash,output_json,rev) VALUES(?,?,?,?,?,?,?)");
+        s.bind(1, project).bind(2, element).bind(3, fn).bind(4, version).bind(5, input_hash).bind(6, output).bind(7, (long long)latest_rev(project)).step();
+    }
+    void register_function(const std::string& name, const std::string& version, const std::string& hash) {
+        Stmt s(db_, "INSERT OR IGNORE INTO functions(name,version,hash,created) VALUES(?,?,?,?)");
+        s.bind(1, name).bind(2, version).bind(3, hash).bind(4, now_iso()).step();
+    }
+    long count_results(const std::string& project) { Stmt s(db_, "SELECT COUNT(*) FROM results WHERE project_id=?"); s.bind(1, project); s.step(); return (long)s.i64(0); }
+
     json::Value element_history(const std::string& project, const std::string& id) {
         json::Value out = json::Value::array();
         Stmt s(db_, "SELECT rev,name,value_json,unit FROM parameters WHERE project_id=? AND element_id=? ORDER BY rev,name"); s.bind(1, project).bind(2, id);

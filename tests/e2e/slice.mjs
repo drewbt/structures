@@ -25,7 +25,9 @@ const service = process.argv[2] || join(root, 'build', 'coral-service');
 const port = 8900 + Math.floor(Math.random() * 100);
 const out = join(here, 'out'); mkdirSync(out, { recursive: true });
 const db = join(out, `e2e-${port}.db`); for (const f of [db, db + '-wal', db + '-shm']) if (existsSync(f)) rmSync(f);
-const proc = spawn(service, ['--db', db, '--app', join(root, 'app'), '--port', String(port)], { stdio: ['ignore', 'pipe', 'inherit'] });
+const engineBin = process.env.STIFFNESS_BIN || '/home/user/stiffness/build/stiffness';
+const haveEngine = existsSync(engineBin);
+const proc = spawn(service, ['--db', db, '--app', join(root, 'app'), '--port', String(port), ...(haveEngine ? ['--engine', engineBin] : [])], { stdio: ['ignore', 'pipe', 'inherit'] });
 await new Promise((res, rej) => { proc.stdout.on('data', d => { if (String(d).includes('http://')) res(); }); proc.on('exit', c => rej(new Error('service exited ' + c))); setTimeout(() => rej(new Error('service did not start')), 5000); });
 const base = `http://127.0.0.1:${port}`;
 
@@ -154,6 +156,55 @@ try {
   check(await page.evaluate(() => coral.model.byType('column').length) === 0, 'column removed');
   await page.keyboard.press('Control+z'); await page.waitForFunction(() => coral.model.byType('column').length === 1);
   check(true, 'Ctrl+Z restores it');
+
+  // ---- 03 Structure: one beam from geometry to verified reinforcement (milestone 13) -----------------
+  if (!haveEngine) check(false, `structure section needs the stiffness engine at ${engineBin}`);
+  else {
+    await page.click('coral-nav a[href="#architecture"]'); await page.waitForFunction(() => globalThis.coralArch);
+    await page.click('#add-beam'); await page.waitForSelector('dialog[open] #f-start');
+    await page.click('dialog[open] #ok');   // defaults: 4.6 m cantilever, 400 × 700, fixed → free, SDL 3, L 6, f'c 28, fy 420
+    await page.waitForFunction(() => coral.model.byType('beam').length === 1);
+    const beamId = await page.evaluate(() => coral.model.byType('beam')[0].id);
+    check(near(await page.evaluate(id => coral.model.result(id).volume_m3, beamId), 4.6 * 0.4 * 0.7, 1e-9), 'beam created from the typed dialog: 3D solid 4.6 × 0.4 × 0.7 m');
+    await page.click('coral-nav a[href="#structure"]');
+    await page.waitForFunction(() => globalThis.coralStructure?.state?.design, null, { timeout: 15000 });
+    const st = await page.evaluate(() => { const s = coralStructure.state; return { cached: s.analysis.cached, engine: s.analysis.engine, sha: s.analysis.model_sha, wD: s.bm.loads.wD, E: s.bm.material.E, G: s.bm.material.G, I: s.bm.section.Iy, Av: s.bm.section.Av, tip: s.res.cases.D.w[s.bm.n], M0: s.res.cases.D.M[0], Mneg: s.res.envelope.Mneg, wL: s.bm.loads.wL, gov: s.design.governing, checks: s.design.checks.length, top: s.design.faces.top }; });
+    const Lb = 4.6, tipCF = -(st.wD * Lb ** 4 / (8 * st.E * st.I) + st.wD * Lb ** 2 / (2 * st.G * st.Av));
+    check(st.cached === false && st.engine.length === 64 && st.sha.length === 64, 'the service ran the stiffness engine and returned its binary hash and the model text hash', st.engine.slice(0, 12));
+    check(Math.abs(st.tip - tipCF) <= 1e-9 * Math.abs(tipCF), 'through the whole chain, cantilever tip deflection under D equals Timoshenko wL⁴/8EI + wL²/2κGA', `${(st.tip * 1000).toFixed(4)} mm vs ${(tipCF * 1000).toFixed(4)} mm`);
+    check(Math.abs(st.M0 + st.wD * Lb * Lb / 2) <= 1e-9 * st.wD * Lb * Lb / 2, 'root moment under D equals −wL²/2', `${st.M0.toFixed(3)} kN·m`);
+    check(Math.abs(st.Mneg + (1.2 * st.wD + 1.6 * st.wL) * Lb * Lb / 2) <= 1e-9 * Math.abs(st.Mneg), 'governing strength moment is 1.2D + 1.6L (ACI 318-19 5.3.1b)', `${st.Mneg.toFixed(2)} kN·m`);
+    check(st.checks >= 9 && st.top.phiMn_kNm >= -st.Mneg, 'design returned its check rows with clauses; top steel φMn ≥ Mu', `${st.top.n} ${st.top.bar}, φMn ${st.top.phiMn_kNm.toFixed(1)} kN·m; governing ${st.gov.name} ${st.gov.util.toFixed(3)}`);
+    await page.click('page-structure #gen'); await page.waitForFunction(() => coral.model.byType('rebar').length > 0);
+    const bars = await page.evaluate(id => { const b = coral.model.all().filter(e => e.type === 'rebar' && e.parent === id); return { n: b.length, top: b.filter(x => x.params.face?.value === 'top').length, stirrups: b.filter(x => x.params.shape.value === 'stirrup').length, prov: b[0].provenance, geo: b.every(x => coral.model.result(x.id)?.volume_m3 > 0) }; }, beamId);
+    check(bars.top === st.top.n && bars.stirrups > 0 && bars.geo, 'reinforcement generated as first-class bars under the beam, each with its own geometry', `${bars.n} bars: ${bars.top} top, ${bars.stirrups} stirrups`);
+    check(bars.prov.method === 'designed' && bars.prov.source === 'structure.rcBeamDesign@1.0.0' && bars.prov.trace === st.sha, 'every bar records the design function, and the analysis model hash it came from');
+    check(await page.evaluate(() => coralStructure.barStatus().cls) === 'ok', 'bars are current against the design basis');
+    // change the depth: bars go stale; the engine runs again on a new model text
+    await page.evaluate(id => { coral.model.set(id, 'depth', 0.8, 'm'); coral.regenerate(); }, beamId);
+    await page.waitForFunction(sha => coralStructure.state?.design && coralStructure.state.analysis.model_sha !== sha, st.sha, { timeout: 15000 });
+    check(await page.evaluate(() => coralStructure.state.analysis.cached) === false && await page.evaluate(() => coralStructure.barStatus().cls) === 'bad', 'a deeper beam re-runs the engine and marks every bar stale');
+    await page.evaluate(id => { coral.model.set(id, 'depth', 0.7, 'm'); coral.regenerate(); }, beamId);
+    await page.waitForFunction(sha => coralStructure.state?.design && coralStructure.state.analysis.model_sha === sha, st.sha, { timeout: 15000 });
+    check(await page.evaluate(() => coralStructure.state.analysis.cached) === true && await page.evaluate(() => coralStructure.barStatus().cls) === 'ok', 'reverting the depth is served from the service cache (same model text, same engine) and the bars are current again');
+    await page.screenshot({ path: join(out, 'structure.png'), fullPage: true });
+    await page.click('coral-nav a[href="#architecture"]'); await page.waitForFunction(() => globalThis.coralArch?.items);
+    await page.click('#xray');
+    const rebarItems = await page.evaluate(() => coralArch.items.filter(i => coral.model.get(i.id)?.type === 'rebar').length);
+    check(rebarItems === bars.n, 'the 3D view draws every bar', String(rebarItems));
+    await page.evaluate(id => { coral.select([id]); coralArch.viewer.fit({ min: [-1, -1, 1.9], max: [5, 1, 3.4] }); }, beamId);
+    await page.waitForTimeout(300); await page.screenshot({ path: join(out, 'reinforcement-3d.png') });
+    // persist and reload
+    await page.click('coral-nav #save'); await page.waitForFunction(() => coral.model.rev === 2);
+    const h2 = await page.evaluate(() => coral.model.hash());
+    await page.reload(); await page.waitForFunction(() => globalThis.coral?.model?.rev === 2 && coral.lastRegenerate, null, { timeout: 10000 });
+    check(await page.evaluate(() => coral.model.hash()) === h2 && await page.evaluate(n => coral.model.byType('rebar').length === n, bars.n), 'beam and bars persist through SQLite with the same model hash', `${bars.n} bars`);
+    await page.click('coral-nav a[href="#structure"]'); await page.waitForFunction(() => globalThis.coralStructure?.state?.design, null, { timeout: 15000 });
+    check(await page.evaluate(() => coralStructure.state.analysis.cached === true && coralStructure.barStatus().cls === 'ok'), 'after reload the analysis comes from the persistent cache and the bars are still current');
+    // delete the beam: its bars go with it; undo brings both back
+    await page.evaluate(id => { coral.model.remove(id); coral.regenerate(); }, beamId);
+    check(await page.evaluate(() => coral.model.byType('rebar').length === 0 && coral.model.byType('beam').length === 0), 'deleting the beam removes its bars');
+  }
   check(errors.length === 0, 'no page errors or console errors during the run', errors.join(' | ').slice(0, 300));
 } catch (err) {
   check(false, 'run aborted', err.stack || String(err));

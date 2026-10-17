@@ -10,7 +10,7 @@
 // Versioning (CONTRACT.md §10 of stiffness, adopted): a change to a number or signature bumps the
 // major; widened validity bumps the minor; a patch changes no number.
 
-import { wallMesh, slabMesh, columnMesh } from './geometry.js';
+import { wallMesh, slabMesh, columnMesh, beamMesh, rebarMesh } from './geometry.js';
 
 export const registry = new Map();
 export function register(fn) { registry.set(fn.name, fn); return fn; }
@@ -51,6 +51,20 @@ register({
   assumptions: ['rectangular section', 'vertical', 'height defaults to the level height'],
   inputs(model, el) { const lvl = levelOf(model, el); return { center: num(el, 'center'), width: num(el, 'width', 0.3), depth: num(el, 'depth', 0.3), rotation_deg: num(el, 'rotation', 0), height: num(el, 'height', lvl.height), z0: lvl.elevation + num(el, 'base_offset', 0) }; },
   run: columnMesh,
+});
+
+register({
+  name: 'geometry.beam', version: '1.0.0', forType: 'beam',
+  assumptions: ['straight, horizontal, rectangular section', 'top of beam at level elevation + top_offset (default: the level height, i.e. under the next floor)'],
+  inputs(model, el) { const lvl = levelOf(model, el); return { start: num(el, 'start'), end: num(el, 'end'), width: num(el, 'width', 0.3), depth: num(el, 'depth', 0.6), zTop: lvl.elevation + num(el, 'top_offset', lvl.height) }; },
+  run: beamMesh,
+});
+
+register({
+  name: 'geometry.rebar', version: '1.0.0', forType: 'rebar',
+  assumptions: ['polyline path, sharp corners; drawn as an equal-area square prism', 'steel density 7850 kg/m³'],
+  inputs(model, el) { return { path: num(el, 'path'), diameter: num(el, 'diameter') }; },
+  run: rebarMesh,
 });
 
 /**

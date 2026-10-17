@@ -49,7 +49,10 @@ struct Response {
     std::map<std::string, std::string> headers;
     static Response json(const std::string& b, int s = 200) { Response r; r.status = s; r.body = b; return r; }
     static Response text(const std::string& b, int s = 200) { Response r; r.status = s; r.type = "text/plain; charset=utf-8"; r.body = b; return r; }
-    static Response error(int s, const std::string& msg) { return json("{\"error\":\"" + msg + "\"}", s); }
+    static Response error(int s, const std::string& msg) {
+        std::string e; for (char c : msg) { if (c == '"' || c == '\\') { e += '\\'; e += c; } else if (c == '\n') e += "\\n"; else if ((unsigned char)c < 0x20) e += ' '; else e += c; }
+        return json("{\"error\":\"" + e + "\"}", s);
+    }
 };
 using Handler = std::function<Response(const Request&)>;
 

@@ -52,6 +52,19 @@ the sheets were not downloaded. Registered as source `src-habs-pa-5346` (page 00
 recorded in SOURCES.md with a rights caveat (Peterson Prize entry, not necessarily a federal work).
 e2e extended to register it: 39 checks.
 
+## 4 · Procurement attempt and the first structural component (2026-10-17, same day)
+
+Owner: "procure what you need and proceed". loc.gov, tile.loc.gov, wikimedia, archive.org rechecked:
+still denied by policy (A-12); only the owner can allow them. Staged tools/fetch-habs.mjs (untested
+against the live API). Proceeded with milestone 13 on a typed beam:
+- Read the engine's io.h contract; confirmed its signs on a simply supported beam (sagging M = F.My at a
+  segment's a-end and −F.My at its b-end; V = dM/dx; midspan deflection = 5wL⁴/384EI exactly).
+- geometry.beam, geometry.rebar; structure.js (beamModel, beamResults, rcBeamDesign, beamBars);
+  standards/aci318-19.js; service /analyse with engine subprocess and results cache (D-11); page 03.
+- Gates: service 29/29 (+4 results cache), unit 37/37 (+9 structure, all first run), e2e 54/54 (+15).
+  Defects found and fixed on the way: a gate block-structure slip; error messages not JSON-escaped; a
+  post-reload wait on a not-yet-defined hook (test side); concrete totals counted bar steel.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency
@@ -59,7 +72,7 @@ graph, versioned functions, result cache, undo/redo, append-only events; wall/sl
 geometry; WebGL viewer with pick and section cut; pages 00–02; synthetic fixture; persistence with
 revision history and cross-checked hashes; inspectable export.
 
-**Verified:** service-gate 25/25; unit 28/28; e2e 39/39 (headless Chromium, software WebGL); stiffness
+**Verified:** service-gate 29/29; unit 37/37; e2e 54/54 (headless Chromium, software WebGL); stiffness
 gate all pass on Linux. Screenshots in tests/e2e/out/.
 
 **Reused:** stiffness `json.h` verbatim; stiffness's contract rules (versioning, tolerances stated with

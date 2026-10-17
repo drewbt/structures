@@ -14,3 +14,4 @@ node --test tests/unit/*.test.mjs 2>&1 | grep -E "^# (pass|fail)"
 node --test tests/unit/*.test.mjs > /dev/null 2>&1
 echo "== end to end"
 node tests/e2e/slice.mjs ./build/coral-service | tail -1
+# the structural tests need the stiffness engine binary: STIFFNESS_BIN=path (default /home/user/stiffness/build/stiffness)

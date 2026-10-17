@@ -150,3 +150,45 @@ export function mergeMeshes(meshes) {
   for (const m of meshes) { positions.set(m.positions, po); normals.set(m.normals, po); for (let i = 0; i < m.indices.length; i++) indices[io + i] = m.indices[i] + po / 3; po += m.positions.length; io += m.indices.length; }
   return { positions, normals, indices };
 }
+
+/**
+ * Beam: plan centreline start→end, rectangular section width × depth, top of beam at zTop.
+ * Exact prism; volume = L·b·h.
+ */
+export function beamMesh({ start, end, width, depth, zTop }) {
+  const dx = end[0] - start[0], dy = end[1] - start[1], L = Math.hypot(dx, dy);
+  if (!(L > 0) || !(width > 0) || !(depth > 0)) throw new Error('beam: length, width and depth must be positive');
+  const ex = [dx / L, dy / L], ey = [-ex[1], ex[0]];
+  const mb = new MeshBuilder();
+  boxInto(mb, [start[0] - ey[0] * width / 2, start[1] - ey[1] * width / 2], ex, ey, L, width, zTop - depth, zTop);
+  const mesh = mb.finish(); mesh.length_m = L; return mesh;
+}
+
+/**
+ * Reinforcing bar: a polyline `path` of 3D points and a nominal diameter. Each segment is drawn as a
+ * square prism of side d·√(π)/2 (same area as the bar), so the stated volume is the bar's steel
+ * volume: Σ segment length × π d²/4. Bends are drawn as sharp corners; the bend radius lives in the
+ * fabrication data, not in this picture (ASSUMPTIONS A-13).
+ */
+export function rebarMesh({ path, diameter }) {
+  if (!path || path.length < 2) throw new Error('rebar: path needs two or more points');
+  if (!(diameter > 0)) throw new Error('rebar: diameter must be positive');
+  const side = diameter * Math.sqrt(Math.PI) / 2, area = Math.PI * diameter * diameter / 4;
+  const mb = new MeshBuilder(); let length = 0;
+  for (let i = 0; i + 1 < path.length; i++) {
+    const a = path[i], b = path[i + 1];
+    const t = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], L = Math.hypot(...t); if (!(L > 0)) continue;
+    const u = t.map(x => x / L);
+    const ref = Math.abs(u[2]) < 0.9 ? [0, 0, 1] : [1, 0, 0];
+    let v = [u[1] * ref[2] - u[2] * ref[1], u[2] * ref[0] - u[0] * ref[2], u[0] * ref[1] - u[1] * ref[0]]; const lv = Math.hypot(...v); v = v.map(x => x / lv);
+    const w = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+    const P = (s, p, q) => [a[0] + u[0] * s + v[0] * p + w[0] * q, a[1] + u[1] * s + v[1] * p + w[1] * q, a[2] + u[2] * s + v[2] * p + w[2] * q];
+    const h = side / 2;
+    const c = [[-h, -h], [h, -h], [h, h], [-h, h]];
+    for (let k = 0; k < 4; k++) { const [p0, q0] = c[k], [p1, q1] = c[(k + 1) % 4]; mb.quad(P(0, p0, q0), P(0, p1, q1), P(L, p1, q1), P(L, p0, q0)); }
+    mb.quad(P(0, -h, -h), P(0, -h, h), P(0, h, h), P(0, h, -h)); mb.quad(P(L, -h, -h), P(L, h, -h), P(L, h, h), P(L, -h, h));
+    length += L;
+  }
+  mb.volume = length * area;
+  const mesh = mb.finish(); mesh.length_m = length; mesh.mass_kg = mesh.volume_m3 * 7850; return mesh;
+}

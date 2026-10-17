@@ -1,7 +1,9 @@
 # Test registry
 
 Run everything: `./tests/run.sh` (build, service gate, unit tests, end to end). Last full run
-2026-10-17: service-gate 25/25, unit 28/28, e2e 39/39.
+2026-10-17: service-gate 29/29, unit 37/37, e2e 54/54. The structural tests need the stiffness
+binary (STIFFNESS_BIN, default /home/user/stiffness/build/stiffness); without it they are skipped
+(unit) or fail with a stated reason (e2e), never faked.
 
 Categories are the specification's §11. Tolerances are stated with their reason.
 
@@ -29,6 +31,18 @@ Categories are the specification's §11. Tolerances are stated with their reason
 | model.test.mjs | regenerate once; level change propagates (slab from cache); opening change hits only its wall; reverted change served from cache with the original input hash; removal clears results and keeps a dangling host visible; undo/redo with append-only events; wire round trip preserves hash, provenance, units; values as JSON text; export lineage | the dependency graph's own definition; hash equality |
 | functions.test.mjs | calibrateScale 500 px / 5 m; correction propagates; pixelToWorld origin/flip/rotation/inverse (**1e-9 px**); uncalibrated → error; units | closed forms |
 
+## structure (tests/unit/structure.test.mjs)
+
+| Test | Oracle / tolerance |
+|---|---|
+| rectangle A, Iy, Iz; J vs Saint-Venant series (square 0.140577 a⁴, 2:1 β 0.2287) | exact; J within 0.2 % / 0.3 % (the approximation's known accuracy) |
+| ACI tabulated β1 (28, 35, 55, 70 MPa), Ec(28), φ at εty and εty + 0.003, #8 bar area | the code's own table values; ASTM nominal sizes |
+| beam model: nodes, restraints, centroid height, loads, E in kN/m², mechanism refused | definition |
+| engine: cantilever, simply supported, fixed-fixed under self-weight | Timoshenko closed forms (bending + shear deformation), **1e-9 relative**: the element is exact for uniform load, so anything larger is a defect |
+| flexure on a hand-worked section (a, εt, φ, Mn) and C = T | arithmetic written in the test's comment, 1e-3 mm / 0.01 kN·m |
+| asRequired gives φMn = Mu to 1e-12; 99 % of it does not suffice; impossible moment → null | identity |
+| cantilever design and bars: check rows with clauses; φMn ≥ Mu; governing M⁻ = (1.2D + 1.6L)L²/2 from U2; bars inside the cover; top bars anchored into the fixed end | closed form; geometry |
+
 ## end to end (tests/e2e/slice.mjs, headless Chromium with software WebGL)
 
 Milestone-12 criteria, in order: service reached; ArchDaily source registered `not-acquired`; fixture
@@ -39,7 +53,13 @@ opening at 1.000 m; door volume cut; calibration correction re-derives (24 m) an
 solids; pick pass finds elements; tree groups; thickness edit recomputes W1 only; level height
 regenerates walls+column, slab cached; Save → rev 1; **service hash == browser hash**; reload keeps
 hash, 12 elements, thickness/unit/provenance; parameter history row in SQLite; sources persisted;
-export lineage; Ctrl+Z; no page errors.
+export lineage; Ctrl+Z. Then milestone 13: beam from the typed dialog (4.6 × 0.4 × 0.7 m solid);
+page 03 analysis through the service runs the engine (binary and model hashes returned); tip deflection
+under D equals the Timoshenko closed form to 1e-9 through the whole chain; root moment −wL²/2; governing
+moment from 1.2D + 1.6L; design rows; bars generated with provenance naming the design function and the
+analysis model hash; a deeper beam re-runs the engine and marks bars stale; reverting is a cache hit and
+the bars are current again; the 3D view draws every bar; save and reload keep the hash and the bars; the
+analysis after reload is a cache hit; deleting the beam deletes its bars; no page errors.
 
 ## Not yet tested
 

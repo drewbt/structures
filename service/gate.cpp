@@ -105,10 +105,18 @@ int main() {
         std::string sha = st.put_artifact("image/svg+xml", "<svg/>", "fixture.svg");
         std::string mime, bytes, fn; bool got = st.get_artifact(sha, mime, bytes, fn);
         check(got && bytes == "<svg/>" && mime == "image/svg+xml" && sha == sha256::of("<svg/>"), "an artifact is stored by its content hash and read back", sha.substr(0, 16) + "…");
+
+        // results cache: keyed by function, version and input hash; a different version or input is a miss
+        std::string out;
+        check(!st.get_result("gate", "B1", "stiffness", "1|engine:abc", "h1", out), "an unknown result is a cache miss", "miss");
+        st.put_result("gate", "B1", "stiffness", "1|engine:abc", "h1", "{\"d\":[1]}");
+        check(st.get_result("gate", "B1", "stiffness", "1|engine:abc", "h1", out) && out == "{\"d\":[1]}", "a stored result is returned for the same key", out);
+        check(!st.get_result("gate", "B1", "stiffness", "1|engine:def", "h1", out) && !st.get_result("gate", "B1", "stiffness", "1|engine:abc", "h2", out), "another engine binary or another input text is a miss", "2 misses");
     }
     // reopen: everything persists across process lifetime
     {
-        store::Store st(path);
+        store::Store st(path); std::string out;
+        check(st.get_result("gate", "B1", "stiffness", "1|engine:abc", "h1", out), "results persist across reopen", "hit");
         check(st.latest_rev("gate") == 4 && st.load("gate").at("elements").size() == 1, "reopening the file finds rev 4 and the one live element", "persisted");
     }
     std::remove(path.c_str()); std::remove((path + "-wal").c_str()); std::remove((path + "-shm").c_str());

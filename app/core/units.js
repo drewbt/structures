@@ -13,7 +13,7 @@ export const UNITS = {
   m2: { dim: 'area', toSI: 1 }, m3: { dim: 'volume', toSI: 1 },
   // force, stress, density
   N: { dim: 'force', toSI: 1 }, kN: { dim: 'force', toSI: 1e3 }, Pa: { dim: 'stress', toSI: 1 }, MPa: { dim: 'stress', toSI: 1e6 }, 'kN/m2': { dim: 'stress', toSI: 1e3 },
-  'kg/m3': { dim: 'density', toSI: 1 }, 'kN/m3': { dim: 'unit_weight', toSI: 1e3 },
+  'kg/m3': { dim: 'density', toSI: 1 }, 'kN/m': { dim: 'line_load', toSI: 1e3 }, 'kN/m3': { dim: 'unit_weight', toSI: 1e3 },
   // dimensionless and identifiers
   '': { dim: 'none', toSI: 1 }, px: { dim: 'pixel', toSI: 1 }, 'm/px': { dim: 'scale', toSI: 1 }, id: { dim: 'ref', toSI: 1 },
 };

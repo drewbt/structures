@@ -81,6 +81,8 @@ export class Model {
 
   remove(id, { record = true } = {}) {
     const el = this.get(id); if (!el) return;
+    // a bar belongs to its host: removing the host removes its bars (each removal is its own event and undo step)
+    for (const child of this.all()) if (child.parent === id && child.type === 'rebar') this.remove(child.id, { record });
     const dependents = this.dependentsOf(id);
     const snapshot = structuredClone(el);
     this._invalidate(id);

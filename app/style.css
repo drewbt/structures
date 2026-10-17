@@ -78,4 +78,4 @@ dialog .form { display: grid; grid-template-columns: 120px 1fr; gap: 8px; align-
 dialog input { font: inherit; padding: 4px 6px; border: 1px solid var(--line); border-radius: 3px; background: var(--bg); color: var(--ink); }
 .actions { display: flex; gap: 8px; justify-content: flex-end; }
 page-source, page-trace, page-architecture { display: flex; flex-direction: column; min-height: 0; height: 100%; }
-page-source { display: block; overflow: auto; }
+page-source, page-structure { display: block; overflow: auto; }

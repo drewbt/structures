@@ -10,11 +10,14 @@ status against the specification, and [NEXT_ACTION.md](NEXT_ACTION.md) for the n
 
 ```
 cmake -S . -B build && cmake --build build -j
-./build/coral-service --db coral.db --app app --port 8790
+./build/coral-service --db coral.db --app app --port 8790 --engine ../stiffness/build/stiffness
 ```
+`--engine` names a build of the stiffness engine (drewbt/stiffness, built with its own CMakeLists);
+without it pages 00–02 work and page 03 says the engine is not configured.
 Open http://127.0.0.1:8790/?project=section-haus. Pages: 00 Source (register the source, import a
 drawing, or register the synthetic fixture), 01 Trace (Calibrate on a scale bar → Origin → Wall /
-Column / Slab / Opening), 02 Architecture (3D, properties, section cut, export). Save commits a
+Column / Slab / Opening), 02 Architecture (3D, properties, section cut, X-ray, export, + Beam), 03 Structure (analysis, ACI 318-19
+design, bar generation). Save commits a
 revision to SQLite; Reload reads it back.
 
 Needs a C++17 compiler, CMake ≥ 3.15 and the SQLite development library (`libsqlite3-dev` on Debian/

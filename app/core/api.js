@@ -5,13 +5,14 @@ export class Api {
     const r = await fetch(this.base + path, init);
     const text = await r.text();
     let body; try { body = text ? JSON.parse(text) : null; } catch { body = { error: text }; }
-    if (!r.ok && r.status !== 409) throw new Error(body?.error || `${r.status} on ${path}`);
+    if (!r.ok && !(r.status === 409 && body?.conflict)) throw new Error(body?.error || `${r.status} on ${path}`);
     return body;
   }
   health() { return this._json('/api/health'); }
   projects() { return this._json('/api/projects'); }
   loadModel(project) { return this._json(`/api/projects/${encodeURIComponent(project)}/model`); }
   commit(project, body) { return this._json(`/api/projects/${encodeURIComponent(project)}/commit`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }); }
+  analyse(project, body) { return this._json(`/api/projects/${encodeURIComponent(project)}/analyse`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }); }
   history(project) { return this._json(`/api/projects/${encodeURIComponent(project)}/history`); }
   events(project, since = 0) { return this._json(`/api/projects/${encodeURIComponent(project)}/events?since=${since}`); }
   elementHistory(project, id) { return this._json(`/api/projects/${encodeURIComponent(project)}/elements/${encodeURIComponent(id)}/history`); }
