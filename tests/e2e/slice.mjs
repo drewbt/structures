@@ -166,9 +166,9 @@ try {
     await page.waitForFunction(() => coral.model.byType('beam').length === 1);
     const beamId = await page.evaluate(() => coral.model.byType('beam')[0].id);
     check(near(await page.evaluate(id => coral.model.result(id).volume_m3, beamId), 4.6 * 0.4 * 0.7, 1e-9), 'beam created from the typed dialog: 3D solid 4.6 × 0.4 × 0.7 m');
-    await page.click('coral-nav a[href="#structure"]');
-    await page.waitForFunction(() => globalThis.coralStructure?.state?.design, null, { timeout: 15000 });
-    const st = await page.evaluate(() => { const s = coralStructure.state; return { cached: s.analysis.cached, engine: s.analysis.engine, sha: s.analysis.model_sha, wD: s.bm.loads.wD, E: s.bm.material.E, G: s.bm.material.G, I: s.bm.section.Iy, Av: s.bm.section.Av, tip: s.res.cases.D.w[s.bm.n], M0: s.res.cases.D.M[0], Mneg: s.res.envelope.Mneg, wL: s.bm.loads.wL, gov: s.design.governing, checks: s.design.checks.length, top: s.design.faces.top }; });
+    await page.click('coral-nav a[href="#structure"]'); await page.waitForFunction(() => globalThis.coralStructure);
+    const designBeam = async () => { await page.evaluate(() => coralStructure.designAll()); return page.evaluate(id => { const d = coralStructure.designs.get(id); return { cached: d.analysis.cached, engine: d.analysis.engine, sha: d.analysis.model_sha, wD: d.bm.loads.wD, wL: d.bm.loads.wL, E: d.bm.material.E, G: d.bm.material.G, I: d.bm.section.Iy, Av: d.bm.section.Av, tip: d.res.cases.D.w[d.bm.n], M0: d.res.cases.D.M[0], Mneg: d.res.envelope.Mneg, gov: d.design.governing, checks: d.design.checks.length, top: d.design.top[0] }; }, beamId); };
+    const st = await designBeam();
     const Lb = 4.6, tipCF = -(st.wD * Lb ** 4 / (8 * st.E * st.I) + st.wD * Lb ** 2 / (2 * st.G * st.Av));
     check(st.cached === false && st.engine.length === 64 && st.sha.length === 64, 'the service ran the stiffness engine and returned its binary hash and the model text hash', st.engine.slice(0, 12));
     check(Math.abs(st.tip - tipCF) <= 1e-9 * Math.abs(tipCF), 'through the whole chain, cantilever tip deflection under D equals Timoshenko wL⁴/8EI + wL²/2κGA', `${(st.tip * 1000).toFixed(4)} mm vs ${(tipCF * 1000).toFixed(4)} mm`);
@@ -176,34 +176,57 @@ try {
     check(Math.abs(st.Mneg + (1.2 * st.wD + 1.6 * st.wL) * Lb * Lb / 2) <= 1e-9 * Math.abs(st.Mneg), 'governing strength moment is 1.2D + 1.6L (ACI 318-19 5.3.1b)', `${st.Mneg.toFixed(2)} kN·m`);
     check(st.checks >= 9 && st.top.phiMn_kNm >= -st.Mneg, 'design returned its check rows with clauses; top steel φMn ≥ Mu', `${st.top.n} ${st.top.bar}, φMn ${st.top.phiMn_kNm.toFixed(1)} kN·m; governing ${st.gov.name} ${st.gov.util.toFixed(3)}`);
     await page.click('page-structure #gen'); await page.waitForFunction(() => coral.model.byType('rebar').length > 0);
-    const bars = await page.evaluate(id => { const b = coral.model.all().filter(e => e.type === 'rebar' && e.parent === id); return { n: b.length, top: b.filter(x => x.params.face?.value === 'top').length, stirrups: b.filter(x => x.params.shape.value === 'stirrup').length, prov: b[0].provenance, geo: b.every(x => coral.model.result(x.id)?.volume_m3 > 0) }; }, beamId);
+    const bars = await page.evaluate(id => { const b = coral.model.all().filter(e => e.type === 'rebar' && e.parent === id); return { n: b.length, top: b.filter(x => x.params.face?.value === 'top' && x.params.mark.value === 'T1').length, stirrups: b.filter(x => x.params.shape.value === 'stirrup').length, prov: b[0].provenance, geo: b.every(x => coral.model.result(x.id)?.volume_m3 > 0) }; }, beamId);
     check(bars.top === st.top.n && bars.stirrups > 0 && bars.geo, 'reinforcement generated as first-class bars under the beam, each with its own geometry', `${bars.n} bars: ${bars.top} top, ${bars.stirrups} stirrups`);
-    check(bars.prov.method === 'designed' && bars.prov.source === 'structure.rcBeamDesign@1.0.0' && bars.prov.trace === st.sha, 'every bar records the design function, and the analysis model hash it came from');
-    check(await page.evaluate(() => coralStructure.barStatus().cls) === 'ok', 'bars are current against the design basis');
-    // change the depth: bars go stale; the engine runs again on a new model text
+    check(bars.prov.method === 'designed' && bars.prov.source === 'structure.rcBeamDesign@2.0.0' && bars.prov.trace === st.sha, 'every bar records the design function, and the analysis model hash it came from');
+    check(await page.evaluate(id => coralStructure.barStatus(id).cls, beamId) === 'ok', 'bars are current against the design basis');
     await page.evaluate(id => { coral.model.set(id, 'depth', 0.8, 'm'); coral.regenerate(); }, beamId);
-    await page.waitForFunction(sha => coralStructure.state?.design && coralStructure.state.analysis.model_sha !== sha, st.sha, { timeout: 15000 });
-    check(await page.evaluate(() => coralStructure.state.analysis.cached) === false && await page.evaluate(() => coralStructure.barStatus().cls) === 'bad', 'a deeper beam re-runs the engine and marks every bar stale');
+    const st2 = await designBeam();
+    check(st2.cached === false && st2.sha !== st.sha && await page.evaluate(id => coralStructure.barStatus(id).cls, beamId) === 'bad', 'a deeper beam re-runs the engine and marks every bar stale');
     await page.evaluate(id => { coral.model.set(id, 'depth', 0.7, 'm'); coral.regenerate(); }, beamId);
-    await page.waitForFunction(sha => coralStructure.state?.design && coralStructure.state.analysis.model_sha === sha, st.sha, { timeout: 15000 });
-    check(await page.evaluate(() => coralStructure.state.analysis.cached) === true && await page.evaluate(() => coralStructure.barStatus().cls) === 'ok', 'reverting the depth is served from the service cache (same model text, same engine) and the bars are current again');
-    await page.screenshot({ path: join(out, 'structure.png'), fullPage: true });
-    await page.click('coral-nav a[href="#architecture"]'); await page.waitForFunction(() => globalThis.coralArch?.items);
-    await page.click('#xray');
-    const rebarItems = await page.evaluate(() => coralArch.items.filter(i => coral.model.get(i.id)?.type === 'rebar').length);
-    check(rebarItems === bars.n, 'the 3D view draws every bar', String(rebarItems));
-    await page.evaluate(id => { coral.select([id]); coralArch.viewer.fit({ min: [-1, -1, 1.9], max: [5, 1, 3.4] }); }, beamId);
-    await page.waitForTimeout(300); await page.screenshot({ path: join(out, 'reinforcement-3d.png') });
-    // persist and reload
-    await page.click('coral-nav #save'); await page.waitForFunction(() => coral.model.rev === 2);
-    const h2 = await page.evaluate(() => coral.model.hash());
-    await page.reload(); await page.waitForFunction(() => globalThis.coral?.model?.rev === 2 && coral.lastRegenerate, null, { timeout: 10000 });
-    check(await page.evaluate(() => coral.model.hash()) === h2 && await page.evaluate(n => coral.model.byType('rebar').length === n, bars.n), 'beam and bars persist through SQLite with the same model hash', `${bars.n} bars`);
-    await page.click('coral-nav a[href="#structure"]'); await page.waitForFunction(() => globalThis.coralStructure?.state?.design, null, { timeout: 15000 });
-    check(await page.evaluate(() => coralStructure.state.analysis.cached === true && coralStructure.barStatus().cls === 'ok'), 'after reload the analysis comes from the persistent cache and the bars are still current');
-    // delete the beam: its bars go with it; undo brings both back
+    const st3 = await designBeam();
+    check(st3.cached === true && st3.sha === st.sha && await page.evaluate(id => coralStructure.barStatus(id).cls, beamId) === 'ok', 'reverting the depth is served from the service cache (same model text, same engine) and the bars are current again');
+    // ---- the reference frame: flat slab with drop panels, punching zones and stud rails, columns, continuous and simply supported grade beams, pile caps and piles
+    await page.click('page-structure #ref'); await page.waitForFunction(() => coral.model.byType('column').length >= 16);
+    await page.evaluate(() => coralStructure.designAll());
+    let r = await page.evaluate(() => ({ errors: coralStructure.errors, n: coralStructure.designs.size }));
+    check(r.errors.length === 0, 'reference frame: every beam, slab and column designs without error', r.errors.join('; '));
+    const made = await page.evaluate(() => coralStructure.createFoundations());
+    check(made === await page.evaluate(() => coral.model.byType('column').length) && await page.evaluate(n => coral.model.byType('pile').length >= n, made), 'foundations created under every column (the 16 of the frame and the traced fixture column), each cap with its piles, sized by search', `${await page.evaluate(() => coral.model.byType('pile').length)} piles`);
+    await page.evaluate(() => coralStructure.designAll());
+    const sum = await page.evaluate(() => { const ds = [...coralStructure.designs.values()]; return { errors: coralStructure.errors, kinds: ds.reduce((a, d) => ({ ...a, [d.kind]: (a[d.kind] || 0) + 1 }), {}), worst: ds.filter(d => d.design).map(d => [d.el.name, d.design.governing.name, d.design.governing.util]).sort((p, q) => q[2] - p[2]).slice(0, 3), notes: coralStructure.foundationNotes } });
+    check(sum.errors.length === 0 && sum.kinds.beam === 3 && sum.kinds.slab >= 1 && sum.kinds.column >= 17 && sum.kinds.pilecap === sum.kinds.column, 'design all: beams, slab, columns and pile caps designed', JSON.stringify(sum.kinds));
+    check(sum.worst.filter(w => w[0].startsWith('R') || w[0].startsWith('K-R')).every(w => w[2] <= 1 + 1e-9), 'every reference-frame element passes its governing check', sum.worst.map(w => `${w[0]} ${w[1]} ${w[2].toFixed(3)}`).join(' | '));
+    const slab = await page.evaluate(() => { const d = [...coralStructure.designs.values()].find(q => q.kind === 'slab' && q.el.name === 'RF Slab').design; return { rails: d.punching.filter(p => p.rails).length, sections: d.punching.reduce((a, p) => a + p.sections.length, 0), drops: d.punching.filter(p => p.sections.length === 2).length, ddm: d.checks.filter(c => c.clause.startsWith('8.10.2')).every(c => c.util === 0) }; });
+    check(slab.drops === 4 && slab.sections === 20 && slab.rails > 0 && slab.ddm, 'slab: 4 interior columns checked through and outside their drop panels, edge and corner columns get stud rails, DDM limits hold', JSON.stringify(slab));
+    const gb1 = await page.evaluate(() => { const d = [...coralStructure.designs.values()].find(q => q.el.name === 'RF GB1 (continuous)'); return { patterns: Object.keys(d.res.combos).filter(k => k.startsWith('U2')).length, top: d.design.top.length, bottom: d.design.bottom.length }; });
+    check(gb1.patterns === 5 && gb1.top >= 1 && gb1.bottom === 3, 'continuous grade beam: 5 live patterns (all, odd, even, 2 adjacent pairs), top steel over the supports, bottom steel per span', JSON.stringify(gb1));
+    const eq = await page.evaluate(() => { const t = coralStructure.takedown, caps = t.caps.reduce((a, c) => a + c.D + c.L, 0); const piles = [...coralStructure.designs.values()].filter(d => d.kind === 'pilecap').reduce((a, d) => a + d.design.reactions.Ps.reduce((p, v) => p + v, 0), 0); return { applied: t.total, caps, piles }; });
+    check(Math.abs(eq.caps - eq.applied) <= 1e-9 * eq.applied && Math.abs(eq.piles - eq.caps) <= 1e-9 * eq.caps, 'load path in equilibrium: Σ applied = Σ at the caps = Σ pile service reactions', `${eq.applied.toFixed(3)} = ${eq.caps.toFixed(3)} = ${eq.piles.toFixed(3)} kN`);
+    const nGen = await page.evaluate(() => coralStructure.generateAll());
+    const counts = await page.evaluate(() => { const by = s => coral.model.byType('rebar').filter(b => b.params.shape.value === s).length; return { total: coral.model.byType('rebar').length, stirrup: by('stirrup'), tie: by('tie'), hooked: by('hooked'), spiral: by('spiral'), rails: by('stud_rail'), zones: coral.model.byType('punching_zone').length, dowels: coral.model.byType('rebar').filter(b => b.params.mark.value === 'D').length }; });
+    check(counts.total > 1000 && counts.stirrup > 0 && counts.tie > 0 && counts.hooked > 0 && counts.spiral === await page.evaluate(() => coral.model.byType('pile').length) && counts.rails > 0 && counts.zones >= 20 && counts.dowels > 0, 'reinforcement for every kind: stirrups, ties, dowels, hooked mats, pile spirals, stud rails, punching zones', JSON.stringify(counts));
+    check(await page.evaluate(() => [...coralStructure.designs.keys()].every(id => coralStructure.barStatus(id).cls !== 'bad')), 'every generated bar is current against its design basis');
+    await page.click('coral-nav a[href="#architecture"]'); await page.waitForFunction(() => globalThis.coralArch?.items?.length > 1000, null, { timeout: 20000 });
+    await page.click('#xray'); await page.evaluate(() => { const s = coral.model.byType('slab').find(e => e.name === 'RF Slab'); const o = s.params.outline.value; coralArch.viewer.fit({ min: [o[0][0], o[0][1], -13], max: [o[2][0], o[2][1], 4] }); }); await page.waitForTimeout(400);
+    await page.screenshot({ path: join(out, 'reference-frame-3d.png') });
+    await page.click('coral-nav #save'); await page.waitForFunction(() => coral.model.rev === 2, null, { timeout: 30000 });
+    const h2 = await page.evaluate(() => coral.model.hash()), n2 = await page.evaluate(() => coral.model.elements.size);
+    await page.reload(); await page.waitForFunction(() => globalThis.coral?.model?.rev === 2 && coral.lastRegenerate, null, { timeout: 30000 });
+    check(await page.evaluate(() => coral.model.hash()) === h2 && await page.evaluate(() => coral.model.elements.size) === n2, 'the whole detailed structure persists through SQLite with the same model hash', `${n2} elements`);
+    await page.click('coral-nav a[href="#structure"]'); await page.waitForFunction(() => globalThis.coralStructure);
+    await page.evaluate(() => coralStructure.designAll());
+    check(await page.evaluate(() => [...coralStructure.designs.values()].filter(d => d.kind === 'beam').every(d => d.analysis.cached) && [...coralStructure.designs.keys()].every(id => coralStructure.barStatus(id).cls !== 'bad')), 'after reload every beam analysis is a cache hit and every bar is still current');
+    await page.screenshot({ path: join(out, 'structure.png'), fullPage: false });
+    // owned parts go with their host; one undo brings everything back
+    const slabId = await page.evaluate(() => coral.model.byType('slab').find(e => e.name === 'RF Slab').id);
+    const before = await page.evaluate(() => coral.model.elements.size);
+    await page.evaluate(id => coral.model.batch('delete slab', () => coral.model.remove(id)), slabId);
+    check(await page.evaluate(id => coral.model.all().filter(e => e.parent === id).length === 0 && !coral.model.byType('drop_panel').length && !coral.model.byType('punching_zone').length, slabId), 'deleting the slab removes its drop panels, punching zones and bars');
+    await page.evaluate(() => { coral.model.undo(); coral.regenerate(); });
+    check(await page.evaluate(() => coral.model.elements.size) === before, 'one undo restores the slab and everything it owned');
     await page.evaluate(id => { coral.model.remove(id); coral.regenerate(); }, beamId);
-    check(await page.evaluate(() => coral.model.byType('rebar').length === 0 && coral.model.byType('beam').length === 0), 'deleting the beam removes its bars');
+    check(await page.evaluate(id => !coral.model.get(id) && coral.model.all().every(e => e.parent !== id), beamId), 'deleting the typed beam removes its bars');
   }
   check(errors.length === 0, 'no page errors or console errors during the run', errors.join(' | ').slice(0, 300));
 } catch (err) {

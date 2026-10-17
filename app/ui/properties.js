@@ -87,7 +87,7 @@ export class CoralProperties extends HTMLElement {
   summary() {
     const m = this.app.model; const vols = {};
     let steel = 0;
-    for (const e of m.all()) { const r = m.result(e.id); if (e.type === 'rebar') { steel += r?.mass_kg || 0; continue; } if (r?.volume_m3 !== undefined) vols[e.type] = (vols[e.type] || 0) + r.volume_m3; }
+    for (const e of m.all()) { const r = m.result(e.id); if (e.type === 'rebar') { steel += e.params.mass_kg?.value ?? r?.mass_kg ?? 0; continue; } if (e.type === 'punching_zone') continue; if (r?.volume_m3 !== undefined) vols[e.type] = (vols[e.type] || 0) + r.volume_m3; }
     const total = Object.values(vols).reduce((s, v) => s + v, 0);
     return `<section><h3>Quantities</h3>${Object.entries(vols).map(([t, v]) => `<div class="row"><label>${esc(t)}</label><span>${v.toFixed(3)} m³</span></div>`).join('')}<div class="row"><label><b>concrete</b></label><span><b>${total.toFixed(3)} m³</b></span></div>${steel ? `<div class="row"><label><b>reinforcement</b></label><span><b>${steel.toFixed(1)} kg</b></span></div>` : ''}
       <div class="hint">Exact prism volumes of the generated geometry; junction overlaps not deducted (ASSUMPTIONS A-07).</div></section>

@@ -16,8 +16,9 @@ cmake -S . -B build && cmake --build build -j
 without it pages 00–02 work and page 03 says the engine is not configured.
 Open http://127.0.0.1:8790/?project=section-haus. Pages: 00 Source (register the source, import a
 drawing, or register the synthetic fixture), 01 Trace (Calibrate on a scale bar → Origin → Wall /
-Column / Slab / Opening), 02 Architecture (3D, properties, section cut, X-ray, export, + Beam), 03 Structure (analysis, ACI 318-19
-design, bar generation). Save commits a
+Column / Slab / Opening), 02 Architecture (3D, properties, section cut, X-ray, export, + Beam), 03 Structure (Create reference frame → Design all →
+Create foundations → Design all → Generate reinforcement: beams, columns, flat slabs with drop panels and
+punching zones, pile caps and piles, to ACI 318-19). Save commits a
 revision to SQLite; Reload reads it back.
 
 Needs a C++17 compiler, CMake ≥ 3.15 and the SQLite development library (`libsqlite3-dev` on Debian/

@@ -22,12 +22,15 @@ app/                the browser application: vanilla JS modules, native web comp
   core/hash.js      SHA-256 + canonical forms (canonicalJSON, modelCanonical == store.h canonical())
   core/units.js     explicit units; SI inside, conversion only at the edges
   core/structure.js the beam chain: beamModel → (service, engine) → beamResults → rcBeamDesign → beamBars
+  core/columns.js   columns: interaction, slenderness, bars       core/slabs.js  flat slabs, drop panels, punching, stud rails
+  core/foundations.js  load takedown, pile caps (sectional + strut-and-tie), piles
+  core/detail.js    shared bar geometry (hooks, loops, helices)     core/reference.js  the synthetic reference frame
   core/standards/aci318-19.js   the design ruleset as data, a clause per value
   core/api.js       the service client
   render/webgl.js   the 3D viewer: reduced Float32 copy of the meshes, pick pass, section cut, transparency
   ui/app.js         <coral-app>: layout, routing (#source #trace #architecture), save/reload, selection
   ui/tree.js        <coral-tree>        ui/properties.js <coral-properties>      ui/timeline.js <coral-timeline>
-  pages/structure.js <page-structure> 03 (analysis, design, bar generation)
+  pages/structure.js <page-structure> 03/04: Design all, Create foundations, Generate reinforcement, per-kind tables and detail
   pages/source.js   <page-source> 00    pages/trace.js <page-trace> 01            pages/architecture.js <page-architecture> 02
   fixtures/plan-fixture.svg  a SYNTHETIC drawing with known dimensions (not an ArchDaily drawing)
 tests/unit/*.test.mjs   28 tests under `node --test`         tests/e2e/slice.mjs   38 checks in headless Chromium
@@ -78,6 +81,6 @@ bars become `rebar` elements with a `basis` hash so a changed beam shows them st
 
 ## Not in this repository (owed)
 
-Pages 05–11, frames of many members, plates and punching shear,
+Pages 05–11, frames of many members in one engine model, plate analysis,
 instancing/LOD/frustum culling, holes in slabs, non-rectangular columns, automated tracing, the
 `.fi` reader, multi-user access.

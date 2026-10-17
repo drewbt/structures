@@ -192,3 +192,27 @@ export function rebarMesh({ path, diameter }) {
   mb.volume = length * area;
   const mesh = mb.finish(); mesh.length_m = length; mesh.mass_kg = mesh.volume_m3 * 7850; return mesh;
 }
+
+/** Vertical cylinder (pile): centre, diameter, from z0 up to z1; 24 facets. Volume stated exactly as π r² h. */
+export function cylinderMesh({ center, diameter, z0, z1, facets = 24 }) {
+  if (!(diameter > 0) || !(z1 > z0)) throw new Error('cylinder: diameter and height must be positive');
+  const r = diameter / 2, mb = new MeshBuilder(), P = (k, z) => [center[0] + r * Math.cos(2 * Math.PI * k / facets), center[1] + r * Math.sin(2 * Math.PI * k / facets), z];
+  for (let k = 0; k < facets; k++) {
+    mb.quad(P(k, z0), P(k + 1, z0), P(k + 1, z1), P(k, z1));
+    mb.tri([center[0], center[1], z1], P(k, z1), P(k + 1, z1)); mb.tri([center[0], center[1], z0], P(k + 1, z0), P(k, z0));
+  }
+  mb.volume = Math.PI * r * r * (z1 - z0);
+  const mesh = mb.finish(); mesh.length_m = z1 - z0; return mesh;
+}
+/** Axis-aligned box by centre (plan), plan size and z range: pile caps and drop panels. */
+export function boxMesh({ center, size, z0, z1 }) {
+  if (!(size[0] > 0 && size[1] > 0 && z1 > z0)) throw new Error('box: sizes must be positive');
+  const mb = new MeshBuilder(); boxInto(mb, [center[0] - size[0] / 2, center[1] - size[1] / 2], [1, 0], [0, 1], size[0], size[1], z0, z1); return mb.finish();
+}
+/** A set of separate line segments drawn as thin prisms (punching critical perimeters). */
+export function segmentsMesh({ pairs, width = 0.03 }) {
+  const meshes = []; for (let i = 0; i + 1 < pairs.length; i += 2) meshes.push(rebarMesh({ path: [pairs[i], pairs[i + 1]], diameter: width }));
+  const m = mergeMeshes(meshes), min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity];
+  for (let i = 0; i < m.positions.length; i += 3) for (let k = 0; k < 3; k++) { min[k] = Math.min(min[k], m.positions[i + k]); max[k] = Math.max(max[k], m.positions[i + k]); }
+  return { ...m, volume_m3: 0, bounds: { min, max } };
+}

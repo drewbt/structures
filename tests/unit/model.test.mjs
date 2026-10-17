@@ -96,3 +96,11 @@ test('exportInspectable carries function lineage and assumptions per element', (
   assert.ok(x.functions.find(f => f.name === 'geometry.wall').assumptions.length > 0);
   assert.ok(registry.has('trace.pixelToWorld'));
 });
+
+test('batch: one listener event and one undo step for many mutations; the event log still records each', () => {
+  const m = new Model('t'); m.create({ id: 'L0', type: 'level', params: { elevation: { value: 0, unit: 'm' }, height: { value: 3, unit: 'm' } } });
+  let heard = 0; m.on(() => heard++); const before = m.events.length, undoDepth = m.undoStack.length;
+  m.batch('bars', () => { for (let i = 0; i < 50; i++) m.create({ type: 'rebar', parent: 'L0', params: { path: { value: [[0, 0, 0], [1, 0, 0]], unit: 'm' }, diameter: { value: 0.012, unit: 'm' } } }); });
+  assert.equal(heard, 1); assert.equal(m.byType('rebar').length, 50); assert.equal(m.events.length - before, 50); assert.equal(m.undoStack.length, undoDepth + 1);
+  m.undo(); assert.equal(m.byType('rebar').length, 0); m.redo(); assert.equal(m.byType('rebar').length, 50);
+});

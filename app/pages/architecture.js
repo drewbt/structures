@@ -45,8 +45,9 @@ export class PageArchitecture extends HTMLElement {
     const m = this.app.model; const items = []; let vol = 0, steel = 0;
     for (const e of m.all()) {
       const r = m.result(e.id); if (!r || !r.positions) continue;
-      const color = PALETTE[e.type] || PALETTE.default; if (e.type === 'rebar') steel += r.mass_kg || 0; else vol += r.volume_m3 || 0;
-      items.push({ id: e.id, mesh: r, color, alpha: this.xray && e.type !== 'rebar' ? 0.22 : this.ghost && e.type === 'slab' ? 0.35 : color[3] });
+      const color = e.type === 'punching_zone' ? ((e.params.util?.value ?? 0) > 1 ? PALETTE.punching_fail : PALETTE.punching_zone) : PALETTE[e.type] || PALETTE.default;
+      if (e.type === 'rebar') steel += e.params.mass_kg?.value ?? r.mass_kg ?? 0; else if (e.type !== 'punching_zone') vol += r.volume_m3 || 0;
+      items.push({ id: e.id, mesh: r, color, alpha: this.xray && e.type !== 'rebar' && e.type !== 'punching_zone' ? 0.22 : this.ghost && e.type === 'slab' ? 0.35 : color[3] });
     }
     this.items = items;
     if (this.viewer) { const first = !this.viewer.items.length; this.viewer.setItems(items); this.viewer.setSelection(this.app.selection); if (first && items.length) this.viewer.fit(); }

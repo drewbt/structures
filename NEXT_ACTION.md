@@ -10,10 +10,12 @@ model's long-term deflection with the published deflection (about 7 in on about 
 primary reference (Silman and Matteo, STRUCTURE, July/August 2001) read and its numbers sourced.
 
 **Without the sheets, in order of value:**
-1. Benchmark rcBeamDesign against a published worked example (A-17) and check the ACI ruleset rows
-   against the printed code (A-16).
-2. Bar bending schedule (page 05) from the rebar elements: marks, shape codes, cut lengths, masses.
-3. A multi-member frame (beams on columns) through the same engine path.
+1. Check every ACI ruleset row against the printed code (A-16) and benchmark each design function against a
+   published worked example (A-17): beam, column interaction, two-way slab DDM, punching with studs, pile cap STM.
+2. Bar bending schedule (page 05) from the ~1,600 rebar elements: marks, ACI shape codes, cut lengths, masses.
+3. One engine model for the whole frame (slab as plates, columns, beams) to replace DDM and the tributary
+   takedown, gated against DDM where DDM applies.
+4. Clash detection between bars of meeting elements (column cages through slab mats, cap mats and dowels).
 **Milestone 13 as first planned (kept for reference; steps 2–5 are now built for a typed beam):**
 1. Pick one living-room cantilever beam of Fallingwater: its published deflection (about 7 in on about
    15 ft) and its 2002 repair are the independent oracle, once the primary reference is read.

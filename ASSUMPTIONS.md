@@ -73,3 +73,31 @@ identities (equilibrium, φMn = Mu at the computed As) and one hand-worked secti
 
 **A-18 · Analysis uses the gross concrete section.** Cracked stiffness enters only the deflection check,
 through Ie with the analysis deflection scaled by Ig/Ie of the governing section (uniform along the member).
+
+**A-19 · Flat slab design is the Direct Design Method on a full rectangular grid without edge beams.** Its
+8.10.2 limits are reported as check rows, never waived. Unbalanced moments at a column act together at
+the worst corner of the critical section (conservative). A perimeter is truncated at a slab edge only when
+the edge lies within d/2 of the column face. Column-strip negative steel uses the slab depth alone. Slab
+deflection is controlled through the minimum thickness of 8.3.1.1, not computed. Equivalent Frame Method
+and engine plate analysis are owed.
+
+**A-20 · Strut-and-tie struts use βs = 0.4** (Table 23.4.3(a), "all other cases") because no distributed
+reinforcement per 23.5 is provided; this is the most conservative coefficient. STM covers deep 2- and
+4-pile caps; 3-pile and larger deep caps keep the sectional checks and are flagged.
+
+**A-21 · Pile geotechnical capacity is not computed.** The allowable pile load (900 / 1300 / 1800 kN for
+450 / 600 / 750 mm piles) and pile length (12 m) are ASSUMED until a site investigation gives them; each
+cap's provenance says so.
+
+**A-22 · Pile cages (6 bars minimum, ρ ≥ 0.5 %, over max(L/3, 3 m)) and spirals (#3 at 150 mm) are practice,**
+not ACI 318-19 requirements outside seismic design (18.13).
+
+**A-23 · Stud rails are drawn as a 25 × 10 mm carrier with studs at the design spacing,** two rails per
+column face at quarter points; rails that would run off a free edge are omitted. The rail section is assumed.
+
+**A-24 · Beams with pinned or roller supports must run parallel to x or y.** Restraints are mapped from
+the beam's axes to the engine's global flags; a skewed beam needs inclined supports (springs), owed, and is
+refused with a message rather than analysed wrongly.
+
+**A-25 · The reference frame is synthetic.** Its loads (live 4.8 kPa; 600 kN dead and 250 kN live on each
+column for floors above) are chosen to exercise every element path, not taken from a building.

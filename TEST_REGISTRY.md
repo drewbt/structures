@@ -1,7 +1,7 @@
 # Test registry
 
 Run everything: `./tests/run.sh` (build, service gate, unit tests, end to end). Last full run
-2026-10-17: service-gate 29/29, unit 37/37, e2e 54/54. The structural tests need the stiffness
+2026-10-17: service-gate 29/29, unit 66/66, e2e 64/64. The structural tests need the stiffness
 binary (STIFFNESS_BIN, default /home/user/stiffness/build/stiffness); without it they are skipped
 (unit) or fail with a stated reason (e2e), never faked.
 
@@ -43,6 +43,20 @@ Categories are the specification's §11. Tolerances are stated with their reason
 | asRequired gives φMn = Mu to 1e-12; 99 % of it does not suffice; impossible moment → null | identity |
 | cantilever design and bars: check rows with clauses; φMn ≥ Mu; governing M⁻ = (1.2D + 1.6L)L²/2 from U2; bars inside the cover; top bars anchored into the fixed end | closed form; geometry |
 
+## columns, slabs, foundations (tests/unit/columns|slabs|foundations.test.mjs)
+
+| Test | Oracle |
+|---|---|
+| P0, φPn,max, pure tension; balanced point layer by layer (Pn 1555.3 kN, Mn 356.1 kN·m) | closed form; hand calculation in the test's comment |
+| slender column magnified (kℓu/r 27.1 > 22); minimum moment; tie spacing; cross-ties on wide faces | 6.2.5, 6.6.4.5, 25.7.2 |
+| Jc interior = d b1³/6 + b1 d³/6 + d b2 b1²/2; Jc edge per R8.4.4.2.3; bo interior, edge, corner | ACI commentary closed forms, 1e-12 |
+| Table 22.6.5.2: each expression governs in its own case; λs | the table |
+| DDM: (neg₁ + neg₂)/2 + pos = M0 for every span of every frame; end-span coefficients; M0 = qu ℓ2 ℓn²/8; column-strip share | 8.10 identities |
+| Σ column reactions = slab + drop weight; Σ caps = Σ applied; Σ pile reactions = P and moments (statics) | equilibrium, 1e-12 |
+| 4-pile cap face moment = 2(P/4)(s/2 − c/2); pile φPn = 0.55 × 0.85 fc Ag; layouts centred, spacing ≥ s | hand calculation; Table 13.4.2.1 |
+| studs: failing column gets rails; outer section passes; rails stay inside the slab | 22.6.6, 22.6.4.2 |
+| batch: one event, one undo step, every element event logged | definition |
+
 ## end to end (tests/e2e/slice.mjs, headless Chromium with software WebGL)
 
 Milestone-12 criteria, in order: service reached; ArchDaily source registered `not-acquired`; fixture
@@ -59,7 +73,12 @@ under D equals the Timoshenko closed form to 1e-9 through the whole chain; root 
 moment from 1.2D + 1.6L; design rows; bars generated with provenance naming the design function and the
 analysis model hash; a deeper beam re-runs the engine and marks bars stale; reverting is a cache hit and
 the bars are current again; the 3D view draws every bar; save and reload keep the hash and the bars; the
-analysis after reload is a cache hit; deleting the beam deletes its bars; no page errors.
+analysis after reload is a cache hit; deleting the beam deletes its bars. Then the reference frame: design all without error; foundations under every column by search;
+every frame element ≤ 1; slab through/outside drops with stud rails at edge and corner columns and DDM limits
+held; continuous grade beam with 5 live patterns; Σ applied = Σ caps = Σ piles to 1e-9; stirrups, ties, dowels,
+hooked mats, spirals, rails and zones generated and current; 1,759 elements persist with the same hash; after
+reload every beam analysis is a cache hit; deleting the slab removes its parts and one undo restores them; no
+page errors.
 
 ## Not yet tested
 

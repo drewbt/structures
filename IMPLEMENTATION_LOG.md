@@ -65,6 +65,25 @@ against the live API). Proceeded with milestone 13 on a typed beam:
   Defects found and fixed on the way: a gate block-structure slip; error messages not JSON-escaped; a
   post-reload wait on a not-yet-defined hook (test side); concrete totals counted bar steel.
 
+## 5 · Standard elements: beams, columns, slabs, drop panels, punching, piles, caps (2026-10-17)
+
+Owner: "keep going detailing standard concrete elements". Built, each with gates before the next:
+- Beams v2: supports anywhere, one live case per span, ACI 6.4.2 patterns, envelope-driven top regions with
+  cut-offs, per-span bottom steel and stirrups. Gated against the three-moment equation (independent method)
+  to 1e-9 on 2-, 3- and 4-span beams. Found: heavy pattern loading makes a middle span hog end to end, so the
+  support regions merge (correct; the first test expectation was wrong).
+- Columns: strain-compatibility interaction, biaxial load contour, slenderness magnifier, ties, cross-ties,
+  dowels. Balanced point hand-checked.
+- Flat slabs: DDM strips, thickness, drop panels, punching on clipped perimeters with numeric Jc (matches the
+  ACI interior and edge closed forms), stud rails with solved spacing and size, mats, integrity bars.
+  Found and fixed: column-strip bars missed the column core at 430 mm spacing (spacing now capped by the core).
+- Foundations: load takedown in exact equilibrium, rigid-cap reactions, sectional checks, strut-and-tie for
+  deep 2- and 4-pile caps, pile strength, cages and spirals, foundation search. Found and fixed: 5-, 7- and
+  8-pile layouts off-centre or too close; a beam along y was a mechanism (restraints were global, now mapped
+  from beam axes); sectional pile punching on a one-sided perimeter replaced by STM for deep caps.
+- Model: batches (one event, one undo), reverse dependency index. Page 03 per element kind. Reference frame.
+- Gates: service 29/29, unit 66/66, e2e 64/64.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency
@@ -72,7 +91,7 @@ graph, versioned functions, result cache, undo/redo, append-only events; wall/sl
 geometry; WebGL viewer with pick and section cut; pages 00–02; synthetic fixture; persistence with
 revision history and cross-checked hashes; inspectable export.
 
-**Verified:** service-gate 29/29; unit 37/37; e2e 54/54 (headless Chromium, software WebGL); stiffness
+**Verified:** service-gate 29/29; unit 66/66; e2e 64/64 (headless Chromium, software WebGL); stiffness
 gate all pass on Linux. Screenshots in tests/e2e/out/.
 
 **Reused:** stiffness `json.h` verbatim; stiffness's contract rules (versioning, tolerances stated with

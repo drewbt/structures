@@ -26,7 +26,7 @@ void main() {
 
 export const PALETTE = {
   wall: [0.80, 0.78, 0.74, 1], slab: [0.70, 0.72, 0.74, 1], column: [0.55, 0.58, 0.62, 1], opening: [0.3, 0.6, 0.9, 0.5],
-  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
+  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], pile: [0.55, 0.50, 0.45, 1], pilecap: [0.66, 0.64, 0.60, 1], drop_panel: [0.74, 0.74, 0.76, 1], punching_zone: [0.17, 0.60, 0.37, 1], punching_fail: [0.82, 0.24, 0.24, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
 };
 
 function mat4Perspective(fovy, aspect, near, far) {

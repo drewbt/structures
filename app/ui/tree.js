@@ -1,7 +1,7 @@
 // tree.js - <coral-tree>: the model as a hierarchy. Project → Sources → drawings; Levels → elements
 // grouped by type. It renders FROM the model and selects INTO the app; it holds no data of its own.
-const TYPE_ORDER = ['wall', 'column', 'beam', 'slab', 'opening', 'drawing', 'trace'];
-const LABEL = { wall: 'Walls', column: 'Columns', beam: 'Beams', slab: 'Slabs', opening: 'Openings', drawing: 'Drawings', trace: 'Traces', rebar: 'Reinforcement' };
+const TYPE_ORDER = ['wall', 'column', 'beam', 'slab', 'pilecap', 'opening', 'drawing', 'trace'];
+const LABEL = { wall: 'Walls', column: 'Columns', beam: 'Beams', slab: 'Slabs', pilecap: 'Pile caps', opening: 'Openings', drawing: 'Drawings', trace: 'Traces', rebar: 'Reinforcement' };
 
 export class CoralTree extends HTMLElement {
   connectedCallback() {
@@ -25,8 +25,13 @@ export class CoralTree extends HTMLElement {
   render() {
     const m = this.app.model, errors = this.app.lastRegenerate?.errors || {};
     const el = e => {
-      const bars = e.type === 'beam' ? m.children(e.id).filter(k => k.type === 'rebar') : [];
-      return this.node('el:' + e.id, e.name, { type: e.type, id: e.id, bad: !!errors[e.id], kids: bars.length ? this.node(`grp:${e.id}:rebar`, `Reinforcement (${bars.length})`, { kids: bars.map(b => this.node('el:' + b.id, b.name, { type: b.params.designation?.value, id: b.id })).join(''), depth: 2 }) : null });
+      const kids = m.children(e.id), bars = kids.filter(k => k.type === 'rebar'), parts = kids.filter(k => k.type === 'pile' || k.type === 'drop_panel'), zones = kids.filter(k => k.type === 'punching_zone');
+      const sub = [
+        parts.length ? this.node(`grp:${e.id}:parts`, `${parts[0].type === 'pile' ? 'Piles' : 'Drop panels'} (${parts.length})`, { kids: parts.map(pp => this.node('el:' + pp.id, pp.name, { type: pp.type, id: pp.id })).join(''), depth: 2 }) : '',
+        zones.length ? this.node(`grp:${e.id}:zones:rebar`, `Punching zones (${zones.length})`, { kids: zones.map(z => this.node('el:' + z.id, z.name, { type: `util ${z.params.util?.value}`, id: z.id, bad: (z.params.util?.value ?? 0) > 1 })).join(''), depth: 2 }) : '',
+        bars.length ? this.node(`grp:${e.id}:rebar`, `Reinforcement (${bars.length})`, { kids: (this.open.has(`grp:${e.id}:rebar`) ? bars.slice(0, 400) : []).map(b => this.node('el:' + b.id, b.name, { type: b.params.designation?.value, id: b.id })).join('') + (bars.length > 400 ? `<div class="hint">… ${bars.length - 400} more (select in 3D)</div>` : ''), depth: 2 }) : '',
+      ].join('');
+      return this.node('el:' + e.id, e.name, { type: e.type, id: e.id, bad: !!errors[e.id], kids: sub || null });
     };
     const sources = this.app.sources.map(s => `<div class="node" style="padding-left:14px"><span class="tw"></span><span class="label">${s.title || s.id}</span><span class="ty">${s.status}</span></div>`).join('');
     const drawings = m.byType('drawing').map(el).join('');
@@ -35,7 +40,7 @@ export class CoralTree extends HTMLElement {
       const groups = TYPE_ORDER.filter(t => kids.some(k => k.type === t)).map(t => this.node(`grp:${l.id}:${t}`, `${LABEL[t]} (${kids.filter(k => k.type === t).length})`, { kids: kids.filter(k => k.type === t).map(el).join(''), depth: 1 })).join('');
       return this.node('lvl:' + l.id, l.name, { type: `${l.params.elevation?.value ?? 0} m`, id: l.id, kids: groups || '<div class="hint">empty</div>' });
     }).join('');
-    const orphans = m.all().filter(e => e.type !== 'level' && e.type !== 'drawing' && !m.get(e.parent)).map(el).join('');   // rebar's parent is its beam, so it is never an orphan
+    const orphans = m.all().filter(e => !['level', 'drawing', 'rebar', 'pile', 'drop_panel', 'punching_zone'].includes(e.type) && !m.get(e.parent)).map(el).join('');   // rebar's parent is its beam, so it is never an orphan
     this.innerHTML = `<div class="collapse" title="Collapse the tree">${this.classList.contains('collapsed') ? '»' : '« tree'}</div>` +
       this.node('project', this.app.project, { kids: this.node('sources', `Sources (${this.app.sources.length})`, { kids: sources || '<div class="hint">none</div>', depth: 1 }) + this.node('drawings', `Drawings (${m.byType('drawing').length})`, { kids: drawings || '<div class="hint">none</div>', depth: 1 }) }) +
       this.node('levels', `Levels (${m.byType('level').length})`, { kids: levels || '<div class="hint">no levels yet</div>' }) +

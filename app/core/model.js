@@ -14,6 +14,9 @@
 import { registry, fnFor } from './functions.js';
 import { sha256, canonicalJSON, modelHash } from './hash.js';
 
+/** Element types owned by their parent: removed with it. */
+const OWNED = new Set(['rebar', 'pile', 'drop_panel', 'punching_zone']);
+
 let counter = 0;
 export function newId(prefix) { counter++; return `${prefix}-${Date.now().toString(36)}${counter.toString(36)}`; }
 
@@ -40,7 +43,21 @@ export class Model {
   result(id) { return this.results.get(id)?.output; }
 
   on(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); }
-  emit(ev) { for (const l of this.listeners) l(ev, this); }
+  emit(ev) { if (this._batch) { this._batch.count++; return; } for (const l of this.listeners) l(ev, this); }
+  /**
+   * Run many mutations as one: listeners hear a single {kind: 'batch'} event, and undo/redo treat the
+   * whole batch as one step. Every mutation inside still appends its own event to the log.
+   */
+  batch(label, fn) {
+    if (this._batch) return fn();
+    this._batch = { count: 0, undo: [] };
+    try { fn(); } finally {
+      const b = this._batch; this._batch = null;
+      if (b.undo.length) { const steps = b.undo; this.undoStack.push({ label, undo: () => this._silently(() => { for (let i = steps.length - 1; i >= 0; i--) steps[i].undo(); }), redo: () => this._silently(() => { for (const st of steps) st.redo(); }) }); this.redoStack.length = 0; }
+      this.emit({ kind: 'batch', label, count: b.count });
+    }
+  }
+  _silently(fn) { const outer = this._batch; this._batch = { count: 0, undo: [] }; try { fn(); } finally { const c = this._batch.count; this._batch = outer; if (!outer) this.emit({ kind: 'batch', count: c }); } }
 
   // ---- mutation ---------------------------------------------------------------------------------------
   create({ id, type, name, parent = '', params = {}, provenance = null }, { record = true } = {}) {
@@ -49,7 +66,7 @@ export class Model {
     if (this.elements.has(id)) throw new Error(`element ${id} exists`);
     const el = { id, type, name: name || id, parent, params: {}, provenance: provenance ? { ...provenance } : null };
     for (const [k, v] of Object.entries(params)) el.params[k] = normParam(v);
-    this.elements.set(id, el);
+    this.elements.set(id, el); this._structural();
     this._event({ type: 'element.create', element: id, payload: { type, name: el.name, parent, params: el.params, provenance } });
     if (record) this._pushUndo({ undo: () => this.remove(id, { record: false }), redo: () => this.create(structuredClone(el), { record: false }) });
     this._invalidate(id);
@@ -62,7 +79,7 @@ export class Model {
     const before = el.params[name] ? { ...el.params[name] } : undefined;
     const after = normParam(unit === undefined && before ? { value, unit: before.unit } : { value, unit: unit ?? '' });
     if (before && before.unit === after.unit && JSON.stringify(before.value) === JSON.stringify(after.value)) return el;
-    el.params[name] = after;
+    el.params[name] = after; if (name === 'host') this._structural();
     this._event({ type: 'param.set', element: id, payload: { name, before, after } });
     if (record) this._pushUndo({ undo: () => before ? this.set(id, name, before.value, before.unit, { record: false }) : this.unset(id, name, { record: false }), redo: () => this.set(id, name, after.value, after.unit, { record: false }) });
     this._invalidate(id);
@@ -81,12 +98,12 @@ export class Model {
 
   remove(id, { record = true } = {}) {
     const el = this.get(id); if (!el) return;
-    // a bar belongs to its host: removing the host removes its bars (each removal is its own event and undo step)
-    for (const child of this.all()) if (child.parent === id && child.type === 'rebar') this.remove(child.id, { record });
+    // parts belong to their host (bars, piles, drop panels, punching zones): removing the host removes them, each as its own event
+    for (const child of this.all()) if (child.parent === id && OWNED.has(child.type)) this.remove(child.id, { record });
     const dependents = this.dependentsOf(id);
     const snapshot = structuredClone(el);
     this._invalidate(id);
-    this.elements.delete(id); this.results.delete(id); this.dirty.delete(id);
+    this.elements.delete(id); this.results.delete(id); this.dirty.delete(id); this._structural();
     for (const d of dependents) this._invalidate(d);
     this._event({ type: 'element.remove', element: id, payload: { type: el.type, name: el.name } });
     if (record) this._pushUndo({ undo: () => this.create(snapshot, { record: false }), redo: () => this.remove(id, { record: false }) });
@@ -95,7 +112,7 @@ export class Model {
 
   undo() { const r = this.undoStack.pop(); if (!r) return false; r.undo(); this.redoStack.push(r); this._event({ type: 'undo' }); return true; }
   redo() { const r = this.redoStack.pop(); if (!r) return false; r.redo(); this.undoStack.push(r); this._event({ type: 'redo' }); return true; }
-  _pushUndo(r) { this.undoStack.push(r); this.redoStack.length = 0; }
+  _pushUndo(r) { if (this._batch) { this._batch.undo.push(r); return; } this.undoStack.push(r); this.redoStack.length = 0; }
   _event(e) { this.events.push({ time: new Date().toISOString(), ...e }); }
 
   // ---- dependency graph ---------------------------------------------------------------------------------
@@ -108,7 +125,16 @@ export class Model {
     return deps;
   }
   /** Ids whose computations read `id` (direct). */
-  dependentsOf(id) { const out = []; for (const e of this.elements.values()) if (e.id !== id && this.dependsOn(e).includes(id)) out.push(e.id); return out; }
+  /** Ids whose computations read `id` (direct). A reverse index rebuilt only after a structural change. */
+  dependentsOf(id) {
+    if (!this._rev || this._revStamp !== this._structStamp) {
+      this._rev = new Map();
+      for (const e of this.elements.values()) for (const d of this.dependsOn(e)) { if (d === e.id) continue; if (!this._rev.has(d)) this._rev.set(d, []); this._rev.get(d).push(e.id); }
+      this._revStamp = this._structStamp;
+    }
+    return this._rev.get(id) || [];
+  }
+  _structural() { this._structStamp = (this._structStamp || 0) + 1; }
   _invalidate(id) {
     const stack = [id], seen = new Set();
     while (stack.length) { const x = stack.pop(); if (seen.has(x)) continue; seen.add(x); if (this.elements.has(x)) this.dirty.add(x); for (const d of this.dependentsOf(x)) stack.push(d); }
@@ -154,7 +180,7 @@ export class Model {
     for (const w of elements) {
       const params = {}; for (const [k, p] of Object.entries(w.params ?? {})) params[k] = { value: JSON.parse(p.v), unit: p.unit ?? '' };
       const prov = w.provenance && (w.provenance.source || w.provenance.trace || w.provenance.method) ? { ...w.provenance } : null;
-      this.elements.set(w.id, { id: w.id, type: w.type, name: w.name, parent: w.parent ?? '', params, provenance: prov });
+      this.elements.set(w.id, { id: w.id, type: w.type, name: w.name, parent: w.parent ?? '', params, provenance: prov }); this._structural();
     }
     this.rev = rev;
     for (const id of this.elements.keys()) this.dirty.add(id);

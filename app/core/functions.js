@@ -10,7 +10,7 @@
 // Versioning (CONTRACT.md §10 of stiffness, adopted): a change to a number or signature bumps the
 // major; widened validity bumps the minor; a patch changes no number.
 
-import { wallMesh, slabMesh, columnMesh, beamMesh, rebarMesh } from './geometry.js';
+import { wallMesh, slabMesh, columnMesh, beamMesh, rebarMesh, cylinderMesh, boxMesh, segmentsMesh } from './geometry.js';
 
 export const registry = new Map();
 export function register(fn) { registry.set(fn.name, fn); return fn; }
@@ -65,6 +65,31 @@ register({
   assumptions: ['polyline path, sharp corners; drawn as an equal-area square prism', 'steel density 7850 kg/m³'],
   inputs(model, el) { return { path: num(el, 'path'), diameter: num(el, 'diameter') }; },
   run: rebarMesh,
+});
+
+register({
+  name: 'geometry.pilecap', version: '1.0.0', forType: 'pilecap',
+  assumptions: ['rectangular, axis-aligned; top at the stated level z (the column base)'],
+  inputs(model, el) { const H = num(el, 'thickness', 0.9), top = num(el, 'top', 0); return { center: num(el, 'center'), size: num(el, 'size'), z0: top - H, z1: top }; },
+  run: boxMesh,
+});
+register({
+  name: 'geometry.pile', version: '1.0.0', forType: 'pile',
+  assumptions: ['straight vertical bored pile; head embedded in the cap by the cap’s pile_embed'],
+  inputs(model, el) { const cap = model.get(el.parent); const H = cap ? num(cap, 'thickness', 0.9) : 0, top = cap ? num(cap, 'top', 0) : 0, emb = cap ? num(cap, 'pile_embed', 0.075) : 0; const zHead = top - H + emb; return { center: num(el, 'center'), diameter: num(el, 'diameter', 0.45), z0: zHead - num(el, 'length', 12), z1: zHead }; },
+  run: cylinderMesh,
+});
+register({
+  name: 'geometry.drop_panel', version: '1.0.0', forType: 'drop_panel',
+  assumptions: ['rectangular, axis-aligned, under the soffit of its parent slab'],
+  inputs(model, el) { const slab = model.get(el.parent); if (!slab || slab.type !== 'slab') throw new Error(`${el.id}: a drop panel's parent is its slab`); const lvl = levelOf(model, slab); const soffit = lvl.elevation + num(slab, 'offset', lvl.height) - num(slab, 'thickness', 0.2); return { center: num(el, 'center'), size: num(el, 'size'), z0: soffit - num(el, 'projection', 0.15), z1: soffit }; },
+  run: boxMesh,
+});
+register({
+  name: 'geometry.punching_zone', version: '1.0.0', forType: 'punching_zone',
+  assumptions: ['the critical perimeter drawn at slab mid-depth as separate segments'],
+  inputs(model, el) { return { pairs: num(el, 'path'), width: 0.03 }; },
+  run: segmentsMesh,
 });
 
 /**

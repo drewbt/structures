@@ -1,133 +1,252 @@
-// structure.js - <page-structure> (PAGE 03 + the first part of PAGE 04): one beam's chain from
-// geometry to verified reinforcement. Every number on this page is computed by a registered function
-// or returned by the engine through the service; the page holds only what it last displayed.
+// structure.js - <page-structure> (PAGES 03 and 04): design and detailing of every structural element kind:
+// beams (simply supported, continuous, cantilever), flat slabs with drop panels and punching zones,
+// columns, pile caps and piles, with the load path that joins them. Every number here comes from a
+// registered function or from the engine through the service; the page keeps only what it displays.
 //
-//   beam (model) → structure.beamModel → service /analyse (stiffness engine, cached by text hash)
-//   → structure.beamResults → structure.rcBeamDesign (ACI 318-19) → structure.beamBars → rebar elements
+//   Design all:   beams → engine (service, cached) → beamResults → rcBeamDesign
+//                 slabs → flatSlabDesign → column reactions, unbalanced moments
+//                 loadTakedown (slabs + beams + self-weight + stated loads) → columns → columnDesign
+//                 → caps (pileCapLayout when a column has none) → pileCapDesign
+//   Generate:     every design's bars, stud rails and punching zones as elements, one batch, one undo step
 
 import { beamInputs, beamModel, beamResults, rcBeamDesign, beamBars } from '../core/structure.js';
+import { columnInputs, columnDesign, columnBars } from '../core/columns.js';
+import { slabInputs, flatSlabDesign, flatSlabBars } from '../core/slabs.js';
+import { loadTakedown, capInputs, pileCapLayout, pileCapDesign, pileCapBars } from '../core/foundations.js';
+import { axisFrame } from '../core/detail.js';
 import { sha256, canonicalJSON } from '../core/hash.js';
+import { createReferenceFrame } from '../core/reference.js';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const f = (x, d = 2) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : x.toFixed(d));
+const KINDS = [['beam', 'Beams'], ['slab', 'Slabs & punching'], ['column', 'Columns'], ['pilecap', 'Pile caps & piles'], ['loads', 'Load path']];
+const P = (v, unit = '') => ({ value: v, unit });
 
 export class PageStructure extends HTMLElement {
   connectedCallback() {
     this.app = this.closest('coral-app'); this.classList.add('page-scroll');
-    this.combo = 'U2'; this.diagram = 'M'; this.state = null; this.busy = false;
-    this.onChange = () => this.refresh();
-    this.app.addEventListener('regenerate', this.onChange); this.app.addEventListener('select', this.onChange);
+    this.kind = 'beam'; this.combo = 'U2'; this.diagram = 'M'; this.designs = new Map(); this.status = ''; this.busy = false;
+    this.onChange = () => this.render(); this.onSelect = () => { const id = [...this.app.selection][0]; const e = id && this.app.model.get(id); if (e && this.designs.has(e.id)) { this.kind = e.type; this.selected = e.id; this.render(); } };
+    this.app.addEventListener('regenerate', this.onChange); this.app.addEventListener('select', this.onSelect);
     globalThis.coralStructure = this;
-    this.refresh();
-  }
-  disconnectedCallback() { this.app.removeEventListener('regenerate', this.onChange); this.app.removeEventListener('select', this.onChange); }
-
-  get beam() {
-    const m = this.app.model; const sel = [...this.app.selection].map(id => m.get(id)).find(e => e?.type === 'beam');
-    const b = sel || m.get(this.beamId) || m.byType('beam')[0]; if (b) this.beamId = b.id; return b || null;
-  }
-  /** The design basis hash: everything the design of this beam depends on. Bars carry it; a mismatch is "stale". */
-  basisOf(p) { return sha256(canonicalJSON({ p, f: [beamModel.version, beamResults.version, rcBeamDesign.version, beamBars.version] })); }
-
-  async refresh() {
-    const b = this.beam; if (!b) { this.state = null; this.render(); return; }
-    const m = this.app.model; let p, bm;
-    try { p = beamInputs(m, b); bm = beamModel.run(p); } catch (err) { this.state = { beam: b, error: err.message }; this.render(); return; }
-    const basis = this.basisOf(p);
-    if (this.state?.basis === basis && this.state.design) { this.render(); return; }
-    this.state = { beam: b, p, bm, basis, pending: true }; this.render();
-    const token = (this.token = (this.token || 0) + 1);
-    try {
-      const r = await this.app.api.analyse(this.app.project, { element: b.id, function: beamModel.name, version: beamModel.version, model: bm.engine });
-      if (token !== this.token) return;
-      const res = beamResults.run({ output: r.output, n: bm.n, L: bm.L });
-      const design = rcBeamDesign.run({ p, res, L: bm.L });
-      this.state = { beam: b, p, bm, basis, analysis: r, res, design };
-    } catch (err) { if (token === this.token) this.state = { beam: b, p, bm, basis, error: err.message }; }
     this.render();
   }
+  disconnectedCallback() { this.app.removeEventListener('regenerate', this.onChange); this.app.removeEventListener('select', this.onSelect); }
 
-  bars() { const b = this.state?.beam; return b ? this.app.model.all().filter(e => e.type === 'rebar' && e.parent === b.id) : []; }
-  barStatus() {
-    const bars = this.bars(); if (!bars.length) return { text: 'no reinforcement', cls: 'dim' };
-    const stale = bars.filter(x => x.params.basis?.value !== this.state.basis).length;
+  get model() { return this.app.model; }
+  basis(kind, inputs, versions) { return sha256(canonicalJSON({ kind, inputs, versions })); }
+
+  // ---- design ---------------------------------------------------------------------------------------
+  async designAll() {
+    this.busy = true; this.status = 'designing…'; this.render();
+    const m = this.model, designs = new Map(), errors = [];
+    try {
+      // beams through the engine
+      const beamReactions = [];
+      for (const b of m.byType('beam')) {
+        try {
+          const p = beamInputs(m, b), bm = beamModel.run(p);
+          const r = await this.app.api.analyse(this.app.project, { element: b.id, function: beamModel.name, version: beamModel.version, model: bm.engine });
+          const res = beamResults.run({ output: r.output, bm }), design = rcBeamDesign.run({ p, res, bm });
+          designs.set(b.id, { kind: 'beam', el: b, p, bm, res, design, analysis: r, basis: this.basis('beam', p, [beamModel.version, beamResults.version, rcBeamDesign.version, beamBars.version]) });
+          const F = axisFrame(p.start, p.end);
+          res.cases.D.R.forEach((rr, j) => { const L = Object.keys(res.cases).filter(k => k.startsWith('L')).reduce((a, k) => a + res.cases[k].R[j].F[2], 0); beamReactions.push({ beam: b.id, at: F.W(rr.at, 0, 0).slice(0, 2), z: p.zTop, D: rr.F[2], L }); });
+        } catch (err) { errors.push(`${b.name}: ${err.message}`); designs.set(b.id, { kind: 'beam', el: b, error: err.message }); }
+      }
+      // slabs
+      const slabReactions = [];
+      for (const sl of m.byType('slab').filter(s => m.byType('column').length)) {
+        try { const s = slabInputs(m, sl); if (!s.cols.length) continue; const design = flatSlabDesign.run(s); designs.set(sl.id, { kind: 'slab', el: sl, s, design, basis: this.basis('slab', s, [flatSlabDesign.version, flatSlabBars.version]) }); slabReactions.push(...design.reactions); }
+        catch (err) { errors.push(`${sl.name}: ${err.message}`); designs.set(sl.id, { kind: 'slab', el: sl, error: err.message }); }
+      }
+      // load path, columns, caps
+      const cols = m.byType('column').map(c => columnInputs(m, c));
+      const capEls = m.byType('pilecap'), caps = capEls.map(c => capInputs(m, c)).map(c => ({ ...c, size: c.size, H: c.H }));
+      const take = loadTakedown.run({ columns: cols, slabReactions, beamReactions, caps });
+      this.takedown = take; this.beamReactions = beamReactions;
+      for (const c of cols) {
+        const ld = take.columns.find(q => q.column === c.id), el = m.get(c.id);
+        try { const design = columnDesign.run({ c, Pu_kN: ld.Pu, Mux_kNm: ld.Mux, Muy_kNm: ld.Muy }); designs.set(c.id, { kind: 'column', el, c, load: ld, design, basis: this.basis('column', { c, ld }, [columnDesign.version, columnBars.version]) }); }
+        catch (err) { errors.push(`${c.name}: ${err.message}`); designs.set(c.id, { kind: 'column', el, error: err.message }); }
+      }
+      for (const cap of caps) {
+        const ld = take.caps.find(q => q.cap === cap.id), colIn = cols.find(c => c.id === cap.column), cd = designs.get(cap.column)?.design, el = m.get(cap.id);
+        try { const design = pileCapDesign.run({ cap, col: { b: colIn.b, h: colIn.h, fy: colIn.fy, dowel_db: cd?.bars.main.db }, load: { D: ld.D, L: ld.L, Pu: ld.Pu, Mux: ld.Mux, Muy: ld.Muy } }); designs.set(cap.id, { kind: 'pilecap', el, cap, load: ld, design, basis: this.basis('pilecap', { cap, ld }, [pileCapDesign.version, pileCapBars.version]) }); }
+        catch (err) { errors.push(`${cap.name}: ${err.message}`); designs.set(cap.id, { kind: 'pilecap', el, error: err.message }); }
+      }
+      this.designs = designs; this.errors = errors;
+      this.status = `${designs.size} elements designed${errors.length ? `, ${errors.length} errors` : ''}`;
+    } finally { this.busy = false; this.render(); }
+    return { designs: this.designs, errors: this.errors };
+  }
+
+  /**
+   * Create a pile cap with its piles under every column that stands on no cap. A search, cheapest first: pile
+   * diameter (with its ASSUMED allowable load) × cap depth, keeping the first arrangement whose governing
+   * check passes; the best failing one is kept and flagged when none passes.
+   */
+  createFoundations({ level } = {}) {
+    const m = this.model, take = this.takedown; if (!take) throw new Error('design first: the pile count comes from the column loads');
+    const OPTIONS = [{ D: 0.45, Q: 900 }, { D: 0.6, Q: 1300 }, { D: 0.75, Q: 1800 }], DEPTHS = [0.9, 1.0, 1.2, 1.4, 1.6];
+    let made = 0; this.foundationNotes = [];
+    m.batch('create foundations', () => {
+      const lvl = level || m.byType('level').reduce((lo, l) => (!lo || (l.params.elevation?.value ?? 0) < (lo.params.elevation?.value ?? 0) ? l : lo), null);
+      for (const c of m.byType('column')) {
+        if (m.byType('pilecap').some(k => k.params.column?.value === c.id)) continue;
+        const ci = columnInputs(m, c), ld = take.columns.find(q => q.column === c.id), cd = this.designs.get(c.id)?.design;
+        let best = null;
+        search: for (const o of OPTIONS) for (const H of DEPTHS) {
+          const proto = { spacing: 3 * o.D, pile_D: o.D, edge: 0.15, H, unit_weight: 23.6, Qallow: o.Q };
+          const gb0 = (this.beamReactions || []).filter(r => r.z <= ci.z0 + 1e-6 && Math.hypot(r.at[0] - ci.center[0], r.at[1] - ci.center[1]) < 0.5);
+          const lay = pileCapLayout.run({ cap: proto, D: ld.D + gb0.reduce((a, r) => a + r.D, 0), L: ld.L + gb0.reduce((a, r) => a + r.L, 0), Mx: ld.Mux, My: ld.Muy });
+          const cap = { id: 'trial', name: 'trial', column: c.id, center: ci.center, size: lay.size, H, zTop: ci.z0, fc: 28, fy: 420, cover: 0.075, embed: 0.075, bar: '#7', unit_weight: 23.6, pile_D: o.D, pile_length: 12, Qallow: o.Q, spacing: 3 * o.D, edge: 0.15,
+            piles: lay.layout.map(([x, y], i) => ({ id: `p${i}`, at: [ci.center[0] + x, ci.center[1] + y], D: o.D, length: 12, fc: 28, fy: 420 })) };
+          // grade-beam reactions that will land on this trial cap (below the column base, inside its footprint)
+          const gb = (this.beamReactions || []).filter(r => r.z <= ci.z0 + 1e-6 && Math.abs(r.at[0] - ci.center[0]) <= lay.size[0] / 2 && Math.abs(r.at[1] - ci.center[1]) <= lay.size[1] / 2);
+          const self = 23.6 * lay.size[0] * lay.size[1] * H, Dt = ld.D + self + gb.reduce((a, r) => a + r.D, 0), Lt = ld.L + gb.reduce((a, r) => a + r.L, 0);
+          const des = pileCapDesign.run({ cap, col: { b: ci.b, h: ci.h, fy: ci.fy, dowel_db: cd?.bars.main.db }, load: { D: Dt, L: Lt, Pu: Math.max(1.4 * Dt, 1.2 * Dt + 1.6 * Lt), Mux: ld.Mux, Muy: ld.Muy } });
+          const u = des.governing.util, trial = { o, H, lay, u, gov: des.governing.name, concrete: lay.size[0] * lay.size[1] * H + lay.layout.length * Math.PI * o.D ** 2 / 4 * 12 };
+          if (!best || (u <= 1 && (best.u > 1 || trial.concrete < best.concrete)) || (best.u > 1 && u < best.u)) best = trial;
+          if (u <= 1) break search;
+        }
+        const { o, H, lay } = best;
+        if (best.u > 1) this.foundationNotes.push(`${c.name}: no searched arrangement passes (best ${best.gov} ${best.u.toFixed(2)})`);
+        const cap = m.create({ type: 'pilecap', name: `K-${c.name}`, parent: lvl.id, params: { column: P(c.id, 'id'), center: P(ci.center, 'm'), size: P(lay.size.map(v => Math.round(v * 1000) / 1000), 'm'), thickness: P(H, 'm'), top: P(ci.z0, 'm'),
+          fc: P(28, 'MPa'), fy: P(420, 'MPa'), cover: P(0.075, 'm'), pile_embed: P(0.075, 'm'), bar: P('#7'), pile_diameter: P(o.D, 'm'), pile_length: P(12, 'm'), pile_spacing: P(3 * o.D, 'm'), pile_edge: P(0.15, 'm'), pile_allowable_kN: P(o.Q, 'kN') },
+          provenance: { source: `${pileCapLayout.name}@${pileCapLayout.version}+${pileCapDesign.name}@${pileCapDesign.version}`, trace: '', method: 'designed', note: `${lay.layout.length} × Ø${o.D * 1000} piles, cap ${H} m, chosen by search (governing ${best.gov} ${best.u.toFixed(2)}); allowable pile load ${o.Q} kN ASSUMED (no site investigation)` } });
+        lay.layout.forEach(([x, y], i) => m.create({ type: 'pile', name: `${cap.name}-P${i + 1}`, parent: cap.id, params: { center: P([ci.center[0] + x, ci.center[1] + y].map(v => Math.round(v * 1e6) / 1e6), 'm'), diameter: P(o.D, 'm'), length: P(12, 'm'), fc: P(28, 'MPa'), fy: P(420, 'MPa') },
+          provenance: { source: `${pileCapLayout.name}@${pileCapLayout.version}`, trace: cap.id, method: 'designed', note: 'bored cast-in-place pile; length 12 m assumed' } }));
+        made++;
+      }
+    });
+    this.app.regenerate(); return made;
+  }
+
+  // ---- reinforcement -----------------------------------------------------------------------------------
+  barsOf(id) { return this.model.all().filter(e => (e.type === 'rebar' || e.type === 'punching_zone') && e.parent === id); }
+  barStatus(id) {
+    const d = this.designs.get(id), bars = this.barsOf(id).filter(b => b.type === 'rebar'); if (!bars.length) return { text: 'no reinforcement', cls: 'dim' };
+    if (!d || d.error) return { text: `${bars.length} bars, not designed in this session`, cls: 'dim' };
+    const stale = bars.filter(x => x.params.basis?.value !== d.basis).length;
     return stale ? { text: `${stale} of ${bars.length} bars designed for other inputs: regenerate`, cls: 'bad' } : { text: `${bars.length} bars, current`, cls: 'ok' };
   }
-  generateBars() {
-    const { beam, p, design, basis } = this.state; const m = this.app.model;
-    const out = beamBars.run({ p, design, beamId: beam.name });
-    for (const old of this.bars()) m.remove(old.id);
-    for (const x of out.bars) {
-      m.create({ type: 'rebar', name: x.name, parent: beam.id, params: {
-        shape: { value: x.shape, unit: '' }, designation: { value: x.designation, unit: '' }, diameter: { value: x.diameter, unit: 'm' }, path: { value: x.path.map(q => q.map(v => Math.round(v * 1e6) / 1e6)), unit: 'm' },
-        mark: { value: x.mark, unit: '' }, ...(x.face ? { face: { value: x.face, unit: '' } } : {}), cover: { value: x.cover, unit: 'm' },
-        ...(x.spacing ? { spacing: { value: x.spacing, unit: 'm' } } : {}), ...(x.anchorage_start !== undefined ? { anchorage_start: { value: x.anchorage_start, unit: 'm' }, anchorage_end: { value: x.anchorage_end, unit: 'm' } } : {}),
-        steel: { value: `ASTM A615 Grade ${Math.round(p.fy / 6.894757)}ksi-equivalent fy ${p.fy} MPa`, unit: '' }, basis: { value: basis, unit: '' }, verification: { value: 'designed, unchecked by a person', unit: '' } },
-        provenance: { source: `${rcBeamDesign.name}@${rcBeamDesign.version}`, trace: this.state.analysis.model_sha, method: 'designed', note: `${beamBars.name}@${beamBars.version}; engine ${this.state.analysis.engine.slice(0, 12)}; ACI 318-19 (unverified ruleset)` } });
-    }
-    this.app.regenerate(); this.render();
+  generateAll(ids = null) {
+    const m = this.model; let n = 0;
+    m.batch('generate reinforcement', () => {
+      for (const [id, d] of this.designs) {
+        if (d.error || (ids && !ids.includes(id))) continue;
+        for (const old of this.barsOf(id)) m.remove(old.id);
+        let out;
+        if (d.kind === 'beam') out = beamBars.run({ p: d.p, design: d.design, beamId: d.el.name }).bars;
+        else if (d.kind === 'column') { const cap = m.byType('pilecap').find(k => k.params.column?.value === id); const base = cap ? { zBottomMat: (cap.params.top.value - cap.params.thickness.value) + (cap.params.pile_embed?.value ?? 0.075) + 0.03 } : null; out = columnBars.run({ c: d.c, design: d.design, base }).bars; }
+        else if (d.kind === 'pilecap') out = pileCapBars.run({ cap: d.cap, design: d.design }).bars;
+        else if (d.kind === 'slab') { const r = flatSlabBars.run({ s: d.s, design: d.design }); out = [...r.bars, ...r.rails];
+          for (const z of r.zones) m.create({ type: 'punching_zone', name: z.name, parent: id, params: { path: P(z.path, 'm'), column: P(z.column, 'id'), section: P(z.section), util: P(Math.round(z.util * 1000) / 1000), basis: P(d.basis) }, provenance: { source: `${flatSlabDesign.name}@${flatSlabDesign.version}`, trace: d.basis, method: 'designed', note: 'critical perimeter (ACI 318-19 22.6.4)' } }); }
+        for (const x of out) {
+          const params = { shape: P(x.shape), designation: P(x.designation), diameter: P(x.diameter, 'm'), path: P(x.path, 'm'), mark: P(x.mark), basis: P(d.basis), verification: P('designed, unchecked by a person') };
+          for (const k of ['face', 'cover', 'spacing', 'anchorage_start', 'anchorage_end', 'role', 'studs', 'stud_spacing', 'first_stud', 'stud_height', 'mass_kg', 'pitch', 'strip', 'location']) if (x[k] !== undefined) params[k] = P(typeof x[k] === 'number' ? Math.round(x[k] * 1e6) / 1e6 : x[k], ['cover', 'spacing', 'anchorage_start', 'anchorage_end', 'stud_spacing', 'first_stud', 'stud_height', 'pitch'].includes(k) ? 'm' : k === 'mass_kg' ? 'kg' : '');
+          const fn = { beam: rcBeamDesign, column: columnDesign, pilecap: pileCapDesign, slab: flatSlabDesign }[d.kind];
+          m.create({ type: 'rebar', name: x.name, parent: id, params, provenance: { source: `${fn.name}@${fn.version}`, trace: d.analysis?.model_sha ?? d.basis, method: 'designed', note: d.kind === 'beam' ? `engine ${d.analysis.engine.slice(0, 12)}; ACI 318-19 (unverified ruleset)` : 'ACI 318-19 (unverified ruleset)' } });
+          n++;
+        }
+      }
+    });
+    this.app.regenerate(); this.render(); return n;
   }
 
+  // ---- view -----------------------------------------------------------------------------------------
   render() {
-    const s = this.state, m = this.app.model;
-    const beams = m.byType('beam');
-    const head = `<h2>03 · Structure — beam analysis, design and reinforcement</h2>
-      <div class="card"><div class="form" style="grid-template-columns:140px 1fr">
-        <label>Beam</label><select id="beam">${beams.map(b => `<option value="${esc(b.id)}" ${b.id === s?.beam?.id ? 'selected' : ''}>${esc(b.name)}</option>`).join('') || '<option>none: add a beam on page 02</option>'}</select>
-        <label>Engine</label><span class="mono">${this.app.status.health?.engine ? 'stiffness ' + esc(this.app.status.health.engine.slice(0, 16)) + '…' : '<span class="pill bad">not configured: start coral-service with --engine</span>'}</span>
-      </div></div>`;
-    if (!s) { this.innerHTML = head + '<div class="hint">No beam in the model. Use “+ Beam” on page 02.</div>'; this.bindHead(); return; }
-    if (s.error) { this.innerHTML = head + `<div class="card"><span class="pill bad">error</span> ${esc(s.error)}</div>`; this.bindHead(); return; }
-    if (s.pending) { this.innerHTML = head + '<div class="card">Analysing…</div>'; this.bindHead(); return; }
-    const { p, bm, res, design, analysis } = s; const c = res.combos[this.combo]; const st = this.barStatus();
-    const rows = design.checks.map(k => `<tr><td>${esc(k.name)}</td><td class="mono">${esc(k.clause)}</td><td>${f(k.demand)}</td><td>${f(k.capacity)}</td><td><span class="pill ${k.util <= 1 ? 'ok' : 'bad'}">${f(k.util, 3)}</span></td></tr>`).join('');
-    const face = n => { const x = design.faces[n]; return x?.error ? `<span class="pill bad">${esc(x.error)}</span>` : `${x.n} ${esc(x.bar)} (As ${f(x.As, 0)} mm² ≥ ${f(x.As_req, 0)} req.) · φMn ${f(x.phiMn_kNm, 1)} kN·m · ${esc(x.class)}`; };
-    this.innerHTML = head + `
-      <div class="card"><h3>Inputs</h3><table>
-        <tr><th>Span</th><td>${f(bm.L, 3)} m, ${esc(p.support_start)} → ${esc(p.support_end)}, ${bm.n} Timoshenko segments</td><th>Section</th><td>${f(p.b * 1000, 0)} × ${f(p.h * 1000, 0)} mm, cover ${f(p.cover * 1000, 0)} mm</td></tr>
-        <tr><th>Concrete</th><td>f′c ${p.fc} MPa, Ec ${f(bm.material.E / 1000, 0)} MPa (ACI 19.2.2.1b), γ ${p.unit_weight} kN/m³</td><th>Steel</th><td>fy ${p.fy} MPa, fyt ${p.fyt} MPa, bars ${esc(p.bar_main)} / stirrups ${esc(p.bar_stirrup)}</td></tr>
-        <tr><th>Loads</th><td>D = ${f(bm.loads.wD, 3)} kN/m (self-weight ${f(bm.loads.selfweight, 3)} + SDL ${p.sdl}); L = ${f(bm.loads.wL, 3)} kN/m</td><th>Ruleset</th><td>${esc(design.ruleset.id)} <span class="pill warn">${esc(design.ruleset.status)}</span></td></tr></table></div>
-      <div class="card"><h3>Analysis <span class="pill ${analysis.cached ? 'dim' : 'ok'}">${analysis.cached ? 'from cache' : 'engine run'}</span></h3>
-        <div class="toolbar" style="border:none;padding:0 0 8px">
-          <label>Combination <select id="combo">${Object.entries(res.combos).map(([k, v]) => `<option value="${k}" ${k === this.combo ? 'selected' : ''}>${k}: ${Object.entries(v.factors).map(([a, b]) => `${b}${a}`).join(' + ')}</option>`).join('')}</select></label>
-          ${['M', 'V', 'w'].map(d => `<button data-d="${d}" aria-pressed="${this.diagram === d}">${{ M: 'Moment', V: 'Shear', w: 'Deflection' }[d]}</button>`).join('')}
-        </div>
-        <canvas id="diag" style="width:100%;height:220px;background:var(--bg);border-radius:4px"></canvas>
-        <table><tr><th>${esc(this.combo)}</th><th>M max</th><th>M min</th><th>|V| max</th><th>|w| max</th><th>R start (Fz, My)</th><th>R end (Fz, My)</th></tr>
-          <tr><td></td><td>${f(c.Mmax)} kN·m</td><td>${f(c.Mmin)} kN·m</td><td>${f(c.Vabs)} kN</td><td>${f(c.wabs * 1000, 3)} mm</td><td>${f(c.R.start[2])} kN, ${f(c.R.start[4])} kN·m</td><td>${f(c.R.end[2])} kN, ${f(c.R.end[4])} kN·m</td></tr></table>
-        <div class="hint">Envelope: M⁺ ${f(res.envelope.Mpos)} (${res.envelope.governs.Mpos}), M⁻ ${f(res.envelope.Mneg)} (${res.envelope.governs.Mneg}), Vu ${f(res.envelope.Vu)} kN (${res.envelope.governs.Vu}). Signs: sagging positive, V = dM/dx, w up positive. Gross-section stiffness.</div>
-        <div class="hint mono">model ${esc(analysis.model_sha.slice(0, 16))}… · engine ${esc(analysis.engine.slice(0, 16))}… · ${esc(analysis.function)} · ${esc(beamResults.name)}@${esc(beamResults.version)}</div></div>
-      <div class="card"><h3>Design — ${esc(design.ruleset.id)} <span class="hint">governing: ${esc(design.governing?.name)} (${f(design.governing?.util, 3)})</span></h3>
-        <table><tr><th>Top</th><td>${face('top')}</td></tr><tr><th>Bottom</th><td>${face('bottom')}</td></tr>
-          <tr><th>Stirrups</th><td>${esc(design.bars.stirrup.id)} 2-leg @ ${design.shear.s} mm (max ${f(design.shear.s_max, 0)}) · φVn ${f(design.shear.phiVn_kN, 1)} kN vs Vu ${f(design.shear.Vu_kN, 1)} kN</td></tr>
-          <tr><th>d</th><td>${f(design.d, 1)} mm · ld top ${f(design.anchorage.top, 0)} mm, bottom ${f(design.anchorage.bottom, 0)} mm (25.4.2.3)</td></tr>
-          <tr><th>Deflection</th><td>immediate D ${f(design.deflection.immediate_D_mm, 2)} mm, D+L ${f(design.deflection.immediate_DL_mm, 2)} mm, L ${f(design.deflection.immediate_L_mm, 2)} mm (limit ${f(design.deflection.limit_L_mm, 1)}); long-term D ${f(design.deflection.long_term_D_mm, 2)} mm (λΔ ${f(design.deflection.lambda_delta, 2)}) · Ie/Ig ${f(design.deflection.Ie_DL / design.deflection.Ig, 3)}</td></tr></table>
-        <table style="margin-top:8px"><thead><tr><th>Check</th><th>Clause</th><th>Demand</th><th>Capacity</th><th>Utilisation</th></tr></thead><tbody>${rows}</tbody></table>
-        <div class="hint">Demand and capacity are in kN·m, kN, mm² or mm as the row's quantity requires. Utilisation ≤ 1 satisfies the row; no row is a pass/fail verdict on the structure. The ruleset is unverified against the printed code (FUNCTION_REGISTRY.md).</div></div>
-      <div class="card"><h3>Reinforcement <span class="pill ${st.cls}">${esc(st.text)}</span></h3>
-        <div class="actions" style="justify-content:flex-start"><button id="gen" class="primary">Generate reinforcement from this design</button></div>
-        ${this.bars().length ? `<table style="margin-top:8px"><thead><tr><th>Bar</th><th>Mark</th><th>Size</th><th>Shape</th><th>Length</th><th>Status</th></tr></thead><tbody>${this.bars().slice(0, 60).map(x => { const r = m.result(x.id); return `<tr><td>${esc(x.name)}</td><td>${esc(x.params.mark?.value)}</td><td>${esc(x.params.designation?.value)}</td><td>${esc(x.params.shape?.value)}</td><td>${f(r?.length_m, 3)} m</td><td>${x.params.basis?.value === s.basis ? '<span class="pill ok">current</span>' : '<span class="pill bad">stale</span>'}</td></tr>`; }).join('')}</tbody></table>` : ''}
-      </div>`;
-    this.bindHead();
-    this.querySelector('#combo').onchange = e => { this.combo = e.target.value; this.render(); };
+    if (this.busy && this.querySelector('.card')) { const st = this.querySelector('#status'); if (st) st.textContent = this.status; return; }
+    const m = this.model, list = this.kind === 'loads' ? [] : m.byType(this.kind);
+    const engine = this.app.status.health?.engine;
+    const head = `<h2>03 · Structure — design and detailing</h2>
+      <div class="card"><div class="actions" style="justify-content:flex-start;flex-wrap:wrap">
+        <button id="ref">Create reference frame (synthetic)</button>
+        <button id="design" class="primary">Design all</button>
+        <button id="found" ${this.takedown ? '' : 'disabled'}>Create foundations under columns</button>
+        <button id="gen" ${this.designs.size ? '' : 'disabled'}>Generate reinforcement</button>
+        <span class="hint" id="status">${esc(this.status)}</span></div>
+        <div class="hint">Engine ${engine ? 'stiffness ' + esc(engine.slice(0, 16)) + '…' : '<span class="pill bad">not configured</span>'} · ruleset ACI 318-19 <span class="pill warn">unverified against printed text</span>${this.errors?.length ? ` · <span class="pill bad">${this.errors.length} errors</span> ${esc(this.errors.join('; ').slice(0, 300))}` : ''}</div></div>
+      <div class="toolbar" style="border:1px solid var(--line);border-radius:6px;margin-bottom:12px">${KINDS.map(([k, label]) => `<button data-kind="${k}" aria-pressed="${this.kind === k}">${label} (${k === 'loads' ? (this.takedown ? '✓' : '—') : m.byType(k).length})</button>`).join('')}</div>`;
+    let body = '';
+    if (this.kind === 'loads') body = this.loadsView();
+    else {
+      const rows = list.map(e => { const d = this.designs.get(e.id), g = d?.design?.governing, st = this.barStatus(e.id);
+        return `<tr data-id="${esc(e.id)}" style="cursor:pointer;${e.id === this.selected ? 'background:color-mix(in srgb, var(--accent) 12%, transparent)' : ''}"><td><b>${esc(e.name)}</b></td><td>${d?.error ? `<span class="pill bad">${esc(d.error)}</span>` : g ? esc(g.name) : '<span class="hint">not designed</span>'}</td><td>${g ? `<span class="pill ${g.util <= 1 ? 'ok' : 'bad'}">${f(g.util, 3)}</span>` : ''}</td><td><span class="pill ${st.cls}">${esc(st.text)}</span></td></tr>`; }).join('');
+      body = `<div class="card"><table><thead><tr><th>Element</th><th>Governing check</th><th>Utilisation</th><th>Reinforcement</th></tr></thead><tbody>${rows || '<tr><td colspan="4" class="hint">none in the model</td></tr>'}</tbody></table></div>`;
+      const sel = this.designs.get(this.selected); if (sel && sel.kind === this.kind && !sel.error) body += this.detailView(sel);
+    }
+    this.innerHTML = head + body;
+    this.querySelector('#ref').onclick = () => { createReferenceFrame(this.app); this.status = 'reference frame created'; this.render(); };
+    this.querySelector('#design').onclick = () => this.designAll();
+    this.querySelector('#found').onclick = () => { const n = this.createFoundations(); this.status = `${n} pile caps created; design again to check them`; this.render(); };
+    this.querySelector('#gen').onclick = () => { const n = this.generateAll(); this.status = `${n} bars and rails generated`; this.render(); };
+    for (const b of this.querySelectorAll('[data-kind]')) b.onclick = () => { this.kind = b.dataset.kind; this.render(); };
+    for (const tr of this.querySelectorAll('tr[data-id]')) tr.onclick = () => { this.selected = tr.dataset.id; this.app.select([tr.dataset.id]); this.render(); };
+    const combo = this.querySelector('#combo'); if (combo) combo.onchange = e => { this.combo = e.target.value; this.render(); };
     for (const b of this.querySelectorAll('[data-d]')) b.onclick = () => { this.diagram = b.dataset.d; this.render(); };
-    this.querySelector('#gen').onclick = () => this.generateBars();
     this.drawDiagram();
   }
-  bindHead() { const sel = this.querySelector('#beam'); if (sel) sel.onchange = e => { this.beamId = e.target.value; this.app.select([e.target.value]); }; }
+  checksTable(d) { return `<table style="margin-top:8px"><thead><tr><th>Check</th><th>Clause</th><th>Demand</th><th>Capacity</th><th>Utilisation</th></tr></thead><tbody>${d.design.checks.map(k => `<tr><td>${esc(k.name)}</td><td class="mono">${esc(k.clause)}</td><td>${f(k.demand, 3)}</td><td>${f(k.capacity, 3)}</td><td>${k.superseded ? `<span class="pill dim" title="${esc(k.superseded)}">${f(k.util, 3)} superseded</span>` : `<span class="pill ${k.util <= 1 ? 'ok' : 'bad'}">${f(k.util, 3)}</span>`}</td></tr>`).join('')}</tbody></table>
+    <div class="hint">Utilisation ≤ 1 satisfies the row; no row is a verdict on the structure. Units as the row's quantity requires (kN, kN·m, MPa, mm, mm²).</div>`; }
+  detailView(d) {
+    const e = d.el, x = d.design;
+    if (d.kind === 'beam') {
+      const c = d.res.combos[this.combo] || d.res.combos.U2;
+      return `<div class="card"><h3>${esc(e.name)} — ${d.bm.intervals.length} interval(s), supports ${d.bm.supports.map(s => `${s.type}@${f(s.at, 2)}`).join(', ')} <span class="pill ${d.analysis.cached ? 'dim' : 'ok'}">${d.analysis.cached ? 'from cache' : 'engine run'}</span></h3>
+        <div class="toolbar" style="border:none;padding:0 0 8px"><label>Combination <select id="combo">${Object.entries(d.res.combos).map(([k, v]) => `<option value="${k}" ${k === this.combo ? 'selected' : ''}>${k}: ${Object.entries(v.factors).map(([a, b]) => `${b}${a}`).join(' + ')}</option>`).join('')}</select></label>
+        ${['M', 'V', 'w', 'E'].map(q => `<button data-d="${q}" aria-pressed="${this.diagram === q}">${{ M: 'Moment', V: 'Shear', w: 'Deflection', E: 'Envelope' }[q]}</button>`).join('')}</div>
+        <canvas id="diag" style="width:100%;height:220px;background:var(--bg);border-radius:4px"></canvas>
+        <div class="hint">Loads D ${f(d.bm.loads.wD, 3)} kN/m, L ${f(d.bm.loads.wL, 3)} kN/m · ${esc(this.combo)}: M ${f(c.Mmin)} … ${f(c.Mmax)} kN·m, |V| ${f(c.Vabs)} kN, |w| ${f(c.wabs * 1000, 3)} mm · reactions ${c.R.map(r => f(r.F[2], 1)).join(', ')} kN</div>
+        <table style="margin-top:8px"><tr><th>Top regions</th><td>${x.top.map((r, k) => `T${k + 1}: ${f(r.x0, 2)}–${f(r.x1, 2)} m, ${r.n} ${r.bar} (Mu ${f(r.Mu, 1)}, φMn ${f(r.phiMn_kNm, 1)})`).join('<br>') || 'none (no hogging)'}</td></tr>
+          <tr><th>Bottom</th><td>${x.bottom.map((r, k) => `B${k + 1}: ${f(r.x0, 2)}–${f(r.x1, 2)} m, ${r.n} ${r.bar} (Mu ${f(r.Mu, 1)}, φMn ${f(r.phiMn_kNm, 1)})`).join('<br>')}</td></tr>
+          <tr><th>Stirrups</th><td>${x.shear.map(s => `span ${s.interval + 1}: ${x.bars.stirrup.id} @ ${s.s} mm (Vu ${f(s.Vu_kN, 1)}, φVn ${f(s.phiVn_kN, 1)})`).join('<br>')}</td></tr></table>${this.checksTable(d)}</div>`;
+    }
+    if (d.kind === 'column') return `<div class="card"><h3>${esc(e.name)} — Pu ${f(x.Pu_kN, 1)} kN, Mux ${f(x.Mux_kNm, 1)}, Muy ${f(x.Muy_kNm, 1)} kN·m (magnified, ≥ minimum)</h3>
+      <div class="hint">${x.layout.n} ${x.layout.bar} (${x.layout.nx} × ${x.layout.ny} a face), ρ ${f(x.layout.rho * 100, 2)} % · ties ${x.ties.bar} @ ${x.ties.s} mm · kℓu/r ${f(x.slender.x.slenderness, 1)} / ${f(x.slender.y.slenderness, 1)} vs ${x.slender.limit} (δ ${f(x.slender.x.delta, 3)}, ${f(x.slender.y.delta, 3)}) · φPn,max ${f(x.phiPnMax_kN, 0)} kN · dowel lap ${f(x.dowel.lap, 0)} mm · load from: ${esc([d.load.slab ? 'slab' : '', ...d.load.beams].filter(Boolean).join(', ') || 'stated loads')}</div>
+      <canvas id="diag" data-kind="pm" style="width:100%;height:260px;background:var(--bg);border-radius:4px;margin-top:8px"></canvas>${this.checksTable(d)}</div>`;
+    if (d.kind === 'slab') {
+      const pc = x.punching;
+      return `<div class="card"><h3>${esc(e.name)} — grid ${x.grid.xs.length} × ${x.grid.ys.length}, qu ${f(x.loads.qu, 2)} kN/m² (D ${f(x.loads.qD, 2)}, L ${f(x.loads.qL, 2)})</h3>
+        <table><thead><tr><th>Column</th><th>Location</th><th>Section</th><th>d</th><th>bo</th><th>Vu</th><th>vu</th><th>φvc</th><th>Util</th><th>Studs</th></tr></thead><tbody>${pc.flatMap(p => p.sections.map((s, i) => `<tr><td>${i ? '' : esc(p.name)}</td><td>${i ? '' : esc(p.location)}</td><td>${esc(s.label)}</td><td>${f(s.d_mm, 0)}</td><td>${f(s.bo_mm, 0)}</td><td>${f(s.Vu_kN, 1)}</td><td>${f(s.vu, 3)}</td><td>${f(s.phivc, 3)}</td><td><span class="pill ${s.util <= 1 ? 'ok' : 'bad'}">${f(s.util, 2)}</span></td><td>${i === 0 && p.rails ? `${p.rails.nRails} rails × ${p.rails.studs} ${p.rails.stud} @ ${p.rails.s} (outer ${f(p.rails.outer.util, 2)})` : ''}</td></tr>`)).join('')}</tbody></table>
+        <details style="margin-top:8px"><summary>Strips (${x.strips.x.strips.length + x.strips.y.strips.length})</summary><table>${['x', 'y'].flatMap(dir => x.strips[dir].strips.map(st => `<tr><td>${esc(st.kind)}</td><td>${f(st.width, 2)} m</td><td>${st.locations.map(l => `${esc(l.label)}: Mu ${f(l.Mu, 1)} → ${l.n ?? '—'} ${x.bar} @ ${l.spacing ?? '—'}`).join('<br>')}</td></tr>`)).join('')}</table></details>${this.checksTable(d)}</div>`;
+    }
+    if (d.kind === 'pilecap') return `<div class="card"><h3>${esc(e.name)} — ${d.cap.piles.length} piles Ø${f(d.cap.pile_D * 1000, 0)}, cap ${f(d.cap.size[0], 2)} × ${f(d.cap.size[1], 2)} × ${f(d.cap.H, 2)} m, d ${f(x.d, 0)} mm</h3>
+      <div class="hint">Load D ${f(d.load.D, 1)} kN, L ${f(d.load.L, 1)} kN, Pu ${f(d.load.Pu, 1)} kN, Mux ${f(d.load.Mux, 1)}, Muy ${f(d.load.Muy, 1)} kN·m · pile reactions Pu ${x.reactions.Pu.map(v => f(v, 0)).join(', ')} kN (Σ ${f(x.sumPu, 1)}) · service ${x.reactions.Ps.map(v => f(v, 0)).join(', ')} kN vs allowable ${d.cap.Qallow} kN <span class="pill warn">assumed</span> · mats ${x.faces.x.n} + ${x.faces.y.n} ${x.bar}${x.stm ? ` · strut-and-tie: lever ${f(x.stm.lever_mm, 0)} mm, struts ${x.stm.struts.map(q => `${f(q.F_kN, 0)} kN @ ${f(q.theta_deg, 1)}°`).join(', ')}` : ''}</div>${this.checksTable(d)}</div>`;
+    return '';
+  }
+  loadsView() {
+    const t = this.takedown; if (!t) return '<div class="card hint">Design first: the load path is computed from the slab, beams and columns.</div>';
+    const sumCaps = t.caps.reduce((a, c) => a + c.D + c.L, 0), sumCols = t.columns.reduce((a, c) => a + c.D + c.L, 0);
+    const piles = [...this.designs.values()].filter(d => d.kind === 'pilecap' && !d.error).reduce((a, d) => a + d.design.reactions.Ps.reduce((p, v) => p + v, 0), 0);
+    return `<div class="card"><h3>Load path — equilibrium</h3><table>
+      <tr><th>Applied (service D + L)</th><td>slab ${f(t.applied.slab, 1)} + columns ${f(t.applied.columns, 1)} + beams ${f(t.applied.beams, 1)} + caps ${f(t.applied.caps, 1)} + stated ${f(t.applied.stated, 1)} = <b>${f(t.total, 1)} kN</b></td></tr>
+      <tr><th>Σ at column bases</th><td>${f(sumCols, 1)} kN</td></tr><tr><th>Σ at caps</th><td>${f(sumCaps, 1)} kN ${t.caps.length ? `(difference from applied ${f(sumCaps - t.total, 6)} kN)` : '(no caps yet)'}</td></tr>
+      <tr><th>Σ pile service reactions</th><td>${t.caps.length ? `${f(piles, 1)} kN` : '—'}</td></tr></table>
+      <table style="margin-top:8px"><thead><tr><th>Column</th><th>D</th><th>L</th><th>Pu</th><th>Mux</th><th>Muy</th><th>From</th></tr></thead><tbody>${t.columns.map(c => `<tr><td>${esc(c.name)}</td><td>${f(c.D, 1)}</td><td>${f(c.L, 1)}</td><td>${f(c.Pu, 1)}</td><td>${f(c.Mux, 1)}</td><td>${f(c.Muy, 1)}</td><td>${esc([c.slab ? 'slab' : '', ...c.beams.map(b => this.model.get(b)?.name)].filter(Boolean).join(', '))}</td></tr>`).join('')}</tbody></table></div>`;
+  }
   drawDiagram() {
-    const cv = this.querySelector('#diag'); if (!cv) return; const c = this.state.res.combos[this.combo];
+    const cv = this.querySelector('#diag'); if (!cv) return; const d = this.designs.get(this.selected); if (!d) return;
     const dpr = Math.min(devicePixelRatio || 1, 2), W = cv.clientWidth, H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr;
-    const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
-    const ys = this.diagram === 'w' ? c.w.map(v => v * 1000) : c[this.diagram]; const unit = { M: 'kN·m', V: 'kN', w: 'mm' }[this.diagram];
-    const xs = c.x, L = xs[xs.length - 1]; const ymax = Math.max(1e-9, ...ys.map(Math.abs));
-    const pad = 36, X = x => pad + (W - 2 * pad) * x / L, Y = y => H / 2 - (H / 2 - 20) * y / ymax;   // positive up (sagging plotted up)
+    const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H); g.font = '12px system-ui';
+    if (cv.dataset.kind === 'pm') {   // interaction curves with the demand point
+      const x = d.design, cx = x.curveX, cy = x.curveY, Mmax = Math.max(...cx.map(q => q[0]), ...cy.map(q => q[0]), x.Mux_kNm, x.Muy_kNm) * 1.1, Pmax = Math.max(...cx.map(q => q[1])) * 1.1, Pmin = Math.min(...cx.map(q => q[1]));
+      const X = m => 40 + (W - 60) * m / Mmax, Y = p => H - 24 - (H - 40) * (p - Pmin) / (Pmax - Pmin);
+      g.strokeStyle = '#8899aa'; g.beginPath(); g.moveTo(40, Y(0)); g.lineTo(W - 10, Y(0)); g.moveTo(40, 10); g.lineTo(40, H - 20); g.stroke();
+      for (const [curve, col] of [[cx, '#1f6fd1'], [cy, '#2b9a5e']]) { g.strokeStyle = col; g.lineWidth = 2; g.beginPath(); curve.forEach((q, i) => (i ? g.lineTo(X(q[0]), Y(q[1])) : g.moveTo(X(q[0]), Y(q[1])))); g.stroke(); }
+      g.fillStyle = '#d23c3c'; for (const M of [x.Mux_kNm, x.Muy_kNm]) { g.beginPath(); g.arc(X(M), Y(x.Pu_kN), 4, 0, 7); g.fill(); }
+      g.fillStyle = '#67788f'; g.fillText('φPn – φMn: about x (blue), about y (green); demand (red)', 46, 14); g.fillText('φMn kN·m →', W - 90, Y(0) - 4); g.fillText('φPn kN ↑', 44, 28); return;
+    }
+    const c = d.res.combos[this.combo] || d.res.combos.U2, xs = c.x, L = xs[xs.length - 1];
+    let series, unit;
+    if (this.diagram === 'E') { series = [d.res.envelope.Mmax, d.res.envelope.Mmin]; unit = 'kN·m'; }
+    else { series = [this.diagram === 'w' ? c.w.map(v => v * 1000) : c[this.diagram]]; unit = { M: 'kN·m', V: 'kN', w: 'mm' }[this.diagram]; }
+    const ymax = Math.max(1e-9, ...series.flat().map(Math.abs)), pad = 36, X = x => pad + (W - 2 * pad) * x / L, Y = y => H / 2 - (H / 2 - 20) * y / ymax;
     g.strokeStyle = '#8899aa'; g.lineWidth = 1; g.beginPath(); g.moveTo(X(0), Y(0)); g.lineTo(X(L), Y(0)); g.stroke();
-    g.fillStyle = 'rgba(31,111,209,0.18)'; g.strokeStyle = '#1f6fd1'; g.lineWidth = 2; g.beginPath(); g.moveTo(X(0), Y(0)); xs.forEach((x, i) => g.lineTo(X(x), Y(ys[i]))); g.lineTo(X(L), Y(0)); g.closePath(); g.fill();
-    g.beginPath(); xs.forEach((x, i) => (i ? g.lineTo(X(x), Y(ys[i])) : g.moveTo(X(x), Y(ys[i])))); g.stroke();
-    const k = ys.reduce((bi, v, i) => (Math.abs(v) > Math.abs(ys[bi]) ? i : bi), 0);
-    g.fillStyle = '#15223a'; g.font = '12px system-ui'; g.fillText(`${ys[k].toFixed(this.diagram === 'w' ? 3 : 2)} ${unit} at x = ${xs[k].toFixed(2)} m`, Math.min(X(xs[k]) + 6, W - 180), Y(ys[k]) + (ys[k] > 0 ? -6 : 14));
-    g.fillStyle = '#67788f'; g.fillText(`${{ M: 'Bending moment (sagging up)', V: 'Shear V = dM/dx', w: 'Deflection (up)' }[this.diagram]} · ${this.combo}`, pad, 14); g.fillText('0', 8, Y(0) + 4); g.fillText(`${L.toFixed(2)} m`, W - pad - 20, H - 6);
+    for (const s of d.bm.supports) { g.fillStyle = '#15223a'; g.beginPath(); g.moveTo(X(s.at), Y(0)); g.lineTo(X(s.at) - 6, Y(0) + 10); g.lineTo(X(s.at) + 6, Y(0) + 10); g.closePath(); g.fill(); }
+    series.forEach((ys, k) => { g.strokeStyle = k ? '#d9731a' : '#1f6fd1'; g.fillStyle = k ? 'rgba(217,115,26,0.15)' : 'rgba(31,111,209,0.15)'; g.lineWidth = 2; g.beginPath(); g.moveTo(X(0), Y(0)); xs.forEach((x, i) => g.lineTo(X(x), Y(ys[i]))); g.lineTo(X(L), Y(0)); g.closePath(); g.fill(); g.beginPath(); xs.forEach((x, i) => (i ? g.lineTo(X(x), Y(ys[i])) : g.moveTo(X(x), Y(ys[i])))); g.stroke(); });
+    if (this.diagram === 'E') for (const r of d.design.top) { g.strokeStyle = '#b03a2e'; g.lineWidth = 3; g.beginPath(); g.moveTo(X(r.x0), 18); g.lineTo(X(r.x1), 18); g.stroke(); }
+    g.fillStyle = '#67788f'; g.fillText(`${{ M: 'Bending moment (sagging up)', V: 'Shear V = dM/dx', w: 'Deflection (up)', E: 'Strength envelope; red bars: top-steel regions' }[this.diagram]} · ${unit}`, pad, 12);
   }
 }
 customElements.define('page-structure', PageStructure);
