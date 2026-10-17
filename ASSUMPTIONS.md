@@ -8,7 +8,9 @@ dezeen.com, designboom.com or any other page host (proxy CONNECT 403; name resol
 fetch tool). Project facts (Brasília, 2021, ~300 m², renovation of a 1980 house, precast pillars and an
 inverted slab, credits) were read from **search snippets** of those pages and are recorded in SOURCES.md
 and on the source record with that provenance; each is unverified until the page is read. Engineer,
-drawings and licence remain unknown. No dimension has been taken from Section Haus. The first milestone
+drawings and licence remain unknown. No dimension has been taken from Section Haus. Fallingwater (HABS PA-5346) is now the recommended
+candidate (SOURCES.md); its record and sheets are likewise unreachable from here, so no dimension has
+been taken from it either. The first milestone
 was run on a **synthetic fixture drawing** (app/fixtures/plan-fixture.svg) whose dimensions are known
 by construction; it is labelled as such on the drawing, in the source record (`status: synthetic`) and
 in every traced element's provenance (`source: src-fixture-plan-v1`). Acceptance criterion "a real

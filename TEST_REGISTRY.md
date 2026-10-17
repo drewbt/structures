@@ -1,7 +1,7 @@
 # Test registry
 
 Run everything: `./tests/run.sh` (build, service gate, unit tests, end to end). Last full run
-2026-10-17: service-gate 25/25, unit 28/28, e2e 38/38.
+2026-10-17: service-gate 25/25, unit 28/28, e2e 39/39.
 
 Categories are the specification's §11. Tolerances are stated with their reason.
 

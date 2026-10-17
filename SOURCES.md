@@ -7,7 +7,44 @@ Snippets are quoted by search engines and can be truncated or stale: each fact i
 the page is read**, and none has been used as a dimension in the model. Image hosts are unreachable;
 no drawing has been seen.
 
-## Section Haus — Debaixo do Bloco Arquitetura (preferred candidate, FI-CONC-006 §3)
+## Fallingwater (Edgar J. Kaufmann House) — HABS PA-5346 (recommended candidate, 2026-10-17)
+
+Found on the owner's instruction to look beyond ArchDaily for a notable house with public records and
+plans. Read from search snippets of the named records; the records themselves could not be opened
+(loc.gov and tile.loc.gov are denied by this environment's network policy).
+
+| Fact | Value | Record (read as snippet) |
+|---|---|---|
+| Record | HABS PA-5346, Library of Congress Prints & Photographs | https://www.loc.gov/pictures/item/pa1690/ |
+| Location | State Route 381, Stewart Township, Ohiopyle, Fayette County, Pennsylvania | LOC record |
+| Completed · clients | 1937 · Edgar J. and Lillian S. Kaufmann | LOC record |
+| Architect | Frank Lloyd Wright | LOC data pages (PA-5346-A) |
+| Record contents | 11 measured drawings, 4 data pages, 12 photos, 84 colour transparencies, 7 caption pages | LOC record |
+| Delineator | Nicole Zuber; 2010 Charles E. Peterson Prize entry | LOC record |
+| Sheets confirmed | 2 Site Plan · 3 Basement Plan · 5 Second Floor Plan · 6 Third Floor Plan · 7 South Elevation · 8 North & West Elevations · 10 Sections | https://www.loc.gov/resource/hhh.pa1690.sheet/?sp=2 … ?sp=10 |
+| Sheets not confirmed | 1, 4 (probably First Floor Plan), 9, 11 | — |
+| Data pages (PDF) | written history and description | https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa1600/pa1690/data/pa1690data.pdf |
+| Guest house | separate survey HABS PA-5346-A, erected 1939 | https://www.loc.gov/item/pa2187 |
+| Rights | LOC advisory: no known restrictions on images made by the U.S. Government; images copied from other sources may be restricted | LOC HABS item pages (general advisory) |
+| Structure | four reinforced-concrete cantilever beams projecting about 15 ft from masonry piers; concrete joists about 4 × 23 in at 4 ft centres; beam reinforcement doubled during construction from eight to sixteen 1 in square bars | secondary sources citing STRUCTURE magazine; https://www.engr.psu.edu/ae/thesis/failures/MKP/failures/failures.wikispaces.com/Fallingwater.html |
+| Performance | deflection up to about 7 in on a 15 ft cantilever, creep and suspected yielding of reinforcement | STRUCTURE, Sept 2005, https://moodle2.units.it/pluginfile.php/318416/mod_resource/content/1/Fallingwater-by-Gerard-Feldmann1.pdf |
+| Materials (one source) | concrete ultimate 5000 psi; steel yield 42000 psi | single secondary source, reliability uncertain |
+| Repair | external post-tensioning of three of four living-room beams, Robert Silman Associates with The Di Salvo Ericson Group, completed March 2002; tendon forces conflict between sources (780 kips / 26 strands vs 195 tons per side) | http://s3images.coroflot.com/user_files/individual_files/342972_2Qnlbzb6YXvUa9MfmUe1O_PDc.pdf ; https://info.aia.org/aiarchitect/thisweek09/1016/1016d_fallingwater.htm |
+| Primary structural reference | Silman and Matteo, STRUCTURE magazine, July/August 2001 | cited, not read |
+| Original drawings | Wright's originals at Avery Library, Columbia; downloads restricted, fees | https://fallingwater.org/research/architectural-drawings/ |
+
+**Why it is recommended over Section Haus.** It is a new-build reinforced-concrete house, its measured
+drawings (plans, elevations, sections) are a public record, and its cantilevers have a published
+structural history: measured deflection, diagnosed causes and a documented post-tensioning repair. That
+history is an independent oracle for milestone 13 (a cantilever's long-term deflection against what was
+measured) and exercises creep, construction-stage analysis and prestressing from the specification.
+
+**Licensing caveat to resolve before redistribution.** The LOC advisory covers images made by the U.S.
+Government. These sheets are a Peterson Prize entry, made by a student and donated to HABS, so whether
+the federal-work rule applies must be read on the item record. Importing them for analysis in this
+private tool is a separate question from publishing them.
+
+## Section Haus — Debaixo do Bloco Arquitetura (the specification's first candidate)
 
 | Fact | Value | Page (read as snippet) |
 |---|---|---|

@@ -32,6 +32,31 @@ export const ARCHDAILY_SOURCE = {
     selection_concern: 'published as a renovation with precast pillars; alternatives (Concreto House, Goiânia 2024, post-tensioned; Raw Concrete House, Mortágua 2018) are new builds — see SOURCES.md',
   },
 };
+// Fallingwater (Edgar J. Kaufmann House), HABS PA-5346: a reinforced-concrete house with a
+// published set of measured drawings in the Library of Congress. Facts below were read from search
+// snippets of the named records (SOURCES.md), not from the records themselves; unverified until read.
+export const HABS_FALLINGWATER_SOURCE = {
+  id: 'src-habs-pa-5346', kind: 'habs', title: 'Fallingwater (Edgar J. Kaufmann House)', author: 'Frank Lloyd Wright (architect); HABS survey, delineator Nicole Zuber',
+  url: 'https://www.loc.gov/pictures/item/pa1690/',
+  license: 'LOC rights advisory: no known restrictions on images made by the U.S. Government; images copied from other sources may be restricted. These sheets are a 2010 Peterson Prize entry, so their maker may not be a federal employee: confirm the item record before redistribution.',
+  status: 'identified',
+  attribution: 'Historic American Buildings Survey, HABS PA-5346, Fallingwater, State Route 381 (Stewart Township), Ohiopyle, Fayette County, PA. Library of Congress, Prints & Photographs Division. Delineator: Nicole Zuber (Charles E. Peterson Prize, 2010, entry).',
+  meta: {
+    location: 'Stewart Township, Ohiopyle, Fayette County, Pennsylvania, USA (snippet: LOC record)', year: 'completed 1937; guest house 1939, HABS PA-5346-A (snippets: LOC, data pages)',
+    clients: 'Edgar J. and Lillian S. Kaufmann (snippet: LOC)',
+    record: '11 measured drawings, 4 data pages, 12 photos, 84 colour transparencies, 7 photo caption pages (snippet: LOC record)',
+    sheets: ['2 Site Plan', '3 Basement Plan', '4 not confirmed (probably First Floor Plan)', '5 Second Floor Plan', '6 Third Floor Plan', '7 South Elevation', '8 North & West Elevations', '10 Sections', '1, 9, 11 not confirmed'],
+    sheet_urls: 'https://www.loc.gov/resource/hhh.pa1690.sheet/?sp=<n>',
+    data_pages: 'https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa1600/pa1690/data/pa1690data.pdf',
+    structure: 'reinforced-concrete cantilevered floors; four cantilever beams projecting about 15 ft (4.6 m) from masonry piers; concrete joists about 4 x 23 in at 4 ft centres carrying the first floor to the beams; reinforcement in each beam doubled during construction from eight to sixteen 1 in square bars (snippets: secondary sources citing STRUCTURE magazine, unverified)',
+    performance: 'deflection up to about 7 in (178 mm) on a 15 ft cantilever from creep and suspected yielding of reinforcement; reported concrete ultimate strength 5000 psi and steel yield 42000 psi (single secondary source, reliability uncertain)',
+    repair: 'external post-tensioning of three of the four living-room beams, Robert Silman Associates with The Di Salvo Ericson Group as post-tensioning consultant, completed March 2002; reported tendon forces conflict between sources (780 kips / 26 strands vs 195 tons per side)',
+    references: ['Silman and Matteo, STRUCTURE magazine, July/August 2001 (not read)', 'Feldmann, STRUCTURE magazine, September 2005', 'https://fallingwater.org/research/architectural-drawings/'],
+    missing: ['the sheets themselves (loc.gov unreachable from this environment)', 'confirmation of sheets 1, 4, 9 and 11', 'rights status of the Peterson Prize sheets', 'original 1936 construction drawings (Avery Library, fees)', 'beam cross-sections and reinforcement layout from a primary source'],
+    jurisdiction: 'USA, Pennsylvania: ACI 318 for any new check; the 1936 design predates it',
+    assumptions: ['none yet: no dimension has been taken from this source'],
+  },
+};
 export const FIXTURE_SOURCE = {
   id: 'src-fixture-plan-v1', kind: 'fixture', title: 'Synthetic calibration fixture (plan)', author: 'Coral Concrete (generated)',
   url: '/fixtures/plan-fixture.svg', license: 'MIT (this repository)', status: 'synthetic',
@@ -47,17 +72,18 @@ export class PageSource extends HTMLElement {
   }
   render() {
     const m = this.app.model; const drawings = m.byType('drawing');
-    const srcRows = this.app.sources.map(s => `<tr><td><b>${esc(s.title)}</b><br><span class="mono">${esc(s.id)}</span></td><td>${esc(s.kind)}</td><td>${esc(s.author)}</td><td><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></td><td><span class="pill ${s.status === 'synthetic' ? 'warn' : s.status === 'not-acquired' ? 'bad' : 'ok'}">${esc(s.status)}</span></td><td>${esc(s.license)}</td><td>${(s.meta?.missing || []).map(x => `<div>• ${esc(x)}</div>`).join('') || '—'}</td></tr>`).join('');
+    const srcRows = this.app.sources.map(s => `<tr><td><b>${esc(s.title)}</b><br><span class="mono">${esc(s.id)}</span></td><td>${esc(s.kind)}</td><td>${esc(s.author)}</td><td><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></td><td><span class="pill ${s.status === 'synthetic' || s.status === 'identified' ? 'warn' : s.status === 'not-acquired' ? 'bad' : 'ok'}">${esc(s.status)}</span></td><td>${esc(s.license)}</td><td>${(s.meta?.missing || []).map(x => `<div>• ${esc(x)}</div>`).join('') || '—'}</td></tr>`).join('');
     const drRows = drawings.map(d => { const r = m.result(d.id); const err = this.app.lastRegenerate?.errors?.[d.id]; return `<tr><td>${esc(d.name)}<br><span class="mono">${esc(d.id)}</span></td><td class="mono">${esc(d.params.source?.value)}</td><td class="mono">${esc(d.params.image_url?.value)}</td><td>${r ? `<span class="pill ok">calibrated ${r.scale.toPrecision(4)} m/px</span>` : `<span class="pill warn">${esc(err || 'not calibrated')}</span>`}</td><td><a href="#trace" class="btn">Trace</a></td></tr>`; }).join('');
     this.innerHTML = `
       <h2>00 · Source</h2>
       <div class="card"><h3>Registered sources</h3>
         <table><thead><tr><th>Source</th><th>Kind</th><th>Author</th><th>URL</th><th>Status</th><th>Licence</th><th>Missing information</th></tr></thead><tbody>${srcRows || '<tr><td colspan="7" class="hint">No sources registered.</td></tr>'}</tbody></table>
         <div class="actions" style="margin-top:10px">
+          <button id="reg-habs">Register HABS source (Fallingwater, PA-5346)</button>
           <button id="reg-archdaily">Register ArchDaily source (Section Haus)</button>
           <button id="reg-fixture">Register synthetic fixture drawing</button>
         </div>
-        <div class="hint">The ArchDaily record carries the URL and attribution only. Its drawings must be imported below from a copy you are authorised to use; nothing is downloaded from ArchDaily.</div>
+        <div class="hint">These records carry URLs, attribution and snippet-sourced facts only. Drawings must be imported below from a copy you are authorised to use; nothing is downloaded by the app.</div>
       </div>
       <div class="card"><h3>Import a drawing</h3>
         <div class="form">
@@ -76,6 +102,7 @@ export class PageSource extends HTMLElement {
         <div class="hint">Every traced element records its method: <b>measured</b> (read off a calibrated drawing), <b>inferred</b> (derived from other measured values) or <b>assumed</b> (no source; stated here and in ASSUMPTIONS.md). Level heights created on import are <b>assumed</b> until a section is traced.</div>
       </div>`;
     this.querySelector('#reg-archdaily').onclick = async () => { await this.app.api.putSource(this.app.project, ARCHDAILY_SOURCE); await this.app.refreshSources(); };
+    this.querySelector('#reg-habs').onclick = async () => { await this.app.api.putSource(this.app.project, HABS_FALLINGWATER_SOURCE); await this.app.refreshSources(); };
     this.querySelector('#reg-fixture').onclick = () => this.registerFixture();
     this.querySelector('#imp-go').onclick = () => this.importDrawing();
   }

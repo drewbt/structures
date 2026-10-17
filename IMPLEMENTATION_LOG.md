@@ -42,6 +42,16 @@ House (Goiânia 2024, 930 m², post-tensioned slabs, engineer named) and Raw Con
 2018, 360 m²). Written to SOURCES.md and the source record's meta (page 00). Candidate-selection
 concern raised to the owner: the preferred project is a renovation.
 
+## 3 · Public-record candidate (2026-10-17, same day)
+
+The owner asked for a notable house with public records and plans, not necessarily on ArchDaily. Found
+Fallingwater, HABS PA-5346 at the Library of Congress: 11 measured drawings (7 sheet titles confirmed),
+data pages, photographs; a reinforced-concrete house with a published cantilever-deflection history and a
+2002 post-tensioning repair. loc.gov and tile.loc.gov are denied here, so facts come from snippets and
+the sheets were not downloaded. Registered as source `src-habs-pa-5346` (page 00, status `identified`),
+recorded in SOURCES.md with a rights caveat (Peterson Prize entry, not necessarily a federal work).
+e2e extended to register it: 39 checks.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency
@@ -49,7 +59,7 @@ graph, versioned functions, result cache, undo/redo, append-only events; wall/sl
 geometry; WebGL viewer with pick and section cut; pages 00–02; synthetic fixture; persistence with
 revision history and cross-checked hashes; inspectable export.
 
-**Verified:** service-gate 25/25; unit 28/28; e2e 38/38 (headless Chromium, software WebGL); stiffness
+**Verified:** service-gate 25/25; unit 28/28; e2e 39/39 (headless Chromium, software WebGL); stiffness
 gate all pass on Linux. Screenshots in tests/e2e/out/.
 
 **Reused:** stiffness `json.h` verbatim; stiffness's contract rules (versioning, tolerances stated with

@@ -1,13 +1,15 @@
 # Next action
 
-**The single highest-value step:** decide the candidate (SOURCES.md: Section Haus is a renovation with
-precast pillars; Concreto House and Raw Concrete House are new builds), then import its plan and
-section on a machine that can reach the page (page 00 → Import), verify the snippet facts against the
-page, and trace. That closes A-01 and makes milestone 12 complete on a real drawing rather than the
-fixture.
+**The single highest-value step:** confirm Fallingwater (HABS PA-5346) as the project, then on a machine
+that can reach loc.gov download sheets 2–8 and 10 as TIFF, read the item record's rights line and the
+data pages, and import the plans and the sections on page 00 against the registered HABS source. Verify
+every snippet fact in SOURCES.md against the record. Trace the first floor plan and the sections. That
+closes A-01 on a public-record drawing. Allowing loc.gov and tile.loc.gov in this environment's network
+policy would let this session do the download itself.
 
 **Then, milestone 13 (first structural component), in this order:**
-1. Pick the traced ground-floor slab (S1) or the south wall (W1).
+1. Pick one living-room cantilever beam of Fallingwater: its published deflection (about 7 in on about
+   15 ft) and its 2002 repair are the independent oracle, once the primary reference is read.
 2. Structural projection: a versioned function `structure.slabPlate@1` that writes the stiffness
    engine's JSON model (`io.h` schema: nodes, shell/plate elements, supports at walls and columns,
    self-weight from thickness × 25 kN/m³ with the density cited) from the model's parameters.

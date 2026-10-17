@@ -39,7 +39,9 @@ try {
   await page.waitForFunction(() => globalThis.coral?.status?.health, null, { timeout: 10000 });
   check(await page.evaluate(() => coral.status.health.ok === true), 'the app reached the service', await page.evaluate(() => JSON.stringify(coral.status.health)));
   await page.click('#reg-archdaily'); await page.waitForFunction(() => coral.sources.length === 1);
-  await page.click('#reg-fixture'); await page.waitForFunction(() => coral.sources.length === 2 && coral.model.byType('drawing').length === 1);
+  await page.click('#reg-habs'); await page.waitForFunction(() => coral.sources.length === 2);
+  check(await page.evaluate(() => coral.sources.find(s => s.kind === 'habs')?.meta?.sheets?.length === 9), 'HABS Fallingwater source registered with its sheet register');
+  await page.click('#reg-fixture'); await page.waitForFunction(() => coral.sources.length === 3 && coral.model.byType('drawing').length === 1);
   const srcText = await page.locator('page-source').innerText();
   check(srcText.includes('not-acquired') && srcText.includes('archdaily.com/975178'), 'ArchDaily source registered with URL, attribution and not-acquired status');
   check(srcText.includes('synthetic') && srcText.includes('SYNTHETIC') === false, 'fixture source registered and marked synthetic');
@@ -141,12 +143,12 @@ try {
   const eh = await (await fetch(`${base}/api/projects/e2e/elements/${w1id}/history`)).json();
   check(eh.some(r => r.name === 'thickness' && r.value_json === '0.25'), 'the element\'s parameter history in SQLite holds the edit', `${eh.length} rows`);
   const srcAfter = await (await fetch(`${base}/api/projects/e2e/sources`)).json();
-  check(srcAfter.length === 2 && srcAfter.find(s => s.kind === 'archdaily')?.status === 'not-acquired', 'sources persisted with their status');
+  check(srcAfter.length === 3 && srcAfter.find(s => s.kind === 'archdaily')?.status === 'not-acquired' && srcAfter.find(s => s.kind === 'habs')?.status === 'identified', 'sources persisted with their status');
   // export
   await page.click('coral-nav a[href="#architecture"]'); await page.waitForFunction(() => globalThis.coralArch);
   const exp = await page.evaluate(() => coralArch.exportJSON(false));
   const expW1 = exp.elements.find(e => e.id === w1id);
-  check(expW1?.result?.function === 'geometry.wall@1.0.0' && expW1.result.input_hash.length === 64 && exp.sources.length === 2 && exp.model_hash === hashBefore, 'inspectable export carries lineage (function@version, input hash), sources and the model hash');
+  check(expW1?.result?.function === 'geometry.wall@1.0.0' && expW1.result.input_hash.length === 64 && exp.sources.length === 3 && exp.model_hash === hashBefore, 'inspectable export carries lineage (function@version, input hash), sources and the model hash');
   // undo across the UI
   await page.evaluate(() => { coral.model.remove(coral.model.byType('column')[0].id); coral.regenerate(); });
   check(await page.evaluate(() => coral.model.byType('column').length) === 0, 'column removed');
