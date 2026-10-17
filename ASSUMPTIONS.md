@@ -3,10 +3,12 @@
 Numbered; referenced from code comments and the other records. An assumption stays here until a test
 or a source removes it.
 
-**A-01 · The ArchDaily source has not been acquired.** This environment cannot reach archdaily.com
-(proxy CONNECT 403; name resolution fails for the fetch tool). The source record carries only what the
-specification states: project name, office, URL. Location, year, area, engineer, drawing list and
-licence are recorded as `unknown`. No dimension has been taken from Section Haus. The first milestone
+**A-01 · The ArchDaily source has not been acquired.** This environment cannot reach archdaily.com,
+dezeen.com, designboom.com or any other page host (proxy CONNECT 403; name resolution fails for the
+fetch tool). Project facts (Brasília, 2021, ~300 m², renovation of a 1980 house, precast pillars and an
+inverted slab, credits) were read from **search snippets** of those pages and are recorded in SOURCES.md
+and on the source record with that provenance; each is unverified until the page is read. Engineer,
+drawings and licence remain unknown. No dimension has been taken from Section Haus. The first milestone
 was run on a **synthetic fixture drawing** (app/fixtures/plan-fixture.svg) whose dimensions are known
 by construction; it is labelled as such on the drawing, in the source record (`status: synthetic`) and
 in every traced element's provenance (`source: src-fixture-plan-v1`). Acceptance criterion "a real

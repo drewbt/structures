@@ -15,10 +15,22 @@ export const ARCHDAILY_SOURCE = {
   url: 'https://www.archdaily.com/975178/section-haus-debaixo-do-bloco-arquitetura',
   license: 'unknown — ArchDaily publication; images © their credited authors; not licensed for redistribution unless stated',
   status: 'not-acquired',
-  attribution: 'Section Haus, Debaixo do Bloco Arquitetura, published on ArchDaily (975178). Drawings and photographs © their credited authors.',
-  meta: { location: 'unknown (read from the source page before use)', year: 'unknown', area_m2: 'unknown', structural_engineer: 'unknown',
-    drawings_available: 'unknown until the page is inspected', missing: ['floor plans', 'sections', 'elevations', 'dimensions', 'structural information', 'licence terms'],
-    assumptions: ['none yet: no dimension has been taken from this source'] },
+  attribution: 'Section Haus, Debaixo do Bloco Arquitetura (architecture credit shared by Cezar Augusto Simão and Clay Rodrigues; interiors Clay Rodrigues), published on ArchDaily (975178). Photographs © Joana França, Clay Rodrigues, Seriema Filmes.',
+  // Facts below were read from web-search snippets of the named pages, never from the pages themselves
+  // (SOURCES.md). Each is unverified until the page is read; none is a dimension.
+  meta: {
+    location: 'Brasília, Brazil (snippet: ArchDaily 975178; Dezeen)', year: '2021 (snippet: ArchDaily)', area_m2: 'about 300 (snippet: ArchDaily, Dezeen)',
+    category: 'Houses · Renovation (snippet: ArchDaily); original house 1980 by Cezar Augusto Simão (snippet: photographer\'s LinkedIn post, weak)',
+    structural_engineer: 'not named in any snippet',
+    structure: 'three blocks on a plot with three levels; four internal precast concrete pillars plus four external ones joined by an inverted slab (snippet: Designboom 2022-01-18); each volume has an angular roof pitching to a central light well, roofs on four interior columns and four taller exterior pillars (snippet: Dezeen 2022-01-22)',
+    programme: 'highest block social, middle services, lowest bedrooms (snippet: Designboom)',
+    materials: 'exposed unfinished concrete; prefabricated concrete pieces; corten steel panels; black glass frames (snippets: Dezeen, Designboom, LinkedIn)',
+    drawings_available: 'unknown: no plan or section seen; gallery entries surfaced are photographs',
+    missing: ['floor plans', 'sections', 'elevations', 'dimensions', 'structural engineer', 'licence terms', 'verification of every snippet fact on the page itself'],
+    assumptions: ['none yet: no dimension has been taken from this source'],
+    other_pages: ['https://www.dezeen.com/2022/01/22/section-haus-concrete-house-brasilia-debaixo-do-bloco-arquitetura/', 'https://www.designboom.com/architecture/concrete-pillars-debaixo-do-bloco-brutalist-section-house-brazil-01-18-2022/', 'https://archiecho.com/section-haus-debaixo-do-bloco-arquitetura'],
+    selection_concern: 'published as a renovation with precast pillars; alternatives (Concreto House, Goiânia 2024, post-tensioned; Raw Concrete House, Mortágua 2018) are new builds — see SOURCES.md',
+  },
 };
 export const FIXTURE_SOURCE = {
   id: 'src-fixture-plan-v1', kind: 'fixture', title: 'Synthetic calibration fixture (plan)', author: 'Coral Concrete (generated)',

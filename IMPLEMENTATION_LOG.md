@@ -31,6 +31,17 @@ Implemented, in order, each with its test before the next:
    input found in a screenshot, reproduced, diagnosed as re-entrant render (D-09), fixed, 38/38 again.
 6. Records: this set.
 
+## 2 · Public-source search (2026-10-17, same day)
+
+The owner allowed other public sources. Every page fetch (ArchDaily, Dezeen, Designboom, Archiecho,
+the office site, image hosts) failed at name resolution; web search works and returns snippets. From
+snippets: Brasília, 2021, ~300 m², published as a renovation of a 1980 house by Cezar Augusto Simão,
+three blocks on three levels, four internal precast pillars + four external joined by an inverted slab,
+angular roofs with light wells, credits. No drawing and no dimension. Alternatives recorded: Concreto
+House (Goiânia 2024, 930 m², post-tensioned slabs, engineer named) and Raw Concrete House (Mortágua
+2018, 360 m²). Written to SOURCES.md and the source record's meta (page 00). Candidate-selection
+concern raised to the owner: the preferred project is a renovation.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency

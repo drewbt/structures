@@ -1,9 +1,10 @@
 # Next action
 
-**The single highest-value step:** import a real drawing the owner is authorised to use (page 00 →
-Import; the plan of Section Haus from the ArchDaily page, read on a machine that can reach it), trace
-it, and record the project facts (location, year, area, engineer, licence) on the source. That closes
-A-01 and makes milestone 12 complete on a real drawing rather than the fixture.
+**The single highest-value step:** decide the candidate (SOURCES.md: Section Haus is a renovation with
+precast pillars; Concreto House and Raw Concrete House are new builds), then import its plan and
+section on a machine that can reach the page (page 00 → Import), verify the snippet facts against the
+page, and trace. That closes A-01 and makes milestone 12 complete on a real drawing rather than the
+fixture.
 
 **Then, milestone 13 (first structural component), in this order:**
 1. Pick the traced ground-floor slab (S1) or the south wall (W1).
