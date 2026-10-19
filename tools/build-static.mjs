@@ -46,12 +46,12 @@ try {
   const seed = await page.evaluate(() => ({ project: coral.project, created: new Date().toISOString(), elements: coral.model.toWire(), sources: coral.sources, model_hash: coral.model.hash() }));
   console.log(`seed: ${seed.elements.length} elements (${n} bars and rails)`);
   // the default "+ Beam" on the seeded model (first level), and on an empty model (auto-created level)
-  await page.click('coral-nav a[href="#architecture"]'); await page.waitForFunction(() => globalThis.coralArch);
-  await page.click('#add-beam'); await page.waitForSelector('dialog[open] #ok'); await page.click('dialog[open] #ok'); await page.waitForFunction(() => coral.model.byType('beam').length === 3);
-  await page.click('coral-nav a[href="#structure"]'); await page.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure); await page.evaluate(() => coralStructure.designAll()); await harvest(page);
+  await page.click('coral-nav a[href="#model"]'); await page.waitForFunction(() => globalThis.coralArch && document.querySelector('page-architecture') === globalThis.coralArch); await page.waitForFunction(() => globalThis.coralArch);
+  await page.click('.add-menu summary'); await page.click('#add-beam'); await page.waitForSelector('dialog[open] #ok'); await page.click('dialog[open] #ok'); await page.waitForFunction(() => coral.model.byType('beam').length === 3);
+  await page.click('coral-nav a[href="#model"]'); await page.waitForFunction(() => globalThis.coralArch && document.querySelector('page-architecture') === globalThis.coralArch); await page.evaluate(() => coralArch.setDrawer(true)); await page.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure); await page.evaluate(() => coralStructure.designAll()); await harvest(page);
   const p2 = await browser.newPage(); await p2.goto(`http://127.0.0.1:${port}/?project=empty-probe#architecture`); await p2.waitForFunction(() => globalThis.coralArch && coral.status.health);
-  await p2.click('#add-beam'); await p2.waitForSelector('dialog[open] #ok'); await p2.click('dialog[open] #ok'); await p2.waitForFunction(() => coral.model.byType('beam').length === 1);
-  await p2.click('coral-nav a[href="#structure"]'); await p2.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure); await p2.evaluate(() => coralStructure.designAll()); await harvest(p2);
+  await p2.click('.add-menu summary'); await p2.click('#add-beam'); await p2.waitForSelector('dialog[open] #ok'); await p2.click('dialog[open] #ok'); await p2.waitForFunction(() => coral.model.byType('beam').length === 1);
+  await p2.click('coral-nav a[href="#model"]'); await p2.waitForFunction(() => globalThis.coralArch && document.querySelector('page-architecture') === globalThis.coralArch); await p2.evaluate(() => coralArch.setDrawer(true)); await p2.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure); await p2.evaluate(() => coralStructure.designAll()); await harvest(p2);
   // assemble
   cpSync(join(root, 'app'), out, { recursive: true });
   rmSync(join(out, 'index.html'));

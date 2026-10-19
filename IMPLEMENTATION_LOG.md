@@ -84,6 +84,11 @@ Owner: "keep going detailing standard concrete elements". Built, each with gates
 - Model: batches (one event, one undo), reverse dependency index. Page 03 per element kind. Reference frame.
 - Gates: service 29/29, unit 66/66, e2e 64/64.
 
+## 6 · Model-first interface (2026-10-19)
+After feedback that the interface was not working, page 02 became the whole working view (D-19): model fills
+the window, utilisation colouring with a legend, Design drawer, Add menu, collapsed log, phone layout. Verified
+by unit 66/66, e2e 64/64 and screenshots at 1600 px and 420 px (screens/model-*.png); published copy rebuilt.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency

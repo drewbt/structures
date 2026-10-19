@@ -26,7 +26,9 @@ export class PageStructure extends HTMLElement {
   connectedCallback() {
     this.app = this.closest('coral-app'); this.classList.add('page-scroll');
     this.kind = 'beam'; this.combo = 'U2'; this.diagram = 'M'; this.designs = new Map(); this.status = ''; this.busy = false;
-    this.onChange = () => this.render(); this.onSelect = () => { const id = [...this.app.selection][0]; const e = id && this.app.model.get(id); if (e && this.designs.has(e.id)) { this.kind = e.type; this.selected = e.id; this.render(); } };
+    this.onChange = () => this.render();
+    // a click in the model shows that element's design; a bar, pile, drop panel or zone shows its owner's
+    this.onSelect = () => { const id = [...this.app.selection][0]; let e = id && this.app.model.get(id); if (e && !this.designs.has(e.id) && e.parent && this.designs.has(e.parent)) e = this.app.model.get(e.parent); if (e && this.designs.has(e.id)) { this.kind = e.type; this.selected = e.id; this.render(); } };
     this.app.addEventListener('regenerate', this.onChange); this.app.addEventListener('select', this.onSelect);
     globalThis.coralStructure = this;
     this.render();
@@ -78,7 +80,7 @@ export class PageStructure extends HTMLElement {
       }
       this.designs = designs; this.errors = errors;
       this.status = `${designs.size} elements designed${errors.length ? `, ${errors.length} errors` : ''}`;
-    } finally { this.busy = false; this.render(); }
+    } finally { this.busy = false; this.render(); this.app.dispatchEvent(new CustomEvent('designs')); }
     return { designs: this.designs, errors: this.errors };
   }
 
@@ -161,7 +163,7 @@ export class PageStructure extends HTMLElement {
     if (this.busy && this.querySelector('.card')) { const st = this.querySelector('#status'); if (st) st.textContent = this.status; return; }
     const m = this.model, list = this.kind === 'loads' ? [] : m.byType(this.kind);
     const engine = this.app.status.health?.engine;
-    const head = `<h2>03 · Structure — design and detailing</h2>
+    const head = `<h2>Design and detailing</h2>
       <div class="card"><div class="actions" style="justify-content:flex-start;flex-wrap:wrap">
         <button id="ref">Create reference frame (synthetic)</button>
         <button id="design" class="primary">Design all</button>

@@ -86,3 +86,11 @@ and the bar generator call it, so the check cannot describe bars that are not dr
 `core/api-local.js` keeps the model in browser storage and answers analyses only from engine results captured
 by `tools/build-static.mjs` from real runs, keyed as the service keys them. Any other analysis is refused
 with a message. No engine code ships; the published page opens on the designed reference frame.
+
+**D-19 · The model comes first.** (2026-10-19)
+The user reported the staged interface did not work for them and that the model takes priority. Page 02 is now
+"Model" and fills the window: view toggles (X-ray, ghost slabs, bars, punching zones, cut), colour by governing
+utilisation (default) or material, an Add menu, and a Design drawer that holds the former page 03. Routes
+`#architecture` and `#structure` redirect to `#model` (the latter opens the drawer). The event log is collapsed
+to one status line. Slabs open ghosted so columns, caps and piles show their colours. Utilisation colours come
+from the same design results as the tables; an undesigned element is drawn by material.

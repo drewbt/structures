@@ -41,6 +41,8 @@ coral-properties .prov { padding: 6px; border-radius: 4px; background: color-mix
 coral-properties .prov.assumed { background: color-mix(in srgb, var(--warn) 14%, transparent); }
 coral-properties .prov.inferred { background: color-mix(in srgb, var(--warn) 7%, transparent); }
 coral-timeline { grid-area: foot; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; background: var(--panel); border-top: 1px solid var(--line); max-height: 150px; font-size: 12px; }
+coral-timeline.collapsed { display: flex; align-items: center; gap: 18px; padding: 3px 12px; max-height: none; color: var(--dim); white-space: nowrap; overflow: hidden; }
+coral-timeline.collapsed .ok { color: var(--ok); } coral-timeline.collapsed .err { color: var(--bad); }
 coral-timeline > div { padding: 6px 10px; overflow: auto; border-right: 1px solid var(--line); }
 coral-timeline h4 { margin: 0 0 4px; font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.04em; }
 coral-timeline .ev { font-family: var(--mono); font-size: 11px; white-space: nowrap; color: var(--dim); }
@@ -90,4 +92,44 @@ page-source, page-structure { display: block; overflow: auto; }
   coral-properties { border-left: none; border-top: 1px solid var(--line); }
   coral-timeline { grid-template-columns: minmax(0, 1fr); max-height: none; }
   .page-scroll table { display: block; overflow-x: auto; }
+}
+
+/* ---- the Model stage: the viewport owns the window ------------------------------------------------- */
+button.link { background: none; border: none; color: var(--accent); padding: 0 4px; cursor: pointer; font: inherit; }
+.model-bar { gap: 10px; }
+.model-bar .group { display: flex; align-items: center; gap: 4px; padding-right: 10px; border-right: 1px solid var(--line); }
+.model-bar .group:last-of-type { border-right: none; }
+.model-bar .lbl { color: var(--dim); font-size: 12px; margin-right: 2px; }
+.model-bar .cut input { width: 110px; }
+.model-bar .spacer { flex: 1; }
+.add-menu { position: relative; }
+.add-menu summary { list-style: none; cursor: pointer; border: 1px solid var(--line); border-radius: 4px; padding: 5px 10px; background: var(--panel); }
+.add-menu summary::-webkit-details-marker { display: none; }
+.add-menu[open] summary { border-color: var(--accent); }
+.add-menu .menu { position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; display: grid; gap: 2px; padding: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); min-width: 140px; }
+.add-menu .menu button { text-align: left; border: none; }
+.add-menu .menu button:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.viewport { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+.viewport canvas.view3d { position: absolute; inset: 0; }
+.hud { position: absolute; left: 12px; bottom: 12px; display: grid; gap: 8px; justify-items: start; pointer-events: none; max-width: calc(100% - 24px); }
+.hud .overlay-msg { position: static; }
+.hud .stats { font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums; background: color-mix(in srgb, var(--panel) 85%, transparent); padding: 2px 8px; border-radius: 4px; }
+.legend { background: color-mix(in srgb, var(--panel) 92%, transparent); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; font-size: 12px; width: 220px; }
+.legend .ramp { height: 10px; border-radius: 3px; margin: 6px 0 2px; background: linear-gradient(90deg, rgb(51,158,107) 0%, rgb(219,204,77) 63%, rgb(237,140,41) 90%, rgb(214,61,61) 90.1%, rgb(214,61,61) 100%); }
+.legend .ticks { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; color: var(--dim); }
+.legend .ticks .bad { color: var(--bad); }
+.legend .hint { padding: 4px 0 0; }
+.drawer { position: absolute; top: 0; right: 0; bottom: 0; width: min(620px, 92%); background: var(--bg); border-left: 1px solid var(--line); box-shadow: -8px 0 24px rgba(0,0,0,0.12); overflow: auto; z-index: 15; }
+.drawer page-structure { display: block; padding: 4px 16px 16px; }
+.drawer page-structure h2 { font-size: 16px; margin: 10px 0 8px; }
+.drawer-close { position: sticky; top: 8px; float: right; margin: 8px 8px 0 0; z-index: 1; font-size: 18px; line-height: 1; padding: 4px 10px; }
+coral-app.model-stage coral-properties { font-size: 12.5px; }
+@media (max-width: 900px) { .drawer { width: 100%; } .model-bar .group { border-right: none; padding-right: 0; flex-wrap: wrap; } }
+@media (max-width: 600px) {   /* phone: the model keeps the screen; the HUD shrinks to the colour ramp */
+  .hud { left: 8px; bottom: 8px; gap: 4px; }
+  .hud .overlay-msg, .hud .stats, .legend .hint { display: none; }
+  .legend { width: 160px; }
+  .legend { padding: 6px 8px; font-size: 11px; }
+  .model-bar { gap: 4px; padding: 6px 8px; }
+  .model-bar button { padding: 4px 8px; }
 }

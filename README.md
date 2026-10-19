@@ -13,10 +13,10 @@ cmake -S . -B build && cmake --build build -j
 ./build/coral-service --db coral.db --app app --port 8790 --engine ../stiffness/build/stiffness
 ```
 `--engine` names a build of the stiffness engine (drewbt/stiffness, built with its own CMakeLists);
-without it pages 00–02 work and page 03 says the engine is not configured.
+without it the model works and the Design drawer says the engine is not configured.
 Open http://127.0.0.1:8790/?project=section-haus. Pages: 00 Source (register the source, import a
 drawing, or register the synthetic fixture), 01 Trace (Calibrate on a scale bar → Origin → Wall /
-Column / Slab / Opening), 02 Architecture (3D, properties, section cut, X-ray, export, + Beam), 03 Structure (Create reference frame → Design all →
+Column / Slab / Opening), 02 Model (the 3D model fills the window: view toggles, colour by utilisation, Add menu, export; the Design drawer holds Create reference frame → Design all →
 Create foundations → Design all → Generate reinforcement: beams, columns, flat slabs with drop panels and
 punching zones, pile caps and piles, to ACI 318-19). Save commits a
 revision to SQLite; Reload reads it back.

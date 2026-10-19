@@ -9,11 +9,13 @@ import { Model } from '../core/model.js';
 import { Api } from '../core/api.js';
 import { LocalApi } from '../core/api-local.js';
 
+/** Older links: #architecture is the model; #structure is the model with the design panel open. */
+const ALIASES = { architecture: 'model', structure: 'model' };
+
 export const STAGES = [
   { id: 'source', n: '00', label: 'Source', tag: 'page-source' },
   { id: 'trace', n: '01', label: 'Trace', tag: 'page-trace' },
-  { id: 'architecture', n: '02', label: 'Architecture', tag: 'page-architecture' },
-  { id: 'structure', n: '03', label: 'Structure', tag: 'page-structure' },
+  { id: 'model', n: '02', label: 'Model', tag: 'page-architecture' },
 ];
 
 export class CoralApp extends HTMLElement {
@@ -51,19 +53,22 @@ export class CoralApp extends HTMLElement {
     } catch (err) { this.status.text = `service unreachable: ${err.message}`; this.renderNav(); }
     this.route();
   }
-  get stageId() { return (location.hash || (this.static ? '#structure' : '#source')).slice(1); }
+  get stageId() { return (location.hash || (this.static ? '#model' : '#source')).slice(1); }
   route() {
-    const stage = STAGES.find(s => s.id === this.stageId) || STAGES[0];
+    const raw = this.stageId, id = ALIASES[raw] || raw;
+    const stage = STAGES.find(s => s.id === id) || STAGES[0];
     if (this.page?.tagName.toLowerCase() !== stage.tag) {
       this.stage.innerHTML = ''; this.page = document.createElement(stage.tag); this.stage.appendChild(this.page);
     }
+    if (raw === 'structure') this.page.setDrawer?.(true);
+    this.classList.toggle('model-stage', stage.id === 'model');
     this.renderNav();
   }
   renderNav() {
     const m = this.model;
     this.nav.innerHTML = `
       <span class="brand">Coral Concrete</span>${this.static ? '<span class="pill warn" title="Model kept in this browser; engine results precomputed from the local service">published copy</span>' : ''}
-      <nav class="stages">${STAGES.map(s => `<a href="#${s.id}" class="${s.id === this.stageId ? 'on' : ''}"><span class="n">${s.n}</span>${s.label}</a>`).join('')}</nav>
+      <nav class="stages">${STAGES.map(s => `<a href="#${s.id}" class="${s.id === (ALIASES[this.stageId] || this.stageId) ? 'on' : ''}"><span class="n">${s.n}</span>${s.label}</a>`).join('')}</nav>
       <span class="spacer"></span>
       <span class="status" id="status">${this.project} · rev ${m.rev}${this.status.saved ? '' : ' · unsaved'} · ${m.elements.size} elements${this.status.text ? ' · ' + this.status.text : ''}</span>
       <button id="undo" title="Undo (Ctrl+Z)">↶</button><button id="redo" title="Redo (Ctrl+Shift+Z)">↷</button>

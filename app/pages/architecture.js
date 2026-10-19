@@ -1,59 +1,113 @@
-// architecture.js - <page-architecture> (PAGE 02): the native 3D model of the parametric components,
-// the section cut, quantities, typed creation of components and the inspectable export. Geometry
+// architecture.js - <page-architecture> (PAGE 02, the Model stage): the 3D model fills the window. View
+// controls, colour by governing utilisation, typed creation of components and export sit in one toolbar;
+// design and detailing (<page-structure>) open in a drawer over the viewport's right side. Geometry
 // comes from the model's results (the versioned functions); this page never computes geometry.
 import { Viewer, PALETTE } from '../render/webgl.js';
+import './structure.js';
+
+/** Utilisation colour ramp: green (low) → amber (near 1) → red (over 1). RGBA. */
+export function utilColor(u) {
+  if (!(u >= 0)) return [0.6, 0.6, 0.6, 1];
+  if (u > 1) return [0.84, 0.24, 0.24, 1];
+  const lo = [0.20, 0.62, 0.42], mid = [0.86, 0.80, 0.30], hi = [0.93, 0.55, 0.16], t = Math.min(1, u);
+  const mix = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
+  return [...(t < 0.7 ? mix(lo, mid, t / 0.7) : mix(mid, hi, (t - 0.7) / 0.3)), 1];
+}
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 export class PageArchitecture extends HTMLElement {
   connectedCallback() {
     this.app = this.closest('coral-app');
+    this.colorBy = 'util'; this.show = { concrete: true, bars: true, zones: true }; this.xray = false; this.ghost = true;
     this.innerHTML = `
-      <div class="toolbar">
-        <button id="fit">Fit</button>
-        <label>Section cut z <input id="cut" type="range" min="-1" max="12" step="0.05" value="12" style="width:140px"> <span id="cutv">off</span></label>
-        <button id="ghost" aria-pressed="false">Ghost slabs</button><button id="xray" aria-pressed="false" title="Draw concrete translucent to see reinforcement">X-ray</button>
-        <span class="sep"></span>
-        <button id="add-level">+ Level</button><button id="add-wall">+ Wall</button><button id="add-column">+ Column</button><button id="add-slab">+ Slab</button><button id="add-beam">+ Beam</button>
-        <span class="sep"></span>
-        <button id="export">Export JSON</button>
-        <span class="hint" id="stats"></span>
+      <div class="toolbar model-bar">
+        <div class="group" aria-label="View">
+          <button id="fit" title="Frame the whole model">Fit</button>
+          <button id="xray" aria-pressed="false" title="Draw concrete translucent to see reinforcement">X-ray</button>
+          <button id="ghost" aria-pressed="true" title="Draw slabs translucent">Ghost slabs</button>
+          <button id="show-bars" aria-pressed="true" title="Show reinforcement">Bars</button>
+          <button id="show-zones" aria-pressed="true" title="Show punching critical perimeters">Punching zones</button>
+          <label class="cut">Cut <input id="cut" type="range" min="-1" max="12" step="0.05" value="12"> <span id="cutv">off</span></label>
+        </div>
+        <div class="group" aria-label="Colour">
+          <span class="lbl">Colour</span>
+          <button id="color-util" aria-pressed="true" title="Colour designed elements by their governing utilisation">Utilisation</button>
+          <button id="color-mat" aria-pressed="false" title="Colour by element type">Material</button>
+        </div>
+        <details class="group add-menu"><summary>Add</summary><div class="menu">
+          <button id="add-level">Level</button><button id="add-wall">Wall</button><button id="add-column">Column</button><button id="add-slab">Slab</button><button id="add-beam">Beam</button><button id="export">Export JSON</button></div></details>
+        <span class="spacer"></span>
+        <button id="design-toggle" class="primary" aria-pressed="false" title="Design and detailing for the selected element and the whole structure">Design</button>
       </div>
-      <div style="position:relative;flex:1;min-height:0"><canvas class="view3d"></canvas><div class="overlay-msg" id="msg">Drag to orbit · right-drag or Shift to pan · wheel to zoom · click to select</div></div>`;
-    this.canvas = this.querySelector('canvas');
+      <div class="viewport">
+        <canvas class="view3d"></canvas>
+        <div class="hud">
+          <div class="overlay-msg" id="msg">Drag to orbit · right-drag or Shift to pan · wheel to zoom · click an element</div>
+          <div class="legend" id="legend" hidden></div>
+          <div class="stats" id="stats"></div>
+        </div>
+        <aside class="drawer" id="drawer" hidden><button class="drawer-close" id="drawer-close" title="Close the design panel">×</button><page-structure></page-structure></aside>
+      </div>`;
+    this.canvas = this.querySelector('canvas'); this.drawer = this.querySelector('#drawer');
     try { this.viewer = new Viewer(this.canvas); } catch (err) { this.querySelector('#msg').textContent = `WebGL unavailable: ${err.message}`; }
     if (this.viewer) {
       this.viewer.onPick = (id, e) => this.app.select(id ? [id] : [], { toggle: e.ctrlKey || e.metaKey });
-      this.viewer.onHover = id => { const el = id && this.app.model.get(id); const r = el && this.app.model.result(id); this.querySelector('#msg').textContent = el ? `${el.name} · ${el.type}${r?.volume_m3 !== undefined ? ` · ${r.volume_m3.toFixed(3)} m³` : ''}` : 'Drag to orbit · right-drag or Shift to pan · wheel to zoom · click to select'; };
+      this.viewer.onHover = id => { const el = id && this.app.model.get(id); const r = el && this.app.model.result(id); const u = el && this.utilOf(el); this.querySelector('#msg').textContent = el ? `${el.name} · ${el.type}${r?.volume_m3 ? ` · ${r.volume_m3.toFixed(3)} m³` : ''}${u !== null && u !== undefined ? ` · utilisation ${u.toFixed(2)}` : ''}` : 'Drag to orbit · right-drag or Shift to pan · wheel to zoom · click an element'; };
     }
-    this.ghost = false;
     this.onRegen = () => this.rebuild(); this.onSelect = () => this.viewer?.setSelection(this.app.selection);
-    this.app.addEventListener('regenerate', this.onRegen); this.app.addEventListener('select', this.onSelect); this.app.addEventListener('model', this.onRegen);
+    this.app.addEventListener('regenerate', this.onRegen); this.app.addEventListener('select', this.onSelect); this.app.addEventListener('model', this.onRegen); this.app.addEventListener('designs', this.onRegen);
+    const toggle = (id, fn) => { this.querySelector('#' + id).onclick = e => { fn(); this.syncButtons(); this.rebuild(); }; };
     this.querySelector('#fit').onclick = () => this.viewer?.fit();
     this.querySelector('#cut').oninput = e => { const v = parseFloat(e.target.value); const off = v >= parseFloat(e.target.max); this.viewer?.setCut(off ? null : v); this.querySelector('#cutv').textContent = off ? 'off' : `${v.toFixed(2)} m`; };
-    this.querySelector('#ghost').onclick = e => { this.ghost = !this.ghost; e.target.setAttribute('aria-pressed', this.ghost); this.rebuild(); };
-    this.querySelector('#xray').onclick = e => { this.xray = !this.xray; e.target.setAttribute('aria-pressed', this.xray); this.rebuild(); };
+    toggle('xray', () => { this.xray = !this.xray; }); toggle('ghost', () => { this.ghost = !this.ghost; });
+    toggle('show-bars', () => { this.show.bars = !this.show.bars; }); toggle('show-zones', () => { this.show.zones = !this.show.zones; });
+    toggle('color-util', () => { this.colorBy = 'util'; }); toggle('color-mat', () => { this.colorBy = 'material'; });
     this.querySelector('#export').onclick = () => this.exportJSON(true);
-    this.querySelector('#add-level').onclick = () => this.addLevel();
-    for (const t of ['wall', 'column', 'slab', 'beam']) this.querySelector('#add-' + t).onclick = () => this.addTyped(t);
-    this.rebuild(); this.viewer?.fit();
+    this.querySelector('#add-level').onclick = () => { this.querySelector('.add-menu').open = false; this.addLevel(); };
+    for (const t of ['wall', 'column', 'slab', 'beam']) this.querySelector('#add-' + t).onclick = () => { this.querySelector('.add-menu').open = false; this.addTyped(t); };
+    // the toolbar ids the tests and older links use: a hidden alias for "+ Beam" etc. is the menu item itself
+    this.querySelector('#design-toggle').onclick = () => this.setDrawer(this.drawer.hidden);
+    this.querySelector('#drawer-close').onclick = () => this.setDrawer(false);
+    this.syncButtons(); this.rebuild(); this.viewer?.fit();
     globalThis.coralArch = this;
   }
-  disconnectedCallback() { this.app.removeEventListener('regenerate', this.onRegen); this.app.removeEventListener('select', this.onSelect); this.app.removeEventListener('model', this.onRegen); }
+  /** Open or close the design panel; the viewport keeps the full window behind it. */
+  setDrawer(open) {
+    if (open === undefined) return;
+    this.drawer.hidden = !open; this.querySelector('#design-toggle').setAttribute('aria-pressed', String(open));
+    if (open) this.querySelector('page-structure')?.render();
+  }
+  syncButtons() {
+    const set = (id, v) => this.querySelector('#' + id)?.setAttribute('aria-pressed', String(v));
+    set('xray', this.xray); set('ghost', this.ghost); set('show-bars', this.show.bars); set('show-zones', this.show.zones); set('color-util', this.colorBy === 'util'); set('color-mat', this.colorBy === 'material');
+  }
+  /** Governing utilisation of an element, or of the designed element that owns it (a pile's cap, a drop panel's slab). */
+  utilOf(el) {
+    const st = globalThis.coralStructure; if (!st?.designs) return null;
+    let d = st.designs.get(el.id); if (!d && el.parent) d = st.designs.get(el.parent);
+    return d?.design?.governing?.util ?? null;
+  }
+  disconnectedCallback() { for (const ev of ['regenerate', 'model', 'designs']) this.app.removeEventListener(ev, this.onRegen); this.app.removeEventListener('select', this.onSelect); }
 
   rebuild() {
-    const m = this.app.model; const items = []; let vol = 0, steel = 0;
+    const m = this.app.model; const items = []; let vol = 0, steel = 0, designed = 0;
     for (const e of m.all()) {
       const r = m.result(e.id); if (!r || !r.positions) continue;
-      const color = e.type === 'punching_zone' ? ((e.params.util?.value ?? 0) > 1 ? PALETTE.punching_fail : PALETTE.punching_zone) : PALETTE[e.type] || PALETTE.default;
-      if (e.type === 'rebar') steel += e.params.mass_kg?.value ?? r.mass_kg ?? 0; else if (e.type !== 'punching_zone') vol += r.volume_m3 || 0;
-      items.push({ id: e.id, mesh: r, color, alpha: this.xray && e.type !== 'rebar' && e.type !== 'punching_zone' ? 0.22 : this.ghost && e.type === 'slab' ? 0.35 : color[3] });
+      const bar = e.type === 'rebar', zone = e.type === 'punching_zone';
+      if (bar) steel += e.params.mass_kg?.value ?? r.mass_kg ?? 0; else if (!zone) vol += r.volume_m3 || 0;
+      if ((bar && !this.show.bars) || (zone && !this.show.zones)) continue;
+      let color = zone ? ((e.params.util?.value ?? 0) > 1 ? PALETTE.punching_fail : PALETTE.punching_zone) : PALETTE[e.type] || PALETTE.default;
+      if (this.colorBy === 'util' && !bar && !zone) { const u = this.utilOf(e); if (u !== null) { color = utilColor(u); designed++; } }
+      items.push({ id: e.id, mesh: r, color, alpha: this.xray && !bar && !zone ? 0.22 : this.ghost && e.type === 'slab' ? 0.35 : color[3] });
     }
     this.items = items;
     if (this.viewer) { const first = !this.viewer.items.length; this.viewer.setItems(items); this.viewer.setSelection(this.app.selection); if (first && items.length) this.viewer.fit(); }
     const lv = m.byType('level'); const zmax = Math.max(3, ...lv.map(l => (l.params.elevation?.value ?? 0) + (l.params.height?.value ?? 3))) + 1;
     const cut = this.querySelector('#cut'); if (parseFloat(cut.max) !== zmax) { const wasOff = parseFloat(cut.value) >= parseFloat(cut.max); cut.max = zmax; if (wasOff) cut.value = zmax; }
-    this.querySelector('#stats').textContent = `${items.length} solids · ${vol.toFixed(3)} m³ concrete · ${steel.toFixed(1)} kg reinforcement · ${items.reduce((s, it) => s + it.mesh.indices.length / 3, 0)} triangles`;
+    this.querySelector('#stats').textContent = `${vol.toFixed(1)} m³ concrete · ${(steel / 1000).toFixed(2)} t reinforcement · ${items.length} solids`;
+    const legend = this.querySelector('#legend'); legend.hidden = !(this.colorBy === 'util' && designed);
+    legend.innerHTML = `<b>Governing utilisation</b><div class="ramp"></div><div class="ticks"><span>0</span><span>0.5</span><span>1.0</span><span class="bad">&gt; 1</span></div><div class="hint">${designed} designed elements coloured; others by material</div>`;
   }
   addLevel() {
     const m = this.app.model; const top = m.byType('level').reduce((z, l) => Math.max(z, (l.params.elevation?.value ?? 0) + (l.params.height?.value ?? 3)), 0);

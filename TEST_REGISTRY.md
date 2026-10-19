@@ -1,7 +1,7 @@
 # Test registry
 
 Run everything: `./tests/run.sh` (build, service gate, unit tests, end to end). Last full run
-2026-10-17: service-gate 29/29, unit 66/66, e2e 64/64. The structural tests need the stiffness
+2026-10-19: service-gate 29/29, unit 66/66, e2e 64/64 (on the model-first interface, D-19). The structural tests need the stiffness
 binary (STIFFNESS_BIN, default /home/user/stiffness/build/stiffness); without it they are skipped
 (unit) or fail with a stated reason (e2e), never faked.
 

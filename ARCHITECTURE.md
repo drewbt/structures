@@ -28,10 +28,10 @@ app/                the browser application: vanilla JS modules, native web comp
   core/standards/aci318-19.js   the design ruleset as data, a clause per value
   core/api.js       the service client
   render/webgl.js   the 3D viewer: reduced Float32 copy of the meshes, pick pass, section cut, transparency
-  ui/app.js         <coral-app>: layout, routing (#source #trace #architecture), save/reload, selection
+  ui/app.js         <coral-app>: layout, routing (#source #trace #model; #architecture and #structure redirect), save/reload, selection
   ui/tree.js        <coral-tree>        ui/properties.js <coral-properties>      ui/timeline.js <coral-timeline>
-  pages/structure.js <page-structure> 03/04: Design all, Create foundations, Generate reinforcement, per-kind tables and detail
-  pages/source.js   <page-source> 00    pages/trace.js <page-trace> 01            pages/architecture.js <page-architecture> 02
+  pages/structure.js <page-structure>, shown in the Model's Design drawer: Design all, Create foundations, Generate reinforcement, per-kind tables and detail
+  pages/source.js   <page-source> 00    pages/trace.js <page-trace> 01            pages/architecture.js <page-architecture> 02 Model: viewer, toggles, utilisation colours, Add menu, drawer
   fixtures/plan-fixture.svg  a SYNTHETIC drawing with known dimensions (not an ArchDaily drawing)
 tests/unit/*.test.mjs   28 tests under `node --test`         tests/e2e/slice.mjs   38 checks in headless Chromium
 tests/run.sh            build + every gate
