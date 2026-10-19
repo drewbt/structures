@@ -30,6 +30,8 @@ export class PageStructure extends HTMLElement {
     this.app.addEventListener('regenerate', this.onChange); this.app.addEventListener('select', this.onSelect);
     globalThis.coralStructure = this;
     this.render();
+    // the published copy opens complete: design everything as soon as the seeded model is in
+    if (this.app.static) { const go = () => { if (!this.designs.size && !this.busy && this.model.byType('column').length) this.designAll(); }; if (this.model.rev > 0) go(); else this.app.addEventListener('regenerate', go, { once: true }); }
   }
   disconnectedCallback() { this.app.removeEventListener('regenerate', this.onChange); this.app.removeEventListener('select', this.onSelect); }
 

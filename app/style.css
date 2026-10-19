@@ -3,11 +3,12 @@
   --sans: system-ui, -apple-system, "Segoe UI", sans-serif; --mono: ui-monospace, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --bg: #0b1320; --panel: #111c2d; --line: #22314a; --ink: #dde6f2; --dim: #8597b1; --accent: #5fa8ff; }
+  :root:not([data-theme="light"]) { --bg: #0b1320; --panel: #111c2d; --line: #22314a; --ink: #dde6f2; --dim: #8597b1; --accent: #5fa8ff; --warn: #f0a050; --bad: #f07070; --ok: #4cc488; color-scheme: dark; }
 }
+:root[data-theme="dark"] { --bg: #0b1320; --panel: #111c2d; --line: #22314a; --ink: #dde6f2; --dim: #8597b1; --accent: #5fa8ff; --warn: #f0a050; --bad: #f07070; --ok: #4cc488; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 14px/1.4 var(--sans); }
-coral-app { display: grid; height: 100vh; grid-template-rows: 44px 1fr auto; grid-template-columns: 240px 1fr 300px; grid-template-areas: "nav nav nav" "tree main props" "foot foot foot"; }
+coral-app { display: grid; height: 100%; grid-template-rows: 44px 1fr auto; grid-template-columns: 240px 1fr 300px; grid-template-areas: "nav nav nav" "tree main props" "foot foot foot"; }
 coral-app.tree-collapsed { grid-template-columns: 34px 1fr 300px; }
 coral-nav { grid-area: nav; display: flex; align-items: center; gap: 10px; padding: 0 12px; background: var(--panel); border-bottom: 1px solid var(--line); }
 coral-nav .brand { font-weight: 700; letter-spacing: 0.02em; margin-right: 6px; }
@@ -79,3 +80,14 @@ dialog input { font: inherit; padding: 4px 6px; border: 1px solid var(--line); b
 .actions { display: flex; gap: 8px; justify-content: flex-end; }
 page-source, page-trace, page-architecture { display: flex; flex-direction: column; min-height: 0; height: 100%; }
 page-source, page-structure { display: block; overflow: auto; }
+
+/* narrow screens: one column; the tree and properties fold under the working area */
+@media (max-width: 900px) {
+  coral-app, coral-app.tree-collapsed { height: auto; min-height: 100%; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(70vh, auto) auto auto auto; grid-template-areas: "nav" "main" "props" "tree" "foot"; }
+  coral-nav { flex-wrap: wrap; padding-block: 6px; height: auto; }
+  coral-nav .stages { overflow-x: auto; max-width: 100%; }
+  coral-tree { max-height: 40vh; border-right: none; border-top: 1px solid var(--line); }
+  coral-properties { border-left: none; border-top: 1px solid var(--line); }
+  coral-timeline { grid-template-columns: minmax(0, 1fr); max-height: none; }
+  .page-scroll table { display: block; overflow-x: auto; }
+}

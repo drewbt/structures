@@ -166,7 +166,7 @@ try {
     await page.waitForFunction(() => coral.model.byType('beam').length === 1);
     const beamId = await page.evaluate(() => coral.model.byType('beam')[0].id);
     check(near(await page.evaluate(id => coral.model.result(id).volume_m3, beamId), 4.6 * 0.4 * 0.7, 1e-9), 'beam created from the typed dialog: 3D solid 4.6 × 0.4 × 0.7 m');
-    await page.click('coral-nav a[href="#structure"]'); await page.waitForFunction(() => globalThis.coralStructure);
+    await page.click('coral-nav a[href="#structure"]'); await page.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure);
     const designBeam = async () => { await page.evaluate(() => coralStructure.designAll()); return page.evaluate(id => { const d = coralStructure.designs.get(id); return { cached: d.analysis.cached, engine: d.analysis.engine, sha: d.analysis.model_sha, wD: d.bm.loads.wD, wL: d.bm.loads.wL, E: d.bm.material.E, G: d.bm.material.G, I: d.bm.section.Iy, Av: d.bm.section.Av, tip: d.res.cases.D.w[d.bm.n], M0: d.res.cases.D.M[0], Mneg: d.res.envelope.Mneg, gov: d.design.governing, checks: d.design.checks.length, top: d.design.top[0] }; }, beamId); };
     const st = await designBeam();
     const Lb = 4.6, tipCF = -(st.wD * Lb ** 4 / (8 * st.E * st.I) + st.wD * Lb ** 2 / (2 * st.G * st.Av));
@@ -214,7 +214,7 @@ try {
     const h2 = await page.evaluate(() => coral.model.hash()), n2 = await page.evaluate(() => coral.model.elements.size);
     await page.reload(); await page.waitForFunction(() => globalThis.coral?.model?.rev === 2 && coral.lastRegenerate, null, { timeout: 30000 });
     check(await page.evaluate(() => coral.model.hash()) === h2 && await page.evaluate(() => coral.model.elements.size) === n2, 'the whole detailed structure persists through SQLite with the same model hash', `${n2} elements`);
-    await page.click('coral-nav a[href="#structure"]'); await page.waitForFunction(() => globalThis.coralStructure);
+    await page.click('coral-nav a[href="#structure"]'); await page.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure);
     await page.evaluate(() => coralStructure.designAll());
     check(await page.evaluate(() => [...coralStructure.designs.values()].filter(d => d.kind === 'beam').every(d => d.analysis.cached) && [...coralStructure.designs.keys()].every(id => coralStructure.barStatus(id).cls !== 'bad')), 'after reload every beam analysis is a cache hit and every bar is still current');
     await page.screenshot({ path: join(out, 'structure.png'), fullPage: false });

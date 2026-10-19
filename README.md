@@ -24,6 +24,11 @@ revision to SQLite; Reload reads it back.
 Needs a C++17 compiler, CMake ≥ 3.15 and the SQLite development library (`libsqlite3-dev` on Debian/
 Ubuntu; the Xcode SDK on macOS; see ASSUMPTIONS.md A-05 for Windows).
 
+## Published copy
+
+`node tools/build-static.mjs` writes `dist/static/`: the app with a browser-storage API, the detailed
+reference frame as its seed, and the engine results that frame needs (DECISIONS D-18).
+
 ## Test
 
 ```

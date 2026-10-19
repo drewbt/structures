@@ -59,7 +59,7 @@ export const HABS_FALLINGWATER_SOURCE = {
 };
 export const FIXTURE_SOURCE = {
   id: 'src-fixture-plan-v1', kind: 'fixture', title: 'Synthetic calibration fixture (plan)', author: 'Coral Concrete (generated)',
-  url: '/fixtures/plan-fixture.svg', license: 'MIT (this repository)', status: 'synthetic',
+  url: 'fixtures/plan-fixture.svg', license: 'MIT (this repository)', status: 'synthetic',
   attribution: 'Generated test drawing with known dimensions; not an architectural source. 100 px = 1 m; 5 m scale bar = 500 px.',
   meta: { known: { scale_m_per_px: 0.01, outer_walls_m: [12, 8], wall_thickness_mm: 200, origin_px: [150, 850], columns_m: [[3, 4], [9, 4]] }, missing: [] },
 };

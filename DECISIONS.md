@@ -81,3 +81,8 @@ kept and reported when none passes.
 **D-17 · One function decides bar positions for both the check and the drawing.** (2026-10-17)
 `stripPositions` lays column-strip bars symmetrically about the column line; the integrity check (8.7.4.2.1)
 and the bar generator call it, so the check cannot describe bars that are not drawn.
+
+**D-18 · A published static copy answers the API in the browser.** (2026-10-19)
+`core/api-local.js` keeps the model in browser storage and answers analyses only from engine results captured
+by `tools/build-static.mjs` from real runs, keyed as the service keys them. Any other analysis is refused
+with a message. No engine code ships; the published page opens on the designed reference frame.

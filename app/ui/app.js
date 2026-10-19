@@ -7,6 +7,7 @@
 
 import { Model } from '../core/model.js';
 import { Api } from '../core/api.js';
+import { LocalApi } from '../core/api-local.js';
 
 export const STAGES = [
   { id: 'source', n: '00', label: 'Source', tag: 'page-source' },
@@ -18,9 +19,10 @@ export const STAGES = [
 export class CoralApp extends HTMLElement {
   connectedCallback() {
     const q = new URLSearchParams(location.search);
-    this.project = q.get('project') || 'section-haus';
+    this.static = !!globalThis.CORAL_STATIC;   // the published build: storage in this browser, precomputed engine results
+    this.project = q.get('project') || (this.static ? 'reference-frame' : 'section-haus');
     this.model = new Model(this.project);
-    this.api = new Api('');
+    this.api = this.static ? new LocalApi() : new Api('');
     this.selection = new Set();
     this.sources = [];
     this.status = { text: 'starting', saved: true, health: null };
@@ -49,7 +51,7 @@ export class CoralApp extends HTMLElement {
     } catch (err) { this.status.text = `service unreachable: ${err.message}`; this.renderNav(); }
     this.route();
   }
-  get stageId() { return (location.hash || '#source').slice(1); }
+  get stageId() { return (location.hash || (this.static ? '#structure' : '#source')).slice(1); }
   route() {
     const stage = STAGES.find(s => s.id === this.stageId) || STAGES[0];
     if (this.page?.tagName.toLowerCase() !== stage.tag) {
@@ -60,13 +62,13 @@ export class CoralApp extends HTMLElement {
   renderNav() {
     const m = this.model;
     this.nav.innerHTML = `
-      <span class="brand">Coral Concrete</span>
+      <span class="brand">Coral Concrete</span>${this.static ? '<span class="pill warn" title="Model kept in this browser; engine results precomputed from the local service">published copy</span>' : ''}
       <nav class="stages">${STAGES.map(s => `<a href="#${s.id}" class="${s.id === this.stageId ? 'on' : ''}"><span class="n">${s.n}</span>${s.label}</a>`).join('')}</nav>
       <span class="spacer"></span>
       <span class="status" id="status">${this.project} · rev ${m.rev}${this.status.saved ? '' : ' · unsaved'} · ${m.elements.size} elements${this.status.text ? ' · ' + this.status.text : ''}</span>
       <button id="undo" title="Undo (Ctrl+Z)">↶</button><button id="redo" title="Redo (Ctrl+Shift+Z)">↷</button>
       <button id="reload" title="Discard unsaved changes and reload from the service">Reload</button>
-      <button id="save" class="primary" title="Commit a revision to SQLite (Ctrl+S)">Save</button>`;
+      <button id="save" class="primary" title="${this.static ? 'Commit a revision to this browser\'s storage' : 'Commit a revision to SQLite'} (Ctrl+S)">Save</button>`;
     this.nav.querySelector('#save').onclick = () => this.save();
     this.nav.querySelector('#reload').onclick = () => this.load();
     this.nav.querySelector('#undo').onclick = () => { this.model.undo(); this.regenerate(); };
@@ -86,7 +88,7 @@ export class CoralApp extends HTMLElement {
     const r = await this.api.commit(this.project, body);
     if (r.conflict) { this.status.text = `conflict: service is at rev ${r.rev}, reload first`; this.renderNav(); return r; }
     this.model.committed(r.rev);
-    this.status.saved = true; this.status.text = r.client_hash_agrees === false ? 'HASH MISMATCH with service' : `saved rev ${r.rev}`;
+    this.status.saved = true; this.status.text = r.client_hash_agrees === false ? 'HASH MISMATCH with service' : this.static ? (r.persisted === false ? `rev ${r.rev} kept in this tab only (browser storage unavailable or full)` : `saved rev ${r.rev} in this browser`) : `saved rev ${r.rev}`;
     this.renderNav(); return r;
   }
   regenerate() { const r = this.model.regenerate(); this.lastRegenerate = r; this.dispatchEvent(new CustomEvent('regenerate', { detail: r })); return r; }
