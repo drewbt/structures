@@ -142,3 +142,26 @@ reflecting it over procedurally lit rooms, brushed fins, haze) that hides analys
 view from the park; Engineering mode is unchanged, with the facade as faint glass. Emaar's own pages were not
 reachable from the build environment, so the brief is their established, published visual language rather than
 a specific brochure.
+
+**D-25 · An actual site, real neighbours, an organic form from precedent.** (2026-10-20)
+Brief: a more organic form on an actual site among its actual surroundings. Site: the Park Lane Hotel footprint,
+36 Central Park South, a documented supertall site (Witkoff's "1 Park Lane", reported on hold); this is a design
+study, not the owner's scheme. Surroundings: every building within 650 m from OpenStreetMap (the NYC building
+import, extract of 2015-12-30, found in a public repository because NYC Open Data and Overpass were blocked by the
+environment's network policy), plus Central Park Tower, 111 W 57th, 220 CPS and 53 W 53rd added from published
+heights at approximate positions. Form, after Shanghai Tower, Lakhta Center and Jeddah Tower: a superellipse
+plate that tapers and turns with height (a quarter turn to 62 %), round a straight core, with a concrete tube on
+the largest rectangle each plate contains, so the engine frame still applies; the generator refuses any plate
+that leaves the lot or cannot hold the tube. The lot set the plate (28.5 × 24.4 m); comfort then set the
+height: `tools/optimise-site.mjs` ran 240 towers, 80 refused by the lot; the tallest comfortable form whose
+across-wind estimate is inside its method's range is 52 storeys, 285 m. The search's cheapest at that height
+turns 45°; the 90° turn is kept for the brief at 1 % more concrete. Penthouses and an open crown at the top
+(D-26).
+
+**D-26 · Penthouses and an open crown; every storey screened.** (2026-10-20)
+The owner asked for a top flourish for penthouses that does little for wind. The top three storeys are
+double-height with the glass line set back about 2 m (wrap-around terraces, glass balustrades), so the wind sees
+the smaller enclosure; above the roof an open crown of blades leans in and turns, lit at the tips, with no tube:
+only the core rises through it. Its wind area is the blade solidity (about 0.2), not the outline. Adding the
+crown exposed two gaps that are now closed: pier stresses are screened at every storey, not only the base, and
+the 1.4.3 notional load runs as its own engine case.

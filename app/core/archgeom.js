@@ -2,7 +2,7 @@
 // spandrel bands, louvred mechanical floors, a glass crown lantern, a spire, and illustrative city context.
 // None of it is structure: no concrete volume is reported. Each mesh carries per-vertex materials (MAT) that the
 // viewer's render mode shades; the engineering view draws them as plain colours.
-import { MeshBuilder, boxInto, MAT } from './geometry.js';
+import { MeshBuilder, boxInto, MAT, triangulatePolygon } from './geometry.js';
 
 /**
  * A storey of curtain wall around a counter-clockwise plan outline, from z0 up h. `kind`: typical (vision glass
@@ -18,6 +18,7 @@ export function curtainWallMesh({ outline, z0, h, kind = 'typical', fin = 1.5, f
     const t = [dx / L, dy / L], o = [t[1], -t[0]];   // outward for a counter-clockwise outline
     const P = (s, off, z) => [a[0] + t[0] * s + o[0] * off, a[1] + t[1] * s + o[1] * off, z];
     const pane = (zA, zB, mat) => { mb.mat = mat; mb.quad(P(0, offset, zA), P(L, offset, zA), P(L, offset, zB), P(0, offset, zB)); };
+    if (kind === 'balustrade') { pane(z0, z0 + h, MAT.glass); glass += L * h; continue; }   // a glass balustrade at a terrace edge: no fins
     if (kind === 'typical') { pane(z0, z0 + band, MAT.metal); pane(z0 + band, z0 + h, MAT.glass); }
     else if (kind === 'mechanical') pane(z0, z0 + h, MAT.louvre);
     else if (kind === 'crown') pane(z0, z0 + h, MAT.glow);
@@ -99,4 +100,42 @@ export function manhattanBlocks({ exclude, south = -520, north, west = -520, eas
 /** Trees scattered over a rectangle (the park), deterministic. */
 export function scatterTrees({ x0, y0, x1, y1, n, seed = 7 }) {
   const rnd = seeded(seed); return Array.from({ length: n }, () => [Math.round((x0 + rnd() * (x1 - x0)) * 10) / 10, Math.round((y0 + rnd() * (y1 - y0)) * 10) / 10, Math.round((0.7 + rnd() * 0.8) * 100) / 100]);
+}
+
+/** Real buildings: footprints {pts (counter-clockwise), h, min_h} extruded from min_h to h; glazed sides, dark roofs. */
+export function buildingsMesh({ buildings }) {
+  const mb = new MeshBuilder();
+  for (const b of buildings) {
+    const p = b.pts, z0 = b.min_h || -0.02, z1 = b.h; if (!(z1 > z0) || p.length < 3) continue;
+    mb.mat = MAT.cityglass;
+    for (let i = 0; i < p.length; i++) { const a = p[i], c = p[(i + 1) % p.length]; mb.quad([a[0], a[1], z0], [c[0], c[1], z0], [c[0], c[1], z1], [a[0], a[1], z1]); }
+    let tris; try { tris = triangulatePolygon(p); } catch { tris = []; }
+    for (const [i, j, k] of tris) mb.tri([...p[i], z1], [...p[j], z1], [...p[k], z1]);
+  }
+  const m = mb.finish(); delete m.volume_m3; return m;
+}
+
+/**
+ * An open crown: blades rising from the roof edge, leaning in to `topScale` of the outline about its centre and
+ * turning by `twistDeg`, lit towards the tips. Blades every `fin` metres, `depth` deep: an open lattice, so its
+ * wind solidity is the blade area over the enclosed outline (reported as solidity).
+ */
+export function crownFinsMesh({ outline, z0, h, fin = 2.4, depth = 0.9, topScale = 0.45, twistDeg = 20 }) {
+  const mb = new MeshBuilder(), n = outline.length, cx = outline.reduce((s, q) => s + q[0], 0) / n, cy = outline.reduce((s, q) => s + q[1], 0) / n, th = twistDeg * Math.PI / 180;
+  const top = ([x, y], k) => { const u = (x - cx) * k, v = (y - cy) * k; return [cx + u * Math.cos(th) - v * Math.sin(th), cy + u * Math.sin(th) + v * Math.cos(th)]; };
+  let per = 0; for (let i = 0; i < n; i++) per += Math.hypot(outline[(i + 1) % n][0] - outline[i][0], outline[(i + 1) % n][1] - outline[i][1]);
+  const count = Math.max(8, Math.round(per / fin)); let area = 0;
+  // points evenly along the perimeter
+  const at = s => { let acc = 0; for (let i = 0; i < n; i++) { const a = outline[i], b = outline[(i + 1) % n], L = Math.hypot(b[0] - a[0], b[1] - a[1]); if (acc + L >= s) { const t = (s - acc) / L; return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; } acc += L; } return outline[0]; };
+  for (let k = 0; k < count; k++) {
+    const p = at(per * k / count), dx = p[0] - cx, dy = p[1] - cy, r = Math.hypot(dx, dy) || 1, ox = dx / r * depth, oy = dy / r * depth;   // blades stand radially
+    const b0 = [p[0], p[1], z0], b1 = [p[0] - ox, p[1] - oy, z0], tp = top(p, topScale), t0 = [tp[0], tp[1], z0 + h], t1 = [tp[0] - ox * topScale, tp[1] - oy * topScale, z0 + h];
+    const mid = 0.78, lerp = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t), m0 = lerp(b0, t0, mid), m1 = lerp(b1, t1, mid);
+    mb.mat = MAT.metal; mb.quad(b0, b1, m1, m0); mb.quad(b1, b0, m0, m1);     // two-sided blade
+    mb.mat = MAT.glow; mb.quad(m0, m1, t1, t0); mb.quad(m1, m0, t0, t1);      // lit tips
+    area += depth * (1 + topScale) / 2 * h;
+  }
+  const m = mb.finish(); delete m.volume_m3; m.glass_m2 = area;   // blade area: carries the facade weight per m²
+  m.solidity = Math.min(1, count * depth * 0.35 / per * 2);        // projected blade area over the face, a blade seen at about 70° on average
+  return m;
 }

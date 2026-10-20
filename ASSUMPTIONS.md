@@ -123,3 +123,15 @@ the 10-year wind, peak acceleration 15 milli-g.
 their stated solidity, slab coupling 0.35 Ig over the core depth, outriggers as storey-deep beams at mid-height,
 rigid diaphragms, columns out of the lateral system, fixed at grade. Rock anchors 2500 kN working, two rows at
 1.5 m along the mat edge, to hold the 0.6D + 0.6W resultant in the middle third.
+
+**A-28 · The Park Lane site data.** Footprints and heights are OpenStreetMap's as of 2015-12-30 (NYC building
+import); buildings changed since are as they were then, except the four towers added from published heights at
+positions estimated from their lots (±20 m). 21 heights are estimated (levels × 3.5 m or 15 m) and flagged. The
+site is the hotel's building footprint; the tax lot was not verifiable (NYC PLUTO unreachable). The street-grid
+angle (61.17° from east) was measured from the Central Park South frontages. The park edge is approximate.
+Data © OpenStreetMap contributors, ODbL 1.0.
+
+**A-29 · The organic tower's structure.** The tube follows the largest axis-aligned rectangle each plate holds, at
+least 1.2 m inside the facade plus half its thickness, 70 % solid; slab edges cantilever from it to the curved
+facade (cantilever design owed). The core steps down with the plate, not below 60 % of its base size, as lift
+banks drop off. Apartments lie between tube and facade; the tube's openings serve them.

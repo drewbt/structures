@@ -1,7 +1,7 @@
 # Test registry
 
 Run everything: `./tests/run.sh` (build, service gate, unit tests, end to end). Last full run
-2026-10-20: service-gate 29/29, unit 88/88, e2e 77/77 (facade, spire, render mode, D-24). The structural tests need the stiffness
+2026-10-20: service-gate 29/29, unit 93/93, e2e 79/79 (Park Lane study, D-25/D-26). The structural tests need the stiffness
 binary (STIFFNESS_BIN, default /home/user/stiffness/build/stiffness); without it they are skipped
 (unit) or fail with a stated reason (e2e), never faked.
 
@@ -118,3 +118,6 @@ the across-wind rows are indicative and the page says the tunnel is required; 29
 e2e adds: the default tower's worst 10-year acceleration ≤ 10 milli-g; the whole tower is inside the opening view.
 
 unit adds: curtain wall glass area = perimeter × height, materials per vertex, no concrete; every storey has a facade, one spire, no context building on the lot. e2e adds: facade and spire present; render toggles cleanly.
+
+## site (tests/unit/site.test.mjs)
+site data carries source and licence, later towers flagged, no neighbour on the site; every plate inside the lot and holding the tube 2 m round the core; the taper and turn as stated; penthouses set back with balustrades; the crown open (solidity < 0.5) with no tube; crown blade mesh. e2e: the study opens on the real site, every check passes, ≤ 10 milli-g, across-wind inside its range.

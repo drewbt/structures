@@ -118,6 +118,13 @@ Curtain wall per storey, louvred mechanical bands, lit crown lantern, spire; ill
 trees; Render mode in the WebGL viewer (dusk sky, reflective glass, lit rooms, haze, hero camera) as the default
 for a model with a facade (D-24). Facade weight in the analysis; comfort 9.73 milli-g. Unit 88/88, e2e 77/77.
 
+## 11 · Park Lane study: real site, real neighbours, organic form, penthouse crown (2026-10-20)
+The Park Lane Hotel footprint at 36 Central Park South among 1,756 real buildings (OpenStreetMap 2015 plus four
+later towers); a tapering, quarter-turning superellipse tower round a straight core (D-25), penthouses with
+terraces and an open crown (D-26); 240 engine-run candidates; 52 storeys, 285 m, 9.7 milli-g, every check
+passing with the across-wind estimate inside its method. Pier stresses now screened at every storey; the
+notional load is its own case. The published copy opens on this study. Unit 93/93, e2e 79/79.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency

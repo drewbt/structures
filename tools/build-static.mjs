@@ -59,6 +59,13 @@ try {
   const tw = await p3.evaluate(async () => { await coralStructure.designAll(); return { runs: coralStructure.towerWind?.runs || [], err: coralStructure.towerWindError }; });
   if (tw.err) throw new Error(`tower wind analysis: ${tw.err}`);
   for (const r of tw.runs) { results[r.key] = r.output; console.log(`  engine result: tower ${r.key.slice(0, 12)}…`); }
+  // the Park Lane study: generated from app/data/site-park-lane.json on first open; its engine runs captured
+  const p4 = await browser.newPage(); await p4.goto(`http://127.0.0.1:${port}/?project=park-lane-build#model`); await p4.waitForFunction(() => globalThis.coralArch && coral.status.health);
+  await p4.evaluate(async () => { const { createSiteTower } = await import(`${location.origin}/core/sitetower.js`); const site = await (await fetch(`${location.origin}/data/site-park-lane.json`)).json(); if (!coral.model.byType('level').length) createSiteTower(coral, site); });
+  await p4.evaluate(() => coralArch.setDrawer(true)); await p4.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure);
+  const sw = await p4.evaluate(async () => { await coralStructure.designAll(); return { runs: coralStructure.towerWind?.runs || [], err: coralStructure.towerWindError }; });
+  if (sw.err) throw new Error(`Park Lane wind analysis: ${sw.err}`);
+  for (const r of sw.runs) { results[r.key] = r.output; console.log(`  engine result: park-lane ${r.key.slice(0, 12)}…`); }
   // assemble
   cpSync(join(root, 'app'), out, { recursive: true });
   rmSync(join(out, 'index.html'));

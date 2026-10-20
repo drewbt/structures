@@ -257,6 +257,16 @@ try {
     await tp.evaluate(() => coralArch.setDrawer(false)); await tp.click('#render'); await tp.waitForTimeout(300); await tp.click('#render'); await tp.waitForTimeout(500);
     check(await tp.evaluate(() => coralArch.renderMode === true && coralArch.viewer.render === true), 'the presentation render toggles off and on without errors');
     await tp.screenshot({ path: join(out, 'tower-render.png') });
+    // ---- the Park Lane study on the real site, among its real neighbours
+    const sp = await browser.newPage({ viewport: { width: 1500, height: 950 } }); sp.on('pageerror', e => errors.push(e.message));
+    await sp.goto(`${base}/?project=park-lane#model`); await sp.waitForFunction(() => globalThis.coralArch?.items?.length > 300 && coral.status.health, null, { timeout: 60000 });
+    const si = await sp.evaluate(() => { const b = coral.model.byType('context').find(c => c.params.kind.value === 'buildings'); return { n: b?.params.buildings.value.length, src: b?.provenance.method, pent: coral.model.byType('level').filter(l => l.params.kind?.value === 'penthouse').length, crown: coral.model.byType('curtain_wall').some(c => c.params.kind.value === 'crownfins'), errs: Object.keys(coral.lastRegenerate.errors).length }; });
+    check(si.n > 1000 && si.src === 'measured' && si.pent === 3 && si.crown && si.errs === 0, 'Park Lane study: the organic tower on the real site, real neighbours (measured), penthouses and an open crown', JSON.stringify(si));
+    await sp.evaluate(() => coralArch.setDrawer(true)); await sp.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure);
+    await sp.evaluate(() => coralStructure.designAll());
+    const sw = await sp.evaluate(() => { const w = coralStructure.towerWind; return w ? { fails: w.checks.filter(c => !c.indicative && c.util > 1).map(c => c.name), worst: Math.max(...w.checks.filter(c => /acceleration/.test(c.name)).map(c => c.demand)), ind: w.indicative.length } : { err: coralStructure.towerWindError }; });
+    check(sw.fails?.length === 0 && sw.worst <= 10 && sw.ind === 0, 'Park Lane study: every check passes, comfortable (≤ 10 milli-g), and the across-wind estimate is inside its method\'s range', JSON.stringify(sw).slice(0, 300));
+    await sp.evaluate(() => coralArch.setDrawer(false)); await sp.waitForTimeout(500); await sp.screenshot({ path: join(out, 'park-lane.png') }); await sp.close();
     check(tw.ind === 2 && await tp.evaluate(() => document.querySelector('page-structure').textContent.includes('wind tunnel test')), 'the across-wind rows are marked indicative and the page states that compliance needs a wind tunnel test');
     const cov = await tp.evaluate(() => [...document.querySelectorAll('details.coverage tbody tr')].map(tr => [tr.cells[0].textContent, tr.cells[2].textContent]));
     check(cov.length === 29 && cov.some(([c, st]) => c === '31' && st === 'owed') && cov.some(([c, st]) => c === '12' && st === 'applied') && cov.some(([c, st]) => c === '7' && st === 'applied'), 'every ASCE 7-16 chapter is listed for the tower: seismic and snow applied, the wind tunnel owed', cov.map(r => r.join(':')).join(' '));

@@ -102,3 +102,10 @@ records already treat as the house code; the Brazilian candidates fall under ABN
 Nothing above is a dimension. The model still carries only the synthetic fixture. The first thing a
 person with access to the pages should do is page 00 → Import on the plan and the section, and copy
 the drawing captions into the source record (ASSUMPTIONS A-01).
+
+## Park Lane study (2026-10-20)
+- OpenStreetMap extract of Manhattan, 2015-12-30: github.com/fogleman/Manhattan, osm/manhattan.osm.pbf (buildings with NYC import heights). © OpenStreetMap contributors, ODbL 1.0. Converted by tools/site-from-osm.py to app/data/site-park-lane.json.
+- 1 Park Lane / 36 Central Park South as a supertall site: https://www.6sqft.com/revealed-1-park-lane-will-be-the-next-supertall-central-park-south-tower/ (plan reported on hold).
+- Published heights of the towers added: Central Park Tower 472.4 m, 111 W 57th 435.3 m, 220 Central Park South 289.9 m, 53 W 53rd 320 m (from memory of the published figures; unverified here).
+- Twisting and tapering for wind (Shanghai Tower, Gensler): https://trendsideas.com/article/twisting-facade-of-chinas-tallest-building-reduces-sway-and-cuts-construction-costs ; tapering in supertalls: https://trepo.tuni.fi/bitstream/10024/142056/1/Use_of_aerodynamically_favorable_tapered_form_in_contemporary_supertall_buildings.pdf
+- Blocked by the environment's network policy: data.cityofnewyork.us (NYC building footprints, PLUTO), overpass-api.de.

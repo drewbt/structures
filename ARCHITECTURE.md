@@ -26,6 +26,10 @@ app/                the browser application: vanilla JS modules, native web comp
   core/foundations.js  load takedown, pile caps (sectional + strut-and-tie), piles
   core/geotech.js   soil profile (fill, clay, sand, rock), bored-pile axial capacity, designed pile length
   core/tower.js     the synthetic needle tower, floor by floor; gravity summary
+  core/sitetower.js the Park Lane study: organic plates on the real lot, tube and core, penthouses, open crown
+  app/data/site-park-lane.json   real neighbours (OpenStreetMap, ODbL) in the site's street-grid frame
+  tools/site-from-osm.py   one-off: builds that file from an OSM extract (needs pyosmium; the app does not)
+  tools/optimise-site.mjs  height and form of the study for comfort through the engine
   core/archgeom.js  architecture over the structure: curtain wall, spire, illustrative city and trees (per-vertex materials)
   render/webgl.js   also a Render mode: dusk sky pass, Fresnel glass, lit rooms, haze
   core/towerdyn.js  the tower's lateral frame for the engine; wind, earthquake and other-chapter checks

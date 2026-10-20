@@ -103,8 +103,10 @@ export class PageArchitecture extends HTMLElement {
     for (const it of v.items) { const t = this.app.model.get(it.id)?.type; if (it.background && t !== 'curtain_wall' && t !== 'spire') continue; for (let k = 0; k < 3; k++) { b.min[k] = Math.min(b.min[k], it.mesh.bounds.min[k]); b.max[k] = Math.max(b.max[k], it.mesh.bounds.max[k]); } }
     if (!isFinite(b.min[0])) return;
     const H = Math.max(b.max[2], 1), aspect = (v.canvas.clientWidth || 1) / (v.canvas.clientHeight || 1), fovH = 2 * Math.atan(Math.tan(v.camera.fov / 2) * aspect), fov = Math.min(v.camera.fov, fovH);
-    v.camera.target = [(b.min[0] + b.max[0]) / 2, (b.min[1] + b.max[1]) / 2, H * 0.5]; v.camera.theta = 1.2; v.camera.phi = -0.02;   // across the park from the north-north-east, at drone height, towards the sunset
-    v.camera.dist = (H * 0.56) / Math.tan(fov / 2) * 1.12; v.needsDraw = true;
+    const skyline = this.app.model.byType('context').some(c => c.params.kind?.value === 'buildings');   // a real city around it: show the tower in its skyline
+    v.camera.target = [(b.min[0] + b.max[0]) / 2, (b.min[1] + b.max[1]) / 2, H * (skyline ? 0.4 : 0.5)];
+    v.camera.theta = skyline ? 1.95 : 1.72; v.camera.phi = skyline ? 0.12 : -0.02;   // from over the park, looking down the avenues towards the sunset
+    v.camera.dist = (H * 0.56) / Math.tan(fov / 2) * (skyline ? 2.4 : 1.12); v.needsDraw = true;
   }
   rebuild() {
     const m = this.app.model; const items = []; let vol = 0, steel = 0, designed = 0;
@@ -136,6 +138,8 @@ export class PageArchitecture extends HTMLElement {
     this.items = items;
     if (this.viewer) { const first = !this.viewer.items.length; this.viewer.setItems(items); this.viewer.setSelection(this.app.selection); if (first && items.length) { if (R) this.heroView(); else this.viewer.fit(); } }
     this.classList.toggle('rendering', !!R);
+    const real = m.byType('context').find(c => c.params.kind?.value === 'buildings'), cap = this.querySelector('#caption');
+    if (cap) cap.textContent = real ? 'Design study, not the owner\'s scheme: the facade, terraces and crown are architecture over the engineered structure. Neighbours from OpenStreetMap (NYC building import, 2015) © OpenStreetMap contributors, ODbL; towers completed since added from published heights.' : 'Illustrative render: the facade, crown and spire are architecture drawn over the engineered structure; the city is illustrative massing, not a survey.';
     const lv = m.byType('level'); const zmax = Math.max(3, ...lv.map(l => (l.params.elevation?.value ?? 0) + (l.params.height?.value ?? 3))) + 1;
     const zmin = Math.floor(Math.min(-1, ...items.filter(it => it.mesh.bounds).map(it => it.mesh.bounds.min[2])));
     const cut = this.querySelector('#cut'); if (parseFloat(cut.min) !== zmin) cut.min = zmin; if (parseFloat(cut.max) !== zmax) { const wasOff = parseFloat(cut.value) >= parseFloat(cut.max); cut.max = zmax; if (wasOff) cut.value = zmax; }

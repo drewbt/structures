@@ -19,11 +19,11 @@ const BIN = process.env.STIFFNESS_BIN || '/home/user/stiffness/build/stiffness',
 let runs = 0;
 const run = async eng => { const i = join(dir, 'm.json'), o = join(dir, 'r.json'); writeFileSync(i, JSON.stringify(eng)); try { execFileSync(BIN, [i, '-o', o, '--compact'], { stdio: ['ignore', 'ignore', 'pipe'] }); } catch (err) { throw new Error(`engine: ${String(err.stderr).trim().slice(0, 300)}`); } runs++; return JSON.parse(readFileSync(o, 'utf8')); };
 
-export async function evaluate(opts) {
+export async function evaluate(opts, { create = (app, o) => createNeedleTower(app, o) } = {}) {
   const m = new Model('opt'), app = { model: m, regenerate() { return m.regenerate(); } };
-  createNeedleTower(app, opts);
+  create(app, opts);
   const r = await analyseTower(m, run, { gravityInputs, towerGravity });
-  const concrete = gravityInputs(m).concrete_m3, dmass = opts.damper?.mass ?? 0;
+  const concrete = gravityInputs(m).concrete_m3, dmass = typeof opts.damper === 'number' ? opts.damper : opts.damper?.mass ?? 0;
   const pass = r.checks.filter(c => !c.indicative).every(c => c.util <= 1), across = r.indicative.map(c => c.util);
   return { opts, concrete, damper_t: dmass, cost: concrete + dmass / 2.4, pass, across_ok: across.every(u => u <= 1), r };
 }

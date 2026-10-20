@@ -16,7 +16,7 @@ cmake -S . -B build && cmake --build build -j
 without it the model works and the Design drawer says the engine is not configured.
 Open http://127.0.0.1:8790/?project=section-haus. Pages: 00 Source (register the source, import a
 drawing, or register the synthetic fixture), 01 Trace (Calibrate on a scale bar → Origin → Wall /
-Column / Slab / Opening), 02 Model (pick reference-frame or needle-tower in the header; the 3D model fills the window: view toggles, colour by utilisation, Add menu, export; the Design drawer holds Create reference frame → Design all →
+Column / Slab / Opening), 02 Model (pick park-lane, needle-tower or reference-frame in the header; the 3D model fills the window: view toggles, colour by utilisation, Add menu, export; the Design drawer holds Create reference frame → Design all →
 Create foundations → Design all → Generate reinforcement: beams, columns, flat slabs with drop panels and
 punching zones, pile caps and piles, to ACI 318-19). Save commits a
 revision to SQLite; Reload reads it back.

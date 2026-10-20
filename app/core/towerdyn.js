@@ -54,8 +54,10 @@ export function towerStoreys(model) {
   return levels.map((l, i) => {
     const kids = model.children(l.id), walls = kids.filter(k => k.type === 'wall'), slab = kids.find(k => k.type === 'slab');
     const tag = t => walls.filter(w => num(w, 'pier', null) === t).map(w => ({ id: w.id, start: num(w, 'start'), end: num(w, 'end'), thickness: num(w, 'thickness'), fc: num(w, 'fc', 55), solidity: num(w, 'solidity', 1) }));
-    const tube = tag('tube'), piers = tube.length ? { tube, core: tag('core') } : { west: tag('west'), core: tag('core'), east: tag('east') };
-    for (const [k, v] of Object.entries(piers)) if (!v.length) throw new Error(`${l.name}: no ${k} pier walls`);
+    const tube = tag('tube'), piers0 = tube.length ? { tube, core: tag('core') } : { west: tag('west'), core: tag('core'), east: tag('east') };
+    if (!piers0.core.length) throw new Error(`${l.name}: no core walls`);
+    const piers = Object.fromEntries(Object.entries(piers0).filter(([k, v]) => v.length));   // a storey may carry the core alone (an open crown)
+    if (Object.keys(piers).length === 1 && i < levels.length - 1) throw new Error(`${l.name}: only the core below the top storey`);
     const vol = id => model.result(id)?.volume_m3 || 0;
     const wallMass = Object.fromEntries(Object.entries(piers).map(([k, v]) => [k, v.reduce((s, w) => s + vol(w.id) * w.solidity, 0) * DYN.density_t]));
     const outriggers = tag('outrigger');
@@ -64,8 +66,12 @@ export function towerStoreys(model) {
     const live = slab ? slabArea * num(slab, 'll', 0) : 0, colMass = kids.filter(k => k.type === 'column').reduce((s, c) => s + vol(c.id), 0) * DYN.density_t
       + kids.filter(k => k.type === 'curtain_wall').reduce((s, c) => s + (model.result(c.id)?.glass_m2 || 0) * num(c, 'weight', 0) / 9.81, 0);   // facade mass, t
     const isTop = i === levels.length - 1, dmass = isTop && damper ? num(damper, 'mass', 0) : 0;
-    return { id: l.id, name: l.name, z0: num(l, 'elevation'), h: num(l, 'height'), piers, outriggers, wallMass, slabMass: slabMass + colMass, live, slabArea, slabT: slab ? num(slab, 'thickness', 0.25) : 0, damperMass: dmass,
-      ...(() => { const ew = walls.filter(w => /east wall|west wall/.test(w.name)), xs = ew.map(w => num(w, 'start')[0]), t = num(ew[0], 'thickness'), e = ew[0]; return { width_x: Math.max(...xs) - Math.min(...xs) + t, depth_y: Math.abs(num(e, 'end')[1] - num(e, 'start')[1]) }; })() };
+    const env0 = kids.find(k => k.type === 'curtain_wall' && num(k, 'kind', '') === 'crownfins'), solidity = env0 ? (model.result(env0.id)?.solidity ?? 1) : 1;   // an open crown: the wind sees its blades
+    return { id: l.id, name: l.name, z0: num(l, 'elevation'), h: num(l, 'height'), solidity, piers, outriggers, wallMass, slabMass: slabMass + colMass, live, slabArea, slabT: slab ? num(slab, 'thickness', 0.25) : 0, damperMass: dmass,
+      ...(() => {   // the faces the wind sees: the floor plate's extent (the facade line), else the outer walls
+        const env = kids.find(k => k.type === 'curtain_wall' && num(k, 'kind', '') !== 'balustrade'), o = env ? num(env, 'outline') : slab ? num(slab, 'outline') : null;   // the enclosure the wind sees (a terrace's glass line, not its slab edge)
+        if (o) { const xs = o.map(q => q[0]), ys = o.map(q => q[1]); return { width_x: Math.max(...xs) - Math.min(...xs), depth_y: Math.max(...ys) - Math.min(...ys) }; }
+        const ew = walls.filter(w => /east wall|west wall/.test(w.name)), xs = ew.map(w => num(w, 'start')[0]), t = num(ew[0], 'thickness'), e = ew[0]; return { width_x: Math.max(...xs) - Math.min(...xs) + t, depth_y: Math.abs(num(e, 'end')[1] - num(e, 'start')[1]) }; })() };
   });
 }
 
@@ -75,7 +81,7 @@ export function towerStoreys(model) {
  */
 export const towerFrame = register({
   name: 'tower.frame', version: '1.0.0',
-  assumptions: ['piers as vertical Timoshenko beams with the gross section of their walls (service stiffness ≈ Ig, ACI R6.6.3.1.2)', 'floors rigid in plan; slab coupling 0.35 Ig over the core depth', 'outriggers as deep beams at the mid-height of their storey', 'columns carry gravity only and are not in the frame', 'fixed at grade: the cellars and the ground are taken as rigid', 'lumped translational masses; rotary inertia comes from the spread of mass between the piers'],
+  assumptions: ['piers as vertical Timoshenko beams with the gross section of their walls (service stiffness ≈ Ig, ACI R6.6.3.1.2)', 'floors rigid in plan; slab coupling 0.35 Ig over the core depth', 'outriggers as deep beams at the mid-height of their storey', 'a pier centroid moving less than 50 mm between storeys keeps its axis (the eccentricity is neglected)', 'columns carry gravity only and are not in the frame', 'fixed at grade: the cellars and the ground are taken as rigid', 'lumped translational masses; rotary inertia comes from the spread of mass between the piers'],
   inputs: null,
   run({ storeys, modes = 6 }) {
     const nodes = [], members = [], meta = [], key = new Map(), mass = [];
@@ -93,7 +99,10 @@ export const towerFrame = register({
       for (const p of P) {
         const sec = pierSection(st.piers[p], { closed: p === 'core' || p === 'tube' }), fc = Math.min(...st.piers[p].map(w => w.fc)), E = Ec(fc) * DYN.wall_service, G = E / 2.4;
         const s = { area_m2: sec.A, Iy: sec.Iyy, Iz: sec.Ixx, J: sec.J, ...(DYN.shear ? { Avz: sec.Avx, Avy: sec.Avy } : {}) };
-        const nb = node(p, 'floor', zb, sec.xc, sec.yc, zb <= 1e-9 && k === 0), nt = node(p, 'floor', zt, sec.xc, sec.yc);
+        sec.fc = fc; sec.storey = st.name; sec.pier = p;
+        // a centroid that moves less than 50 mm keeps the node below (no near-zero-length rigid link, which would swamp the stiffness matrix)
+        const pt = prevTop && nodes[prevTop[p]].p, near = pt && Math.hypot(pt[0] - sec.xc, pt[1] - sec.yc) < 0.05;
+        const nb = near ? prevTop[p] : node(p, 'floor', zb, sec.xc, sec.yc, zb <= 1e-9 && k === 0), nt = near ? node(p, 'floor', zt, pt[0], pt[1]) : node(p, 'floor', zt, sec.xc, sec.yc);
         if (prevTop && prevTop[p] !== nb) beam(prevTop[p], nb, RIGID, Ec(fc), Ec(fc) / 2.4, `${st.name} ${p} offset`);   // the setback moves the centroid
         if (st.outriggers.length) {   // split at mid-height for the outrigger
           const nm = node(p, 'mid', zb + st.h / 2, sec.xc, sec.yc); beam(nb, nm, s, E, G, `${st.name} ${p} lower`, sec); beam(nm, nt, s, E, G, `${st.name} ${p} upper`, sec); here[p + 'Mid'] = nm;
@@ -101,14 +110,15 @@ export const towerFrame = register({
         here[p] = { b: nb, t: nt, sec, E };
         // masses: walls half to each end
         mass[nb] += st.wallMass[p] / 2; mass[nt] += st.wallMass[p] / 2;
-        mass[nb] += (st.slabMass) * DYN.strips[p];
+        mass[nb] += (st.slabMass) * DYN.strips[p] / P.reduce((s, q) => s + DYN.strips[q], 0);   // shared over the piers this storey has
       }
       if (st.damperMass) mass[here.core.t] += st.damperMass;
       // coupling (wide-column model): rigid arms from each pier's centroid to its face, and the slab (every floor)
       // or the outrigger (mid-height of an outrigger storey) across the clear gap between the core and the walls
       const Es = Ec(55), cw = st.piers.core.flatMap(w => [w.start, w.end]), cxmin = Math.min(...cw.map(q => q[0])) , cxmax = Math.max(...cw.map(q => q[0])), cyc = here.core.sec.yc;
       const depthCore = Math.max(...cw.map(q => q[1])) - Math.min(...cw.map(q => q[1])), slabI = DYN.slab_cracked * depthCore * st.slabT ** 3 / 12, tc = Math.min(...st.piers.core.map(w => w.thickness));
-      const faceOf = (p, side) => { const ws = st.piers[p].filter(w => Math.abs(w.start[0] - w.end[0]) < 1e-9 && (side === 'W' ? w.start[0] < 0 : w.start[0] > 0)); const w = ws[0]; return side === 'W' ? w.start[0] + w.thickness / 2 : w.start[0] - w.thickness / 2; };
+      const xcc = here.core.sec.xc;   // sides are judged against the core, wherever the tower stands in plan
+      const faceOf = (p, side) => { const ws = st.piers[p].filter(w => Math.abs(w.start[0] - w.end[0]) < 1e-9 && (side === 'W' ? w.start[0] < xcc : w.start[0] > xcc)); const w = ws[0]; return side === 'W' ? w.start[0] + w.thickness / 2 : w.start[0] - w.thickness / 2; };
       const arm = (from, p, x, y, z, E) => { const n = node(p + '#arm', 'arm', z, x, y); beam(from, n, RIGID, E, E / 2.4, `${st.name} ${p} arm`); return n; };
       const couple = (z, nodeCore, nodePier, p, side, props, E, mark) => {
         const xc = side === 'W' ? cxmin - tc / 2 : cxmax + tc / 2, xp = faceOf(p, side);
@@ -116,9 +126,9 @@ export const towerFrame = register({
         beam(a, b, props, E, E / 2.4, mark);
       };
       for (const p of outer) for (const side of (p === 'tube' ? ['W', 'E'] : [p === 'west' ? 'W' : 'E'])) {
-        if (st.slabT > 0) couple(zb, here.core.b, here[p].b, p, side, { area_m2: 1e3, Iy: Math.max(slabI, 1e-6), Iz: 1e3, J: Math.max(depthCore * st.slabT ** 3 / 3 * DYN.slab_cracked, 1e-6) }, Es, `${st.name} slab ${p}${side}`);
+        if (st.slabT > 0 && !(k === 0 && zb <= 1e-9)) couple(zb, here.core.b, here[p].b, p, side, { area_m2: 1e3, Iy: Math.max(slabI, 1e-6), Iz: 1e3, J: Math.max(depthCore * st.slabT ** 3 / 3 * DYN.slab_cracked, 1e-6) }, Es, `${st.name} slab ${p}${side}`);
         if (st.outriggers.length) {
-          const ws = st.outriggers.filter(w => (side === 'W' ? w.start[0] + w.end[0] < 0 : w.start[0] + w.end[0] > 0)), t = ws.reduce((s, w) => s + w.thickness, 0);
+          const ws = st.outriggers.filter(w => (side === 'W' ? (w.start[0] + w.end[0]) / 2 < xcc : (w.start[0] + w.end[0]) / 2 > xcc)), t = ws.reduce((s, w) => s + w.thickness, 0);
           if (t > 0) { const Eo = Ec(Math.min(...ws.map(w => w.fc))); couple(zb + st.h / 2, here.coreMid, here[p + 'Mid'], p, side, { area_m2: t * st.h, Iy: t * st.h ** 3 / 12, Iz: 1e3, J: st.h * t ** 3 / 3, Avz: 5 / 6 * t * st.h }, Eo, `${st.name} outrigger ${p}${side}`); }
         }
       }
@@ -131,12 +141,35 @@ export const towerFrame = register({
     for (const p of Object.keys(top).filter(p => p !== 'core')) { const pc = frameXY(nodes, top.core), pp = frameXY(nodes, top[p]); if (Math.hypot(pc[0] - pp[0], pc[1] - pp[1]) > 1e-6) beam(top.core, top[p], { area_m2: 1e3, Iy: 1e-2, Iz: 1e3, J: 1e-2 }, Es, Es / 2.4, `roof ${p}`); else beam(top.core, node(p + '#roof', 'arm', zTop, pp[0] + 1, pp[1]), RIGID, Es, Es / 2.4, 'roof arm'), beam(node(p + '#roof', 'arm', zTop, pp[0] + 1, pp[1]), top[p], { area_m2: 1e3, Iy: 1e-2, Iz: 1e3, J: 1e-2 }, Es, Es / 2.4, `roof ${p}`); }
     const N = nodes.length, zero = () => new Array(6 * N).fill(0), mass_t = zero(), D = zero(), L = zero();
     mass.forEach((m, i) => { mass_t[6 * i] = mass_t[6 * i + 1] = mass_t[6 * i + 2] = m; D[6 * i + 2] = -m * 9.81; });
-    storeys.forEach(st => { const f = floorNodes.get(st.z0); for (const p of Object.keys(f)) L[6 * f[p] + 2] -= st.live * DYN.strips[p]; });
+    storeys.forEach(st => { const f = floorNodes.get(st.z0), ps = Object.keys(f), tot = ps.reduce((s, q) => s + DYN.strips[q], 0); for (const p of ps) L[6 * f[p] + 2] -= st.live * DYN.strips[p] / tot; });
     const engine = { youngs_modulus_kN_per_m2: Ec(55), dofs_per_node: 6, nodes, members, cases: [{ name: 'D', loads: D }, { name: 'L', loads: L }], mass_t, modes_wanted: modes };
     const floors = [...floorNodes.entries()].sort((a, b) => a[0] - b[0]).map(([z, n]) => ({ z, ...n }));
     return { engine, meta, sections, floors, total_mass_t: mass.reduce((a, b) => a + b, 0), height: zTop };
   },
 });
+
+/**
+ * Elastic section screening of every pier member at every storey: peak compressive stress against φ 0.85 f′c
+ * (φ 0.65) and the vertical steel ratio a net tensile stress needs (φ 0.9 fy 420) against 2 %. Returns the worst
+ * of each with the storey where it occurs.
+ */
+export function pierScreen(frame, caseOf, lateral, factors, extra = () => [0, 0, 0]) {
+  let wc = { u: 0 }, wt = { u: 0 };
+  frame.engine.members.forEach((m, i) => {
+    const sec = frame.sections[i]; if (!sec) return;
+    const N = n => caseOf(n).N[i], Mo = (n, k) => caseOf(n).F[12 * i + k], cap = 0.65 * 0.85 * sec.fc;
+    for (const w of lateral) for (const [a, l] of factors) {
+      const Nc = a * N('D') + l * N('L') + N(w), My = a * Mo('D', 4) + l * Mo('L', 4) + Mo(w, 4), Mz = a * Mo('D', 5) + l * Mo('L', 5) + Mo(w, 5);
+      const bend = Math.abs(My) / sec.Sy + Math.abs(Mz) / sec.Sx, c = (-Nc / sec.A + bend) / 1000, t = (Nc / sec.A + bend) / 1000, rho = Math.max(0, t) / (0.9 * 420);
+      if (c / cap > wc.u) wc = { u: c / cap, c, cap, where: `${sec.storey} ${sec.pier}` };
+      if (rho / 0.02 > wt.u) wt = { u: rho / 0.02, rho, where: `${sec.storey} ${sec.pier}` };
+    }
+  });
+  return { wc, wt, checks: (label, combo) => [
+    { name: `${label}: worst pier compressive stress, any storey (${wc.where || '—'}), ${combo} (elastic section, MPa)`, clause: 'screening vs φ 0.85 f′c, φ 0.65', demand: wc.c ?? 0, capacity: wc.cap ?? 1, util: wc.u },
+    { name: `${label}: worst pier vertical steel for net tension, any storey (${wt.where || '—'}) (ratio)`, clause: 'screening vs 2 % practical limit (ACI 18.10 / 11.6)', demand: wt.rho ?? 0, capacity: 0.02, util: wt.u },
+  ] };
+}
 
 /** Direction of a mode from its shape: effective mass in x, in y, or neither (torsion). */
 export function classifyModes(frame, modes) {
@@ -161,7 +194,7 @@ export function modeIn(frame, modes, dir) {
 export function towerWindCases(frame, storeys, { V, exp, gf }) {
   const N = frame.engine.nodes.length, H = frame.height, out = [];
   for (const dir of ['x', 'y']) {
-    const bands = storeys.map(s => ({ z0: s.z0, z1: s.z0 + s.h, width: dir === 'x' ? s.depth_y : s.width_x }));
+    const bands = storeys.map(s => ({ z0: s.z0, z1: s.z0 + s.h, width: (dir === 'x' ? s.depth_y : s.width_x) * (s.solidity ?? 1) }));
     const Bref = dir === 'x' ? storeys[0].depth_y : storeys[0].width_x, Lref = dir === 'x' ? storeys[0].width_x : storeys[0].depth_y;
     const aw = alongWindForces.run({ bands, h: H, L: Lref, B: Bref, Gf: gf[dir], V, exp });
     const loads = new Array(6 * N).fill(0), loadsT = new Array(6 * N).fill(0);
@@ -197,22 +230,10 @@ export const towerWindChecks = register({
       checks.push({ name: `wind ${dir}: along-wind peak acceleration, mode ${mode.k + 1} at ${mode.n.toFixed(3)} Hz (milli-g)`, clause: 'C26.11; criterion ISO 10137 range', demand: along.a_peak / 9.81 * 1000, capacity: WR.CRITERIA.accel_mg, util: along.a_peak / 9.81 * 1000 / WR.CRITERIA.accel_mg });
       checks.push({ name: `wind ${dir}: across-wind peak acceleration at ${other.n.toFixed(3)} Hz (milli-g)${across.valid ? '' : ` — INDICATIVE: ${!across.inRange ? `reduced velocity ${across.reduced_velocity.toFixed(1)} > ${WR.ACROSS.reduced_velocity_max}` : ''}${!across.inRange && !across.inAspect ? ', ' : ''}${!across.inAspect ? `H/√(WD) ${across.aspect.toFixed(1)} > ${WR.ACROSS.aspect_max}` : ''}; wind tunnel required`}`, clause: 'NBCC 2015 Comm. I (screening)', demand: across.a_peak / 9.81 * 1000, capacity: WR.CRITERIA.accel_mg, util: across.a_peak / 9.81 * 1000 / WR.CRITERIA.accel_mg, indicative: !across.valid });
     }
-    // strength: base of each pier under 1.2D + 1.0W + 0.5L and 0.9D + 1.0W (elastic section screening; engine N tension +)
+    // strength: every pier, every storey, under 1.2D + 1.0W + 0.5L and 0.9D + 1.0W (elastic section screening; engine N tension +)
     const caseOf = n => ultimate.cases.find(c => c.name === n);
-    let worst = { c: 0, t: 0 };
-    frame.engine.members.forEach((m, i) => {
-      const sec = frame.sections[i]; if (!sec || frame.engine.nodes[m.a].p[2] > 1e-9) return;
-      const N = n => caseOf(n).N[i], Mo = (n, k) => caseOf(n).F[12 * i + k];
-      for (const w of ['Wx', 'Wy', 'WxT']) for (const [a, l] of [[1.2, 0.5], [0.9, 0]]) {
-        const Nc = a * N('D') + l * N('L') + N(w), My = a * Mo('D', 4) + l * Mo('L', 4) + Mo(w, 4), Mz = a * Mo('D', 5) + l * Mo('L', 5) + Mo(w, 5);
-        const bend = Math.abs(My) / sec.Sy + Math.abs(Mz) / sec.Sx;
-        worst.c = Math.max(worst.c, (-Nc / sec.A + bend) / 1000); worst.t = Math.max(worst.t, (Nc / sec.A + bend) / 1000);
-      }
-    });
-    const fcBase = Math.min(...Object.values(storeys[0].piers).flat().map(w => w.fc));
-    checks.push({ name: 'pier base: peak compressive stress, 1.2D + 1.0W + 0.5L / 0.9D + 1.0W (elastic section, MPa)', clause: 'screening vs φ 0.85 f′c, φ 0.65', demand: worst.c, capacity: 0.65 * 0.85 * fcBase, util: worst.c / (0.65 * 0.85 * fcBase) });
-    const rho = Math.max(0, worst.t) / (0.9 * 420);
-    checks.push({ name: 'pier base: vertical steel for the peak tensile stress (ratio)', clause: 'screening vs 2 % practical limit (ACI 18.10 / 11.6)', demand: rho, capacity: 0.02, util: rho / 0.02 });
+    const scr = pierScreen(frame, caseOf, ['Wx', 'Wy', 'WxT'], [[1.2, 0.5], [0.9, 0]]);
+    checks.push(...scr.checks('wind', '1.2D + 1.0W + 0.5L / 0.9D + 1.0W'));
     // mat bearing and overturning (ASD). Where the resultant leaves the middle third, rock anchors along the
     // windward edge are sized to bring it back: (M − T a) / (P + T) = L/6 with a = L/2 − edge.
     for (const dir of ['x', 'y']) {
@@ -256,9 +277,12 @@ export async function analyseTower(model, run, { gravityInputs, towerGravity }) 
   const { mass_t, modes_wanted, ...base } = frame.engine; void mass_t; void modes_wanted;
   const ss = model.byType('seismic')[0], seis = ss ? Object.fromEntries(['Ss', 'S1', 'site_class', 'TL', 'Ie'].map(k => [k, ss.params[k]?.value])) : null;
   const elf = seis ? seismicELF.run({ site: seis, frame, Tx: 1 / mx.n, Ty: 1 / my.n }) : null, eqc = elf ? seismicCases(frame, storeys, elf) : [];
-  const engine2 = { ...base, cases: [...base.cases, ...ult.map(c => ({ name: c.name, loads: c.loads })), ...srv.map(c => ({ name: 'S' + c.name, loads: c.loads })), ...eqc] };
+  const notional = ['x', 'y'].map(d => { const loads = new Array(6 * frame.engine.nodes.length).fill(0), zs = frame.floors.map(f => f.z);   // 1.4.3: 0.01 of each level's dead load, at that level
+    frame.engine.nodes.forEach((n, i) => { const m = frame.engine.mass_t[6 * i]; if (!m) return; let j = 0; for (let k = 1; k < zs.length; k++) if (Math.abs(zs[k] - n.p[2]) < Math.abs(zs[j] - n.p[2])) j = k; loads[6 * frame.floors[j].core + (d === 'x' ? 0 : 1)] += 0.01 * m * 9.81; });
+    return { name: `N${d}`, loads }; });
+  const engine2 = { ...base, cases: [...base.cases, ...ult.map(c => ({ name: c.name, loads: c.loads })), ...srv.map(c => ({ name: 'S' + c.name, loads: c.loads })), ...eqc, ...notional] };
   const r2 = await run(engine2);
-  const ultimate = { cases: r2.cases.filter(c => !c.name.startsWith('S') && !c.name.startsWith('E')), aw: { x: ult.find(c => c.name === 'Wx').aw, y: ult.find(c => c.name === 'Wy').aw } };
+  const ultimate = { cases: r2.cases.filter(c => !c.name.startsWith('S') && !c.name.startsWith('E') && !/^N[xy]$/.test(c.name)), aw: { x: ult.find(c => c.name === 'Wx').aw, y: ult.find(c => c.name === 'Wy').aw } };
   const service = { cases: r2.cases.filter(c => c.name.startsWith('SW')).map(c => ({ ...c, name: c.name.slice(1) })), aw: { x: srv.find(c => c.name === 'Wx').aw, y: srv.find(c => c.name === 'Wy').aw } };
   const gi = gravityInputs(model), gravity = towerGravity.run(gi);
   const siteDamped = { ...site, beta_service: Math.min(beta('x').service, beta('y').service) };
@@ -329,19 +353,8 @@ export const seismicChecks = register({
       checks.push({ name: `seismic ${d}: worst storey drift Cd·δe/Ie over hsx (SDC ${elf.sdc}, T ${elf[d].T.toFixed(2)} s, Cs ${elf[d].Cs.toFixed(4)} by ${elf[d].governs})`, clause: 'ASCE 7-16 12.8.6, Table 12.12-1', demand: worst, capacity: SE.DRIFT_LIMIT, util: worst / SE.DRIFT_LIMIT });
       checks.push({ name: `seismic ${d}: stability coefficient θ (P-delta)`, clause: 'ASCE 7-16 12.8.7', demand: theta, capacity: SE.THETA_PDELTA, util: theta / SE.THETA_PDELTA });
     }
-    // pier base stresses: (1.2 + 0.2 SDS) D + E + 0.5 L and (0.9 − 0.2 SDS) D + E
-    let wc = 0, wt = 0;
-    frame.engine.members.forEach((m, i) => {
-      const sec = frame.sections[i]; if (!sec || frame.engine.nodes[m.a].p[2] > 1e-9) return;
-      const N = n => caseOf(n).N[i], Mo = (n, k) => caseOf(n).F[12 * i + k];
-      for (const e of ['Ex', 'ExT', 'Ey', 'EyT']) for (const [a, l] of [[1.2 + 0.2 * elf.SDS, 0.5], [0.9 - 0.2 * elf.SDS, 0]]) {
-        const Nc = a * N('D') + l * N('L') + SE.RHO * N(e), My = a * Mo('D', 4) + l * Mo('L', 4) + Mo(e, 4), Mz = a * Mo('D', 5) + l * Mo('L', 5) + Mo(e, 5);
-        const bend = Math.abs(My) / sec.Sy + Math.abs(Mz) / sec.Sx; wc = Math.max(wc, (-Nc / sec.A + bend) / 1000); wt = Math.max(wt, (Nc / sec.A + bend) / 1000);
-      }
-    });
-    const fcBase = Math.min(...Object.values(storeys[0].piers).flat().map(w => w.fc));
-    checks.push({ name: 'seismic: pier base peak compressive stress, (1.2 + 0.2 SDS)D + E + 0.5L / (0.9 − 0.2 SDS)D + E (MPa)', clause: 'ASCE 7-16 2.3.6; screening vs φ 0.85 f′c', demand: wc, capacity: 0.65 * 0.85 * fcBase, util: wc / (0.65 * 0.85 * fcBase) });
-    checks.push({ name: 'seismic: pier base vertical steel for the peak tensile stress (ratio)', clause: 'screening vs 2 %', demand: Math.max(0, wt) / (0.9 * 420), capacity: 0.02, util: Math.max(0, wt) / (0.9 * 420) / 0.02 });
+    // pier stresses at every storey: (1.2 + 0.2 SDS) D + E + 0.5 L and (0.9 − 0.2 SDS) D + E
+    checks.push(...pierScreen(frame, caseOf, ['Ex', 'ExT', 'Ey', 'EyT'], [[1.2 + 0.2 * elf.SDS, 0.5], [0.9 - 0.2 * elf.SDS, 0]]).checks('seismic', '(1.2 + 0.2SDS)D + E + 0.5L / (0.9 − 0.2SDS)D + E'));
     // mat: (0.6 − 0.14 SDS) D + 0.7 E (ASD combination 8), with the same rock-anchor rule as wind
     for (const d of ['x', 'y']) {
       const Lm = d === 'x' ? mat.lx : mat.ly, Bm = d === 'x' ? mat.ly : mat.lx, M = 0.7 * elf[d].F.reduce((s, F, i) => s + F * (elf.z[i] - mat.zBottom), 0);
@@ -376,25 +389,18 @@ export const towerOtherLoads = register({
     const head = soil ? Math.max(0, (soil.surface - mat.zBottom) - soil.water_depth) : 0, H = OT.GAMMA_W * head * mat.area;
     // cladding
     const cladding = OT.claddingPressures({ h: frame.height, V: site.V, exp: site.exposure });
-    // integrity: storey shear of 0.01 × weight above against the ultimate wind storey shear, both directions
-    let ratio = 0;
-    if (elf) for (const d of ['x', 'y']) { const F = windAw[d].forces; for (let i = 1; i < elf.wts.length; i++) { const vn = OT.INTEGRITY_FRACTION * elf.wts.slice(i).reduce((s, w) => s + w, 0), vw = F.slice(i - 1).reduce((s, f) => s + f.F, 0); if (vw > 0) ratio = Math.max(ratio, vn / vw); } }
-    // gravity combinations at the pier bases, snow as live-distributed
+    // integrity (1.4.3): the notional load as its own case, 1.2D + 1.0N + 0.5L and 0.9D + 1.0N, every storey
     const caseOf = n => cases.find(c => c.name === n), sOverL = gravity.L_kN > 0 ? S / gravity.L_kN : 0;
-    let wc = 0;
-    frame.engine.members.forEach((m, i) => {
-      const sec = frame.sections[i]; if (!sec || frame.engine.nodes[m.a].p[2] > 1e-9) return;
-      const N = n => caseOf(n).N[i], Mo = (n, k) => caseOf(n).F[12 * i + k];
-      for (const [d, l, s] of [[1.4, 0, 0], [1.2, 1.6, 0.5], [1.2, 1.0, 1.6]]) {
-        const Nc = d * N('D') + (l + s * sOverL) * N('L'), My = d * Mo('D', 4) + (l + s * sOverL) * Mo('L', 4), Mz = d * Mo('D', 5) + (l + s * sOverL) * Mo('L', 5);
-        wc = Math.max(wc, (-Nc / sec.A + Math.abs(My) / sec.Sy + Math.abs(Mz) / sec.Sx) / 1000);
-      }
-    });
-    const fcBase = Math.min(...Object.values(storeys[0].piers).flat().map(w => w.fc));
+    const integ = pierScreen(frame, caseOf, ['Nx', 'Ny'], [[1.2, 0.5], [0.9, 0]]);
+    let ratio = 0;   // also report how the notional storey shear compares with the wind's
+    if (elf) for (const d of ['x', 'y']) { const F = windAw[d].forces; for (let i = 1; i < elf.wts.length; i++) { const vn = OT.INTEGRITY_FRACTION * elf.wts.slice(i).reduce((s, w) => s + w, 0), vw = F.slice(i - 1).reduce((s, f) => s + f.F, 0); if (vw > 0) ratio = Math.max(ratio, vn / vw); } }
+    // gravity combinations, snow distributed like live load, every storey
+    const zero = { name: 'Z', N: new Array(frame.engine.members.length).fill(0), F: new Array(12 * frame.engine.members.length).fill(0) };
+    const grav = pierScreen(frame, n => (n === 'Z' ? zero : caseOf(n)), ['Z'], [[1.4, 0], [1.2, 1.6 + 0.5 * sOverL], [1.2, 1.0 + 1.6 * sOverL]]);
     const checks = [
-      { name: 'gravity: pier base peak compressive stress, 1.4D / 1.2D + 1.6L + 0.5S / 1.2D + 1.6S + L (MPa)', clause: 'ASCE 7-16 2.3.1; screening vs φ 0.85 f′c', demand: wc, capacity: 0.65 * 0.85 * fcBase, util: wc / (0.65 * 0.85 * fcBase) },
+      ...grav.checks('gravity', '1.4D / 1.2D + 1.6L + 0.5S / 1.2D + 1.6S + L').slice(0, 1),
       { name: `mat: hydrostatic uplift, ${head.toFixed(1)} m head, against 0.6D`, clause: 'ASCE 7-16 3.2.2, 2.4.1 (0.6D + H)', demand: H, capacity: 0.6 * gravity.D_kN, util: H / (0.6 * gravity.D_kN) },
-      { name: 'structural integrity: 0.01 W notional storey shear enveloped by the ultimate wind storey shear', clause: 'ASCE 7-16 1.4.3', demand: ratio, capacity: 1, util: ratio },
+      ...integ.checks('structural integrity (notional 0.01 W case)', '1.2D + 1.0N + 0.5L / 0.9D + 1.0N'),
     ];
     return { snow: { pg, pf: sn.pf, pf0: sn.pf0, pm: sn.pm, drift: worstDrift, S_kN: S }, buoyancy: { head, H, D: gravity.D_kN, util: H / (0.6 * gravity.D_kN) }, cladding, integrity: { ratio }, checks };
   },

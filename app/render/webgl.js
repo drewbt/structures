@@ -72,8 +72,8 @@ void main() {
     vec3 refl = sky(R) * 0.35;
     c = mix(rooms(n, 3.6, 3.0, 0.22, vec3(1.0, 0.74, 0.48)) * 0.55 + vec3(0.04, 0.05, 0.08), refl, clamp(fres * 1.2 + 0.2, 0.0, 0.8));
     if (n.z > 0.9) c = vec3(0.04, 0.045, 0.06) + amb * 0.08;
-  } else {             // matte: the item's colour under a low sun and the sky
-    c = vCol.rgb * (amb * 0.9 + sunCol * diff * 0.75);
+  } else {             // matte: the item's colour under a low sun and the sky (ground lifted a little so grass reads as grass)
+    c = vCol.rgb * (amb * 0.9 + sunCol * diff * 0.75 + (n.z > 0.9 ? vec3(0.10, 0.12, 0.10) : vec3(0.0)));
   }
   float dist = length(vW - uEye), fog = 1.0 - exp(-dist / (m == 5 ? uFog * 0.45 : uFog));   // the city sits back in the haze
   vec3 haze = mix(sky(normalize(vec3(V.xy, 0.03))), vec3(0.16, 0.19, 0.30), m == 5 ? 0.75 : 0.45);   // a cool dusk haze, cooler still over the city
@@ -94,7 +94,7 @@ void main() { vec3 d = uCamF + vP.x * uTan * uAspect * uCamR + vP.y * uTan * uCa
 
 export const PALETTE = {
   wall: [0.80, 0.78, 0.74, 1], slab: [0.70, 0.72, 0.74, 1], column: [0.55, 0.58, 0.62, 1], opening: [0.3, 0.6, 0.9, 0.5],
-  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], pile: [0.55, 0.50, 0.45, 1], soil_fill: [0.45, 0.40, 0.35, 1], soil_clay: [0.62, 0.40, 0.26, 1], soil_sand: [0.90, 0.76, 0.45, 1], soil: [0.55, 0.62, 0.42, 1], soil_rock: [0.48, 0.50, 0.54, 1], context_park: [0.36, 0.62, 0.32, 1], context_street: [0.42, 0.42, 0.44, 1], context_city: [0.84, 0.85, 0.87, 1], context_trees: [0.18, 0.40, 0.20, 1], curtain_wall: [0.55, 0.72, 0.88, 1], spire: [0.75, 0.77, 0.80, 1], water: [0.25, 0.55, 0.85, 1], pilecap: [0.66, 0.64, 0.60, 1], drop_panel: [0.74, 0.74, 0.76, 1], punching_zone: [0.17, 0.60, 0.37, 1], punching_fail: [0.82, 0.24, 0.24, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
+  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], pile: [0.55, 0.50, 0.45, 1], soil_fill: [0.45, 0.40, 0.35, 1], soil_clay: [0.62, 0.40, 0.26, 1], soil_sand: [0.90, 0.76, 0.45, 1], soil: [0.55, 0.62, 0.42, 1], soil_rock: [0.48, 0.50, 0.54, 1], context_park: [0.36, 0.62, 0.32, 1], context_street: [0.42, 0.42, 0.44, 1], context_city: [0.84, 0.85, 0.87, 1], context_buildings: [0.84, 0.85, 0.87, 1], context_trees: [0.18, 0.40, 0.20, 1], curtain_wall: [0.55, 0.72, 0.88, 1], spire: [0.75, 0.77, 0.80, 1], water: [0.25, 0.55, 0.85, 1], pilecap: [0.66, 0.64, 0.60, 1], drop_panel: [0.74, 0.74, 0.76, 1], punching_zone: [0.17, 0.60, 0.37, 1], punching_fail: [0.82, 0.24, 0.24, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
 };
 
 function mat4Perspective(fovy, aspect, near, far) {
@@ -212,7 +212,7 @@ export class Viewer {
     const bind = (name, buf, size) => { gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.enableVertexAttribArray(this.loc[name]); gl.vertexAttribPointer(this.loc[name], size, gl.FLOAT, false, 0, 0); };
     bind('aPos', this.buf.pos, 3); bind('aNrm', this.buf.nrm, 3); bind('aCol', this.buf.col, 4); bind('aId', this.buf.id, 3); bind('aMat', this.buf.mat, 1);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.idx);
-    gl.uniformMatrix4fv(this.loc.uProj, false, mat4Perspective(this.camera.fov, aspect, Math.max(0.05, this.camera.dist / 2000), Math.max(5000, this.camera.dist * 10)));
+    gl.uniformMatrix4fv(this.loc.uProj, false, mat4Perspective(this.camera.fov, aspect, Math.max(0.05, this.camera.dist / 2000), this.render ? 60000 : Math.max(5000, this.camera.dist * 10)));
     gl.uniformMatrix4fv(this.loc.uView, false, mat4LookAt(eye, this.camera.target, [0, 0, 1]));
     gl.uniform1f(this.loc.uRender, this.render && !pick ? 1 : 0); gl.uniform3fv(this.loc.uEye, eye); gl.uniform3fv(this.loc.uSun, this.sun); gl.uniform1f(this.loc.uFog, Math.max(600, this.camera.dist * 2.2));
     gl.uniform1f(this.loc.uPick, pick ? 1 : 0); gl.uniform1f(this.loc.uCutZ, isFinite(this.cutZ) ? this.cutZ : 1e9);

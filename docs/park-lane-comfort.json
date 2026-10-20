@@ -1,0 +1,7666 @@
+{
+ "when": "2026-10-20T06:38:37.088Z",
+ "site": "Park Lane Hotel footprint, 36 Central Park South (OpenStreetMap)",
+ "comfort_mg": 10,
+ "note": "every candidate is the full site tower run twice through the stiffness engine",
+ "by_height": [
+  {
+   "floors": 64,
+   "comfortable": null,
+   "least_sway": {
+    "floors": 64,
+    "plan": {
+     "twistDeg": 45,
+     "taper": 0.7
+    },
+    "tubeSolidity": 0.7,
+    "tubeScale": 1.35,
+    "damper": 3200,
+    "H": 340.6,
+    "cost": 41595.58160139629,
+    "pass": false,
+    "comfort_ok": false,
+    "worst_mg": 11.656507737593168,
+    "acc": [
+     {
+      "name": "wind x: along-wind peak acceleration, mode 2 at 0.127 Hz (milli-g)",
+      "mg": 11.656507737593168,
+      "indicative": false
+     },
+     {
+      "name": "wind x: across-wind peak acceleration at 0.112 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+      "mg": 10.23779543777394,
+      "indicative": true
+     },
+     {
+      "name": "wind y: along-wind peak acceleration, mode 1 at 0.112 Hz (milli-g)",
+      "mg": 9.604779714386686,
+      "indicative": false
+     },
+     {
+      "name": "wind y: across-wind peak acceleration at 0.127 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+      "mg": 8.761416857109186,
+      "indicative": true
+     }
+    ],
+    "nx": 0.12704205084088385,
+    "ny": 0.11187631728089169,
+    "governing": {
+     "name": "seismic y: stability coefficient θ (P-delta)",
+     "util": 1.1692149728160055
+    },
+    "indicative": 2
+   }
+  },
+  {
+   "floors": 58,
+   "comfortable": {
+    "floors": 58,
+    "plan": {
+     "twistDeg": 45,
+     "taper": 0.7
+    },
+    "tubeSolidity": 0.7,
+    "tubeScale": 1.35,
+    "damper": 3200,
+    "H": 313,
+    "cost": 39308.99867639627,
+    "pass": true,
+    "comfort_ok": true,
+    "worst_mg": 9.877280390114093,
+    "acc": [
+     {
+      "name": "wind x: along-wind peak acceleration, mode 2 at 0.151 Hz (milli-g)",
+      "mg": 9.877280390114093,
+      "indicative": false
+     },
+     {
+      "name": "wind x: across-wind peak acceleration at 0.133 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+      "mg": 7.94706204592876,
+      "indicative": true
+     },
+     {
+      "name": "wind y: along-wind peak acceleration, mode 1 at 0.133 Hz (milli-g)",
+      "mg": 8.291977006831482,
+      "indicative": false
+     },
+     {
+      "name": "wind y: across-wind peak acceleration at 0.151 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+      "mg": 6.796620788330851,
+      "indicative": true
+     }
+    ],
+    "nx": 0.15058233129370263,
+    "ny": 0.1325618891251065,
+    "governing": {
+     "name": "seismic y: stability coefficient θ (P-delta)",
+     "util": 0.8940649603475361
+    },
+    "indicative": 2
+   },
+   "least_sway": {
+    "floors": 58,
+    "plan": {
+     "twistDeg": 45,
+     "taper": 0.7
+    },
+    "tubeSolidity": 0.7,
+    "tubeScale": 1.35,
+    "damper": 3200,
+    "H": 313,
+    "cost": 39308.99867639627,
+    "pass": true,
+    "comfort_ok": true,
+    "worst_mg": 9.877280390114093,
+    "acc": [
+     {
+      "name": "wind x: along-wind peak acceleration, mode 2 at 0.151 Hz (milli-g)",
+      "mg": 9.877280390114093,
+      "indicative": false
+     },
+     {
+      "name": "wind x: across-wind peak acceleration at 0.133 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+      "mg": 7.94706204592876,
+      "indicative": true
+     },
+     {
+      "name": "wind y: along-wind peak acceleration, mode 1 at 0.133 Hz (milli-g)",
+      "mg": 8.291977006831482,
+      "indicative": false
+     },
+     {
+      "name": "wind y: across-wind peak acceleration at 0.151 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+      "mg": 6.796620788330851,
+      "indicative": true
+     }
+    ],
+    "nx": 0.15058233129370263,
+    "ny": 0.1325618891251065,
+    "governing": {
+     "name": "seismic y: stability coefficient θ (P-delta)",
+     "util": 0.8940649603475361
+    },
+    "indicative": 2
+   }
+  },
+  {
+   "floors": 52,
+   "comfortable": {
+    "floors": 52,
+    "plan": {
+     "twistDeg": 45,
+     "taper": 0.7
+    },
+    "tubeSolidity": 0.7,
+    "tubeScale": 1,
+    "damper": 3200,
+    "H": 285.4,
+    "cost": 33234.96541639627,
+    "pass": true,
+    "comfort_ok": true,
+    "worst_mg": 9.232393465085492,
+    "acc": [
+     {
+      "name": "wind x: along-wind peak acceleration, mode 2 at 0.169 Hz (milli-g)",
+      "mg": 9.232393465085492,
+      "indicative": false
+     },
+     {
+      "name": "wind x: across-wind peak acceleration at 0.149 Hz (milli-g)",
+      "mg": 7.185593878846047,
+      "indicative": false
+     },
+     {
+      "name": "wind y: along-wind peak acceleration, mode 1 at 0.149 Hz (milli-g)",
+      "mg": 7.863152299896401,
+      "indicative": false
+     },
+     {
+      "name": "wind y: across-wind peak acceleration at 0.169 Hz (milli-g)",
+      "mg": 6.130879175780033,
+      "indicative": false
+     }
+    ],
+    "nx": 0.16940431145485246,
+    "ny": 0.14886361352142,
+    "governing": {
+     "name": "seismic y: stability coefficient θ (P-delta)",
+     "util": 0.7882142101280063
+    },
+    "indicative": 0
+   },
+   "least_sway": {
+    "floors": 52,
+    "plan": {
+     "twistDeg": 45,
+     "taper": 0.7
+    },
+    "tubeSolidity": 0.7,
+    "tubeScale": 1.35,
+    "damper": 3200,
+    "H": 285.4,
+    "cost": 37048.54869639629,
+    "pass": true,
+    "comfort_ok": true,
+    "worst_mg": 8.181074767245885,
+    "acc": [
+     {
+      "name": "wind x: along-wind peak acceleration, mode 2 at 0.180 Hz (milli-g)",
+      "mg": 8.181074767245885,
+      "indicative": false
+     },
+     {
+      "name": "wind x: across-wind peak acceleration at 0.159 Hz (milli-g)",
+      "mg": 6.061476840755923,
+      "indicative": false
+     },
+     {
+      "name": "wind y: along-wind peak acceleration, mode 1 at 0.159 Hz (milli-g)",
+      "mg": 7.012682171488525,
+      "indicative": false
+     },
+     {
+      "name": "wind y: across-wind peak acceleration at 0.180 Hz (milli-g)",
+      "mg": 5.182316385021977,
+      "indicative": false
+     }
+    ],
+    "nx": 0.180399017655259,
+    "ny": 0.158799285862034,
+    "governing": {
+     "name": "seismic y: stability coefficient θ (P-delta)",
+     "util": 0.7070633747410728
+    },
+    "indicative": 0
+   }
+  },
+  {
+   "floors": 46,
+   "comfortable": {
+    "floors": 46,
+    "plan": {
+     "twistDeg": 90,
+     "taper": 0.62
+    },
+    "tubeSolidity": 0.7,
+    "tubeScale": 1,
+    "damper": 1600,
+    "H": 257.8,
+    "cost": 29486.191394729634,
+    "pass": true,
+    "comfort_ok": true,
+    "worst_mg": 9.239792058597336,
+    "acc": [
+     {
+      "name": "wind x: along-wind peak acceleration, mode 2 at 0.226 Hz (milli-g)",
+      "mg": 9.239792058597336,
+      "indicative": false
+     },
+     {
+      "name": "wind x: across-wind peak acceleration at 0.198 Hz (milli-g)",
+      "mg": 5.1144561020823875,
+      "indicative": false
+     },
+     {
+      "name": "wind y: along-wind peak acceleration, mode 1 at 0.198 Hz (milli-g)",
+      "mg": 8.06555161222968,
+      "indicative": false
+     },
+     {
+      "name": "wind y: across-wind peak acceleration at 0.226 Hz (milli-g)",
+      "mg": 4.363086307627711,
+      "indicative": false
+     }
+    ],
+    "nx": 0.2255342262662231,
+    "ny": 0.19822220093171614,
+    "governing": {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.226 Hz (milli-g)",
+     "util": 0.6159861372398224
+    },
+    "indicative": 0
+   },
+   "least_sway": {
+    "floors": 46,
+    "plan": {
+     "twistDeg": 45,
+     "taper": 0.7
+    },
+    "tubeSolidity": 0.7,
+    "tubeScale": 1.35,
+    "damper": 3200,
+    "H": 257.8,
+    "cost": 34752.523841396294,
+    "pass": true,
+    "comfort_ok": true,
+    "worst_mg": 6.5903532139252725,
+    "acc": [
+     {
+      "name": "wind x: along-wind peak acceleration, mode 2 at 0.219 Hz (milli-g)",
+      "mg": 6.5903532139252725,
+      "indicative": false
+     },
+     {
+      "name": "wind x: across-wind peak acceleration at 0.193 Hz (milli-g)",
+      "mg": 4.526674324803828,
+      "indicative": false
+     },
+     {
+      "name": "wind y: along-wind peak acceleration, mode 1 at 0.193 Hz (milli-g)",
+      "mg": 5.77201882771085,
+      "indicative": false
+     },
+     {
+      "name": "wind y: across-wind peak acceleration at 0.219 Hz (milli-g)",
+      "mg": 3.8729302437085726,
+      "indicative": false
+     }
+    ],
+    "nx": 0.2190790382320567,
+    "ny": 0.19300001119339802,
+    "governing": {
+     "name": "seismic y: stability coefficient θ (P-delta)",
+     "util": 0.5418286679558993
+    },
+    "indicative": 0
+   }
+  },
+  {
+   "floors": 40,
+   "comfortable": {
+    "floors": 40,
+    "plan": {
+     "twistDeg": 90,
+     "taper": 0.62
+    },
+    "tubeSolidity": 0.5,
+    "tubeScale": 1,
+    "damper": 1600,
+    "H": 230.2,
+    "cost": 27662.915139729666,
+    "pass": true,
+    "comfort_ok": true,
+    "worst_mg": 8.591748775065547,
+    "acc": [
+     {
+      "name": "wind x: along-wind peak acceleration, mode 2 at 0.250 Hz (milli-g)",
+      "mg": 8.591748775065547,
+      "indicative": false
+     },
+     {
+      "name": "wind x: across-wind peak acceleration at 0.219 Hz (milli-g)",
+      "mg": 4.689265024297741,
+      "indicative": false
+     },
+     {
+      "name": "wind y: along-wind peak acceleration, mode 1 at 0.219 Hz (milli-g)",
+      "mg": 7.597904021054344,
+      "indicative": false
+     },
+     {
+      "name": "wind y: across-wind peak acceleration at 0.250 Hz (milli-g)",
+      "mg": 3.989387843412989,
+      "indicative": false
+     }
+    ],
+    "nx": 0.24960106418983302,
+    "ny": 0.2189075434443161,
+    "governing": {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.250 Hz (milli-g)",
+     "util": 0.5727832516710365
+    },
+    "indicative": 0
+   },
+   "least_sway": {
+    "floors": 40,
+    "plan": {
+     "twistDeg": 45,
+     "taper": 0.7
+    },
+    "tubeSolidity": 0.7,
+    "tubeScale": 1.35,
+    "damper": 3200,
+    "H": 230.2,
+    "cost": 32502.99992139633,
+    "pass": true,
+    "comfort_ok": true,
+    "worst_mg": 5.09923558976523,
+    "acc": [
+     {
+      "name": "wind x: along-wind peak acceleration, mode 2 at 0.270 Hz (milli-g)",
+      "mg": 5.09923558976523,
+      "indicative": false
+     },
+     {
+      "name": "wind x: across-wind peak acceleration at 0.237 Hz (milli-g)",
+      "mg": 3.315195728576997,
+      "indicative": false
+     },
+     {
+      "name": "wind y: along-wind peak acceleration, mode 1 at 0.237 Hz (milli-g)",
+      "mg": 4.57627937847619,
+      "indicative": false
+     },
+     {
+      "name": "wind y: across-wind peak acceleration at 0.270 Hz (milli-g)",
+      "mg": 2.8319805534301827,
+      "indicative": false
+     }
+    ],
+    "nx": 0.26951167199948367,
+    "ny": 0.23717498354923422,
+    "governing": {
+     "name": "seismic y: stability coefficient θ (P-delta)",
+     "util": 0.4079865857246665
+    },
+    "indicative": 0
+   }
+  }
+ ],
+ "candidates": [
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L40 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 30632.055121396283,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.6030275519409365,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.231 Hz (milli-g)",
+     "mg": 6.6030275519409365,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.203 Hz (milli-g)",
+     "mg": 4.705134256710012,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.203 Hz (milli-g)",
+     "mg": 5.832309107035995,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.231 Hz (milli-g)",
+     "mg": 3.998987901735426,
+     "indicative": false
+    }
+   ],
+   "nx": 0.23117761069587955,
+   "ny": 0.20257357302447349,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.5213204333255711
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 28645.99437472965,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.775989054607314,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.251 Hz (milli-g)",
+     "mg": 7.775989054607314,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.220 Hz (milli-g)",
+     "mg": 4.688129140522606,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.220 Hz (milli-g)",
+     "mg": 6.91375335834849,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.251 Hz (milli-g)",
+     "mg": 3.991288012496377,
+     "indicative": false
+    }
+   ],
+   "nx": 0.25057329094057573,
+   "ny": 0.2198893237301159,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.251 Hz (milli-g)",
+    "util": 0.5183992703071543
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 29965.38845472962,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.394300933799241,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.257 Hz (milli-g)",
+     "mg": 7.394300933799241,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.226 Hz (milli-g)",
+     "mg": 4.404918702461232,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.226 Hz (milli-g)",
+     "mg": 6.591254538853755,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.257 Hz (milli-g)",
+     "mg": 3.7514403679138306,
+     "indicative": false
+    }
+   ],
+   "nx": 0.25726939077752453,
+   "ny": 0.2258331774260065,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.257 Hz (milli-g)",
+    "util": 0.49295339558661605
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 29312.661041396314,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.929994481120167,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.225 Hz (milli-g)",
+     "mg": 6.929994481120167,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.197 Hz (milli-g)",
+     "mg": 5.0243782342327,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.197 Hz (milli-g)",
+     "mg": 6.1019047071612285,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.225 Hz (milli-g)",
+     "mg": 4.26889457373672,
+     "indicative": false
+    }
+   ],
+   "nx": 0.22465269704953394,
+   "ny": 0.19679685814795045,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.5475594264536668
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 31836.333254729667,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.923484936803881,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.266 Hz (milli-g)",
+     "mg": 6.923484936803881,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.235 Hz (milli-g)",
+     "mg": 4.036739969901955,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.235 Hz (milli-g)",
+     "mg": 6.184935091031227,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.266 Hz (milli-g)",
+     "mg": 3.4501184442380444,
+     "indicative": false
+    }
+   ],
+   "nx": 0.26639626326900917,
+   "ny": 0.23452816195995,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.266 Hz (milli-g)",
+    "util": 0.46156566245359204
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 29312.661041396314,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 5.752900565068801,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.253 Hz (milli-g)",
+     "mg": 5.752900565068801,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.222 Hz (milli-g)",
+     "mg": 3.925568066418506,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.222 Hz (milli-g)",
+     "mg": 5.13055139005498,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.253 Hz (milli-g)",
+     "mg": 3.342946288168466,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2534244338031729,
+   "ny": 0.22244094831107555,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.45002557294001944
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 28645.99437472965,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.407856591686064,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.281 Hz (milli-g)",
+     "mg": 6.407856591686064,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.247 Hz (milli-g)",
+     "mg": 3.6973580835802697,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.247 Hz (milli-g)",
+     "mg": 5.7595090705436505,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.281 Hz (milli-g)",
+     "mg": 3.1562221521261757,
+     "indicative": false
+    }
+   ],
+   "nx": 0.28081049528952323,
+   "ny": 0.2469868158372247,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.281 Hz (milli-g)",
+    "util": 0.42719043944573765
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 32502.99992139633,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.197983806764474,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.240 Hz (milli-g)",
+     "mg": 6.197983806764474,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.211 Hz (milli-g)",
+     "mg": 4.297488513706243,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.211 Hz (milli-g)",
+     "mg": 5.4897628767347,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.240 Hz (milli-g)",
+     "mg": 3.6639518063871286,
+     "indicative": false
+    }
+   ],
+   "nx": 0.24000603823177943,
+   "ny": 0.21085214430657961,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.490674638627135
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 29965.38845472962,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.068108611954561,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.288 Hz (milli-g)",
+     "mg": 6.068108611954561,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.253 Hz (milli-g)",
+     "mg": 3.4589012150944387,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.253 Hz (milli-g)",
+     "mg": 5.467785081073792,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.288 Hz (milli-g)",
+     "mg": 2.953081360709089,
+     "indicative": false
+    }
+   ],
+   "nx": 0.28756393491932886,
+   "ny": 0.2529613114646334,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.288 Hz (milli-g)",
+    "util": 0.4045405741303041
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 32502.99992139633,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 5.09923558976523,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.270 Hz (milli-g)",
+     "mg": 5.09923558976523,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.237 Hz (milli-g)",
+     "mg": 3.315195728576997,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.237 Hz (milli-g)",
+     "mg": 4.57627937847619,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.270 Hz (milli-g)",
+     "mg": 2.8319805534301827,
+     "indicative": false
+    }
+   ],
+   "nx": 0.26951167199948367,
+   "ny": 0.23717498354923422,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.4079865857246665
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 30632.055121396283,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 5.459093929523556,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.260 Hz (milli-g)",
+     "mg": 5.459093929523556,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.228 Hz (milli-g)",
+     "mg": 3.6560534209351156,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.228 Hz (milli-g)",
+     "mg": 4.884379387210184,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.260 Hz (milli-g)",
+     "mg": 3.1138488295414795,
+     "indicative": false
+    }
+   ],
+   "nx": 0.26025539524404273,
+   "ny": 0.2284674816371802,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.4306510425865649
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 31836.333254729667,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 5.653737214992154,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.297 Hz (milli-g)",
+     "mg": 5.653737214992154,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.262 Hz (milli-g)",
+     "mg": 3.151053805284626,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.262 Hz (milli-g)",
+     "mg": 5.1054010162212995,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.297 Hz (milli-g)",
+     "mg": 2.6994902325664105,
+     "indicative": false
+    }
+   ],
+   "nx": 0.29681955833294266,
+   "ny": 0.26183781380816656,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.297 Hz (milli-g)",
+    "util": 0.3769158143328103
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 27662.915139729666,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.591748775065547,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.250 Hz (milli-g)",
+     "mg": 8.591748775065547,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.219 Hz (milli-g)",
+     "mg": 4.689265024297741,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.219 Hz (milli-g)",
+     "mg": 7.597904021054344,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.250 Hz (milli-g)",
+     "mg": 3.989387843412989,
+     "indicative": false
+    }
+   ],
+   "nx": 0.24960106418983302,
+   "ny": 0.2189075434443161,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.250 Hz (milli-g)",
+    "util": 0.5727832516710365
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 29582.776686396315,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.271999704651046,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.226 Hz (milli-g)",
+     "mg": 7.271999704651046,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.198 Hz (milli-g)",
+     "mg": 4.849915290826353,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.198 Hz (milli-g)",
+     "mg": 6.369043735870268,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.226 Hz (milli-g)",
+     "mg": 4.120213193540541,
+     "indicative": false
+    }
+   ],
+   "nx": 0.22633023151437712,
+   "ny": 0.1982502453122858,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.5962234790398528
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 28916.11001972965,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.174121265000057,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.256 Hz (milli-g)",
+     "mg": 8.174121265000057,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.225 Hz (milli-g)",
+     "mg": 4.405927871854781,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.225 Hz (milli-g)",
+     "mg": 7.251011523038851,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.256 Hz (milli-g)",
+     "mg": 3.7467905882846257,
+     "indicative": false
+    }
+   ],
+   "nx": 0.25633562467041465,
+   "ny": 0.2247444125642558,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.256 Hz (milli-g)",
+    "util": 0.5449414176666705
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 28329.58180639633,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.624443314202871,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.220 Hz (milli-g)",
+     "mg": 7.624443314202871,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.193 Hz (milli-g)",
+     "mg": 5.177032638514622,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.193 Hz (milli-g)",
+     "mg": 6.65423320566753,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.220 Hz (milli-g)",
+     "mg": 4.399619163901445,
+     "indicative": false
+    }
+   ],
+   "nx": 0.21990980383507147,
+   "ny": 0.19267429056872132,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.624491112959752
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 28329.58180639633,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.370208755865299,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.248 Hz (milli-g)",
+     "mg": 6.370208755865299,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.218 Hz (milli-g)",
+     "mg": 4.0467837542751885,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.218 Hz (milli-g)",
+     "mg": 5.615647317195617,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.248 Hz (milli-g)",
+     "mg": 3.449652641108135,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2478562890347763,
+   "ny": 0.21772730595735926,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.513828413967883
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 30671.64521972968,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.681968408136339,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.265 Hz (milli-g)",
+     "mg": 7.681968408136339,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.233 Hz (milli-g)",
+     "mg": 4.04121216151968,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.233 Hz (milli-g)",
+     "mg": 6.821522246248781,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.265 Hz (milli-g)",
+     "mg": 3.4492216607666975,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2652880896996171,
+   "ny": 0.23329256710285176,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.265 Hz (milli-g)",
+    "util": 0.5121312272090893
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 27662.915139729666,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.111194748088024,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.279 Hz (milli-g)",
+     "mg": 7.111194748088024,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.246 Hz (milli-g)",
+     "mg": 3.6984140940728767,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.246 Hz (milli-g)",
+     "mg": 6.343526199997034,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.279 Hz (milli-g)",
+     "mg": 3.1562123256178896,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2794715374058354,
+   "ny": 0.24575046261137906,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.279 Hz (milli-g)",
+    "util": 0.4740796498725349
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 31338.311886396343,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.856541114513802,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.235 Hz (milli-g)",
+     "mg": 6.856541114513802,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.206 Hz (milli-g)",
+     "mg": 4.436508620151236,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.206 Hz (milli-g)",
+     "mg": 6.011994243412417,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.235 Hz (milli-g)",
+     "mg": 3.7811751430451057,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2348026026766594,
+   "ny": 0.20621860406790465,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.5626501516648714
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 31338.311886396343,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 5.681060983980817,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.264 Hz (milli-g)",
+     "mg": 5.681060983980817,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.232 Hz (milli-g)",
+     "mg": 3.42035572590285,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.232 Hz (milli-g)",
+     "mg": 5.0315521768813785,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.264 Hz (milli-g)",
+     "mg": 2.9229179088343717,
+     "indicative": false
+    }
+   ],
+   "nx": 0.26363791649648655,
+   "ny": 0.2320724005013073,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.4677094837171862
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 28916.11001972965,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.737546577976861,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.286 Hz (milli-g)",
+     "mg": 6.737546577976861,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.252 Hz (milli-g)",
+     "mg": 3.458464931740596,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.252 Hz (milli-g)",
+     "mg": 6.028267740863307,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.286 Hz (milli-g)",
+     "mg": 2.949576143308331,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2863398593103083,
+   "ny": 0.25166669144486953,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.286 Hz (milli-g)",
+    "util": 0.4491697718651241
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 230.2,
+   "cost": 30671.64521972968,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.301263725695146,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.295 Hz (milli-g)",
+     "mg": 6.301263725695146,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.260 Hz (milli-g)",
+     "mg": 3.151741754878227,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.260 Hz (milli-g)",
+     "mg": 5.643217950871994,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.295 Hz (milli-g)",
+     "mg": 2.69740822195453,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2954983825863867,
+   "ny": 0.2604620923245238,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.295 Hz (milli-g)",
+    "util": 0.4200842483796764
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 230.2,
+   "cost": 29582.776686396315,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.052311607278542,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.255 Hz (milli-g)",
+     "mg": 6.052311607278542,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.224 Hz (milli-g)",
+     "mg": 3.7685992107615607,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.224 Hz (milli-g)",
+     "mg": 5.35419614321947,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.255 Hz (milli-g)",
+     "mg": 3.2107021269149447,
+     "indicative": false
+    }
+   ],
+   "nx": 0.25466033120491854,
+   "ny": 0.2236075590776126,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.4927797911097731
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 40,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L18: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L46 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "Crown: the plate is too small for the core (tube 9 × 7.6 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L46 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "Crown: the plate is too small for the core (tube 9 × 7.6 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L46 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "Crown: the plate is too small for the core (tube 9 × 7.6 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "Crown: the plate is too small for the core (tube 9 × 7.6 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L46 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L46 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L46 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L46 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L46 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 32704.125841396268,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.496820291978791,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.188 Hz (milli-g)",
+     "mg": 8.496820291978791,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.165 Hz (milli-g)",
+     "mg": 6.427418552898747,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.165 Hz (milli-g)",
+     "mg": 7.337714597616334,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.188 Hz (milli-g)",
+     "mg": 5.461424702633049,
+     "indicative": false
+    }
+   ],
+   "nx": 0.1880475637137599,
+   "ny": 0.16471097527368805,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.7004513331320985
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 30566.777254729637,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 10.053324052161443,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.202 Hz (milli-g)",
+     "mg": 10.053324052161443,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.177 Hz (milli-g)",
+     "mg": 6.486102891677713,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.177 Hz (milli-g)",
+     "mg": 8.729541655170134,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.202 Hz (milli-g)",
+     "mg": 5.521571941050108,
+     "indicative": false
+    }
+   ],
+   "nx": 0.20212491430192508,
+   "ny": 0.1773236735953485,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.202 Hz (milli-g)",
+    "util": 0.6702216034774295
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 31233.4439213963,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.93139610831369,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.182 Hz (milli-g)",
+     "mg": 8.93139610831369,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.160 Hz (milli-g)",
+     "mg": 6.882173437668707,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.160 Hz (milli-g)",
+     "mg": 7.68246474427368,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.182 Hz (milli-g)",
+     "mg": 5.84975713961108,
+     "indicative": false
+    }
+   ],
+   "nx": 0.18236462299567077,
+   "ny": 0.15977075809915645,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.7389469305543004
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 32037.459174729604,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.544518826200083,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.208 Hz (milli-g)",
+     "mg": 9.544518826200083,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.182 Hz (milli-g)",
+     "mg": 6.079318337422447,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.182 Hz (milli-g)",
+     "mg": 8.316748380783771,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.208 Hz (milli-g)",
+     "mg": 5.173619780066886,
+     "indicative": false
+    }
+   ],
+   "nx": 0.20794086380983756,
+   "ny": 0.18238379024396087,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.208 Hz (milli-g)",
+    "util": 0.6363012550800055
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 31233.4439213963,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.445405217755621,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.206 Hz (milli-g)",
+     "mg": 7.445405217755621,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.181 Hz (milli-g)",
+     "mg": 5.377514184291225,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.181 Hz (milli-g)",
+     "mg": 6.485427098057926,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.206 Hz (milli-g)",
+     "mg": 4.581814610791307,
+     "indicative": false
+    }
+   ],
+   "nx": 0.20578915151742605,
+   "ny": 0.1806692170760877,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.6032240895558955
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 34085.85717472962,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.947167798504227,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.215 Hz (milli-g)",
+     "mg": 8.947167798504227,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.189 Hz (milli-g)",
+     "mg": 5.570364844504291,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.189 Hz (milli-g)",
+     "mg": 7.801535214593233,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.215 Hz (milli-g)",
+     "mg": 4.764921057333298,
+     "indicative": false
+    }
+   ],
+   "nx": 0.21510473070617298,
+   "ny": 0.18946402564503595,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.215 Hz (milli-g)",
+    "util": 0.5964778532336151
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 34752.523841396294,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.983792924893532,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.195 Hz (milli-g)",
+     "mg": 7.983792924893532,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.172 Hz (milli-g)",
+     "mg": 5.8666749738221755,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.172 Hz (milli-g)",
+     "mg": 6.903131194174062,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.195 Hz (milli-g)",
+     "mg": 5.008931014186217,
+     "indicative": false
+    }
+   ],
+   "nx": 0.195059204004399,
+   "ny": 0.1715275701523662,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.6560575760777906
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 30566.777254729637,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.322419169461297,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.227 Hz (milli-g)",
+     "mg": 8.322419169461297,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.199 Hz (milli-g)",
+     "mg": 5.116038826835215,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.199 Hz (milli-g)",
+     "mg": 7.30679625599676,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.227 Hz (milli-g)",
+     "mg": 4.366975313589196,
+     "indicative": false
+    }
+   ],
+   "nx": 0.22665229580477458,
+   "ny": 0.1993000325745617,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.227 Hz (milli-g)",
+    "util": 0.5548279446307531
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 34752.523841396294,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 6.5903532139252725,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.219 Hz (milli-g)",
+     "mg": 6.5903532139252725,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.193 Hz (milli-g)",
+     "mg": 4.526674324803828,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.193 Hz (milli-g)",
+     "mg": 5.77201882771085,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.219 Hz (milli-g)",
+     "mg": 3.8729302437085726,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2190790382320567,
+   "ny": 0.19300001119339802,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.5418286679558993
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 32037.459174729604,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.865789880949154,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.233 Hz (milli-g)",
+     "mg": 7.865789880949154,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.204 Hz (milli-g)",
+     "mg": 4.773911432092639,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.204 Hz (milli-g)",
+     "mg": 6.929908817244456,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.233 Hz (milli-g)",
+     "mg": 4.072755907425063,
+     "indicative": false
+    }
+   ],
+   "nx": 0.23257669633832523,
+   "ny": 0.20442559925405546,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.233 Hz (milli-g)",
+    "util": 0.524385992063277
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 32704.125841396268,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.05131049169038,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.212 Hz (milli-g)",
+     "mg": 7.05131049169038,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.186 Hz (milli-g)",
+     "mg": 4.994390240547575,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.186 Hz (milli-g)",
+     "mg": 6.167416780085426,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.212 Hz (milli-g)",
+     "mg": 4.253056844902849,
+     "indicative": false
+    }
+   ],
+   "nx": 0.21177468886575085,
+   "ny": 0.1858470257156633,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.5746775606021058
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 34085.85717472962,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.33466849143351,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.240 Hz (milli-g)",
+     "mg": 7.33466849143351,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.212 Hz (milli-g)",
+     "mg": 4.349284865875281,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.212 Hz (milli-g)",
+     "mg": 6.465585685707532,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.240 Hz (milli-g)",
+     "mg": 3.7292764342227485,
+     "indicative": false
+    }
+   ],
+   "nx": 0.23978837281505666,
+   "ny": 0.21163700625276896,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.240 Hz (milli-g)",
+    "util": 0.48897789942890063
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 31528.332781396286,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.389464827138339,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.184 Hz (milli-g)",
+     "mg": 9.389464827138339,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.161 Hz (milli-g)",
+     "mg": 6.623684016430364,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.161 Hz (milli-g)",
+     "mg": 8.039978731635044,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.184 Hz (milli-g)",
+     "mg": 5.632003870710852,
+     "indicative": false
+    }
+   ],
+   "nx": 0.18394035486491145,
+   "ny": 0.16119843095516162,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8008625576322445
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 29486.191394729634,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 11.118906394438943,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.201 Hz (milli-g)",
+     "mg": 11.118906394438943,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.176 Hz (milli-g)",
+     "mg": 6.4831403250904,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.176 Hz (milli-g)",
+     "mg": 9.616558830024548,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.201 Hz (milli-g)",
+     "mg": 5.513554048345401,
+     "indicative": false
+    }
+   ],
+   "nx": 0.20132828516871484,
+   "ny": 0.17648096028575952,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.201 Hz (milli-g)",
+    "util": 0.7412604262959295
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 30152.8580613963,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.836807820109827,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.179 Hz (milli-g)",
+     "mg": 9.836807820109827,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.156 Hz (milli-g)",
+     "mg": 7.084529614391776,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.156 Hz (milli-g)",
+     "mg": 8.40090294134584,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.179 Hz (milli-g)",
+     "mg": 6.0201172636778235,
+     "indicative": false
+    }
+   ],
+   "nx": 0.17861826847077653,
+   "ny": 0.15645030715340424,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8421053442997517
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 30861.66611472962,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 10.586850267666051,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.207 Hz (milli-g)",
+     "mg": 10.586850267666051,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.181 Hz (milli-g)",
+     "mg": 6.0802975949065035,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.181 Hz (milli-g)",
+     "mg": 9.177192159797972,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.207 Hz (milli-g)",
+     "mg": 5.1737874448861065,
+     "indicative": false
+    }
+   ],
+   "nx": 0.20688090134829487,
+   "ny": 0.18143415265960824,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.207 Hz (milli-g)",
+    "util": 0.7057900178444034
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 30152.8580613963,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.247784568155717,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.201 Hz (milli-g)",
+     "mg": 8.247784568155717,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.177 Hz (milli-g)",
+     "mg": 5.537551838109559,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.177 Hz (milli-g)",
+     "mg": 7.116749474804859,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.201 Hz (milli-g)",
+     "mg": 4.720127942596697,
+     "indicative": false
+    }
+   ],
+   "nx": 0.20139170102981332,
+   "ny": 0.17686422451276354,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.6883566114482403
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 32770.24811472965,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.9592349332467,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.214 Hz (milli-g)",
+     "mg": 9.9592349332467,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.188 Hz (milli-g)",
+     "mg": 5.593214950055283,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.188 Hz (milli-g)",
+     "mg": 8.657429028728558,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.214 Hz (milli-g)",
+     "mg": 4.76895983407738,
+     "indicative": false
+    }
+   ],
+   "nx": 0.21391489841244232,
+   "ny": 0.18791825721697347,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.214 Hz (milli-g)",
+    "util": 0.66394899554978
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 33436.91478139631,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.859653035549076,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.191 Hz (milli-g)",
+     "mg": 8.859653035549076,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.167 Hz (milli-g)",
+     "mg": 6.0747640783414765,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.167 Hz (milli-g)",
+     "mg": 7.6072420551392295,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.191 Hz (milli-g)",
+     "mg": 5.173202748752171,
+     "indicative": false
+    }
+   ],
+   "nx": 0.19067475463035097,
+   "ny": 0.16731560916067442,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.757057253776755
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 29486.191394729634,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.239792058597336,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.226 Hz (milli-g)",
+     "mg": 9.239792058597336,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.198 Hz (milli-g)",
+     "mg": 5.1144561020823875,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.198 Hz (milli-g)",
+     "mg": 8.06555161222968,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.226 Hz (milli-g)",
+     "mg": 4.363086307627711,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2255342262662231,
+   "ny": 0.19822220093171614,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.226 Hz (milli-g)",
+    "util": 0.6159861372398224
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 33436.91478139631,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.36051183315951,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.214 Hz (milli-g)",
+     "mg": 7.36051183315951,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.188 Hz (milli-g)",
+     "mg": 4.68423892590831,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.188 Hz (milli-g)",
+     "mg": 6.386134070176028,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.214 Hz (milli-g)",
+     "mg": 3.999773562961859,
+     "indicative": false
+    }
+   ],
+   "nx": 0.21415177905939498,
+   "ny": 0.18835008536227119,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.6250882720932885
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 30861.66611472962,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.759005844162543,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.231 Hz (milli-g)",
+     "mg": 8.759005844162543,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.203 Hz (milli-g)",
+     "mg": 4.773641596469165,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.203 Hz (milli-g)",
+     "mg": 7.66243007727363,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.231 Hz (milli-g)",
+     "mg": 4.073719820648064,
+     "indicative": false
+    }
+   ],
+   "nx": 0.23122006108803947,
+   "ny": 0.20328041996937318,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.231 Hz (milli-g)",
+    "util": 0.5839337229441696
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 257.8,
+   "cost": 31528.332781396286,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 7.839647223761556,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.207 Hz (milli-g)",
+     "mg": 7.839647223761556,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.182 Hz (milli-g)",
+     "mg": 5.146416595304596,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.182 Hz (milli-g)",
+     "mg": 6.782332943163026,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.207 Hz (milli-g)",
+     "mg": 4.388513849051036,
+     "indicative": false
+    }
+   ],
+   "nx": 0.20704336452217117,
+   "ny": 0.18189290505914163,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.6575707893369132
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 257.8,
+   "cost": 32770.24811472965,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.196976377294584,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.238 Hz (milli-g)",
+     "mg": 8.196976377294584,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.210 Hz (milli-g)",
+     "mg": 4.364254700519192,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.210 Hz (milli-g)",
+     "mg": 7.190836478581972,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.238 Hz (milli-g)",
+     "mg": 3.7312188149838668,
+     "indicative": false
+    }
+   ],
+   "nx": 0.2383819443820183,
+   "ny": 0.2098967929139383,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.238 Hz (milli-g)",
+    "util": 0.546465091819639
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 46,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L20: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L52 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "Crown: the plate is too small for the core (tube 9 × 7.6 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "Crown: the plate is too small for the core (tube 9 × 7.6 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L52 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "Crown: the plate is too small for the core (tube 9 × 7.6 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L52 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L52 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L52 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "Crown: the plate is too small for the core (tube 9 × 7.6 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L52 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L52 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L52 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 34844.546696396275,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 10.49653450069762,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.155 Hz (milli-g)",
+     "mg": 10.49653450069762,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.136 Hz (milli-g)",
+     "mg": 8.57869127684145,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.136 Hz (milli-g)",
+     "mg": 8.871047859772213,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.155 Hz (milli-g)",
+     "mg": 7.293295494202256,
+     "indicative": false
+    }
+   ],
+   "nx": 0.15497320911870918,
+   "ny": 0.13577145069830773,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.9211742509886226
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 32568.298749729605,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 12.466883926954958,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.165 Hz (milli-g)",
+     "mg": 12.466883926954958,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.145 Hz (milli-g)",
+     "mg": 8.763538712126493,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.145 Hz (milli-g)",
+     "mg": 10.584400468869223,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.165 Hz (milli-g)",
+     "mg": 7.46688303570585,
+     "indicative": false
+    }
+   ],
+   "nx": 0.16528542613046465,
+   "ny": 0.14507677268992025,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8605849476639802
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 33234.96541639627,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 11.033014902282877,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.150 Hz (milli-g)",
+     "mg": 11.033014902282877,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.132 Hz (milli-g)",
+     "mg": 9.189839233084916,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.132 Hz (milli-g)",
+     "mg": 9.285951469100878,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.150 Hz (milli-g)",
+     "mg": 7.820444569555493,
+     "indicative": false
+    }
+   ],
+   "nx": 0.1501855577285664,
+   "ny": 0.13167628427501676,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.9822604573442367
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 34177.880029729604,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 11.83763797798011,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.170 Hz (milli-g)",
+     "mg": 11.83763797798011,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.149 Hz (milli-g)",
+     "mg": 8.211721640007571,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.149 Hz (milli-g)",
+     "mg": 10.086845872549295,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.170 Hz (milli-g)",
+     "mg": 6.989153908673461,
+     "indicative": false
+    }
+   ],
+   "nx": 0.17016641595760085,
+   "ny": 0.149234275304872,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8095882153395404
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 33234.96541639627,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.232393465085492,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.169 Hz (milli-g)",
+     "mg": 9.232393465085492,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.149 Hz (milli-g)",
+     "mg": 7.185593878846047,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.149 Hz (milli-g)",
+     "mg": 7.863152299896401,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.169 Hz (milli-g)",
+     "mg": 6.130879175780033,
+     "indicative": false
+    }
+   ],
+   "nx": 0.16940431145485246,
+   "ny": 0.14886361352142,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.7882142101280063
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 36381.88202972962,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 11.118108042146709,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.176 Hz (milli-g)",
+     "mg": 11.118108042146709,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.155 Hz (milli-g)",
+     "mg": 7.538636300965062,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.155 Hz (milli-g)",
+     "mg": 9.490633061466825,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.176 Hz (milli-g)",
+     "mg": 6.440555662555185,
+     "indicative": false
+    }
+   ],
+   "nx": 0.17601472248386282,
+   "ny": 0.1548444420518081,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.7542243093265777
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 32568.298749729605,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 10.36581683969772,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.185 Hz (milli-g)",
+     "mg": 10.36581683969772,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.163 Hz (milli-g)",
+     "mg": 6.918192700070649,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.163 Hz (milli-g)",
+     "mg": 8.89448462284033,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.185 Hz (milli-g)",
+     "mg": 5.911131394019736,
+     "indicative": false
+    }
+   ],
+   "nx": 0.18529851842096426,
+   "ny": 0.16303494928660636,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.185 Hz (milli-g)",
+    "util": 0.691054455979848
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 37048.54869639629,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.878865568958389,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.161 Hz (milli-g)",
+     "mg": 9.878865568958389,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.141 Hz (milli-g)",
+     "mg": 7.848083076082618,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.141 Hz (milli-g)",
+     "mg": 8.36567666269318,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.161 Hz (milli-g)",
+     "mg": 6.694751193233088,
+     "indicative": false
+    }
+   ],
+   "nx": 0.1606981689656063,
+   "ny": 0.14118132221361976,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8615662338925043
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 34177.880029729604,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.79598065287776,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.190 Hz (milli-g)",
+     "mg": 9.79598065287776,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.167 Hz (milli-g)",
+     "mg": 6.454203743305802,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.167 Hz (milli-g)",
+     "mg": 8.43620213618311,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.190 Hz (milli-g)",
+     "mg": 5.507287625010177,
+     "indicative": false
+    }
+   ],
+   "nx": 0.19028318790930582,
+   "ny": 0.16724255169688543,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.190 Hz (milli-g)",
+    "util": 0.6530653768585174
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 37048.54869639629,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.181074767245885,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.180 Hz (milli-g)",
+     "mg": 8.181074767245885,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.159 Hz (milli-g)",
+     "mg": 6.061476840755923,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.159 Hz (milli-g)",
+     "mg": 7.012682171488525,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.180 Hz (milli-g)",
+     "mg": 5.182316385021977,
+     "indicative": false
+    }
+   ],
+   "nx": 0.180399017655259,
+   "ny": 0.158799285862034,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.7070633747410728
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 36381.88202972962,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.150458700181835,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.196 Hz (milli-g)",
+     "mg": 9.150458700181835,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.173 Hz (milli-g)",
+     "mg": 5.8920254013675875,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.173 Hz (milli-g)",
+     "mg": 7.893952927816119,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.196 Hz (milli-g)",
+     "mg": 5.04604904064437,
+     "indicative": false
+    }
+   ],
+   "nx": 0.19617017886347526,
+   "ny": 0.17293718061151533,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.196 Hz (milli-g)",
+    "util": 0.6100305800121223
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 34844.546696396275,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 8.741205854553078,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.174 Hz (milli-g)",
+     "mg": 8.741205854553078,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.153 Hz (milli-g)",
+     "mg": 6.67133153230357,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.153 Hz (milli-g)",
+     "mg": 7.47669824118615,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.174 Hz (milli-g)",
+     "mg": 5.68509514434261,
+     "indicative": false
+    }
+   ],
+   "nx": 0.17444779699469506,
+   "ny": 0.1531467111532752,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.7486085667208351
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 31384.29946972959,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 13.793633437656196,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.164 Hz (milli-g)",
+     "mg": 13.793633437656196,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.144 Hz (milli-g)",
+     "mg": 8.768931777808998,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.144 Hz (milli-g)",
+     "mg": 11.679079580154626,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.164 Hz (milli-g)",
+     "mg": 7.459484040019167,
+     "indicative": false
+    }
+   ],
+   "nx": 0.16441093488172,
+   "ny": 0.14411953941762565,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.164 Hz (milli-g)",
+    "util": 0.9195755625104131
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 33550.83541639622,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 11.61062596708878,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.151 Hz (milli-g)",
+     "mg": 11.61062596708878,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.133 Hz (milli-g)",
+     "mg": 8.855256416223478,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.133 Hz (milli-g)",
+     "mg": 9.737820053926932,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.151 Hz (milli-g)",
+     "mg": 7.5326271069209,
+     "indicative": false
+    }
+   ],
+   "nx": 0.1512776350434896,
+   "ny": 0.132590492284386,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.05336892876925
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 32884.16874972955,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 13.142186611781927,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.169 Hz (milli-g)",
+     "mg": 13.142186611781927,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.148 Hz (milli-g)",
+     "mg": 8.235729675973444,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.148 Hz (milli-g)",
+     "mg": 11.147355648331757,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.169 Hz (milli-g)",
+     "mg": 7.009986999256965,
+     "indicative": false
+    }
+   ],
+   "nx": 0.16875878087365306,
+   "ny": 0.14800530980461038,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.169 Hz (milli-g)",
+    "util": 0.8761457741187951
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 32050.966136396255,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 12.157824377408511,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.147 Hz (milli-g)",
+     "mg": 12.157824377408511,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.129 Hz (milli-g)",
+     "mg": 9.463209149526897,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.129 Hz (milli-g)",
+     "mg": 10.174628039061913,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.147 Hz (milli-g)",
+     "mg": 8.043759468762268,
+     "indicative": false
+    }
+   ],
+   "nx": 0.14703859627745375,
+   "ny": 0.12879231685549186,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.1102212467473915
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 34959.29554972964,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 12.371092223340117,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.175 Hz (milli-g)",
+     "mg": 12.371092223340117,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.153 Hz (milli-g)",
+     "mg": 7.568780343809459,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.153 Hz (milli-g)",
+     "mg": 10.517892531919086,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.175 Hz (milli-g)",
+     "mg": 6.45894965568342,
+     "indicative": false
+    }
+   ],
+   "nx": 0.17456313812055155,
+   "ny": 0.153423726725666,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.175 Hz (milli-g)",
+    "util": 0.8247394815560078
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 32050.966136396255,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 10.227687628389758,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.166 Hz (milli-g)",
+     "mg": 10.227687628389758,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.146 Hz (milli-g)",
+     "mg": 7.404290601516926,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.146 Hz (milli-g)",
+     "mg": 8.645788435669221,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.166 Hz (milli-g)",
+     "mg": 6.312944374169575,
+     "indicative": false
+    }
+   ],
+   "nx": 0.16569310318288047,
+   "ny": 0.1455137938086537,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.9030402964960643
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 31384.29946972959,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 11.50864911321632,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.184 Hz (milli-g)",
+     "mg": 11.50864911321632,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.162 Hz (milli-g)",
+     "mg": 6.927172642067825,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.162 Hz (milli-g)",
+     "mg": 9.834787965373947,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.184 Hz (milli-g)",
+     "mg": 5.910730085137404,
+     "indicative": false
+    }
+   ],
+   "nx": 0.18408915197313666,
+   "ny": 0.1617898711093229,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.184 Hz (milli-g)",
+    "util": 0.7672432742144213
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 35625.962216396314,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 10.959637731847055,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.157 Hz (milli-g)",
+     "mg": 10.959637731847055,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.138 Hz (milli-g)",
+     "mg": 8.112148933762665,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.138 Hz (milli-g)",
+     "mg": 9.214549697663301,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.157 Hz (milli-g)",
+     "mg": 6.916350898655771,
+     "indicative": false
+    }
+   ],
+   "nx": 0.15685903730880998,
+   "ny": 0.1377453449813477,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.9922946952481199
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 32884.16874972955,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 10.91365715277112,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.188 Hz (milli-g)",
+     "mg": 10.91365715277112,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.166 Hz (milli-g)",
+     "mg": 6.476278491303605,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.166 Hz (milli-g)",
+     "mg": 9.341902129168767,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.188 Hz (milli-g)",
+     "mg": 5.528106596878768,
+     "indicative": false
+    }
+   ],
+   "nx": 0.18849959825623439,
+   "ny": 0.16572168163003834,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.188 Hz (milli-g)",
+    "util": 0.7275771435180747
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 285.4,
+   "cost": 34959.29554972964,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 10.217099801972312,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.194 Hz (milli-g)",
+     "mg": 10.217099801972312,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.171 Hz (milli-g)",
+     "mg": 5.915509745808469,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.171 Hz (milli-g)",
+     "mg": 8.765508953630343,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.194 Hz (milli-g)",
+     "mg": 5.061672502062072,
+     "indicative": false
+    }
+   ],
+   "nx": 0.1944065849012659,
+   "ny": 0.17125729972716838,
+   "governing": {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.194 Hz (milli-g)",
+    "util": 0.6811399867981541
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 35625.962216396314,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.127822746236491,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.176 Hz (milli-g)",
+     "mg": 9.127822746236491,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.155 Hz (milli-g)",
+     "mg": 6.263514626753298,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.155 Hz (milli-g)",
+     "mg": 7.752212083102413,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.176 Hz (milli-g)",
+     "mg": 5.354601814538094,
+     "indicative": false
+    }
+   ],
+   "nx": 0.17603908933386223,
+   "ny": 0.15494681611256486,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8151569445693074
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 285.4,
+   "cost": 33550.83541639622,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.722255887487467,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.170 Hz (milli-g)",
+     "mg": 9.722255887487467,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.150 Hz (milli-g)",
+     "mg": 6.888783984003213,
+     "indicative": false
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.150 Hz (milli-g)",
+     "mg": 8.236195501967126,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.170 Hz (milli-g)",
+     "mg": 5.876613085859731,
+     "indicative": false
+    }
+   ],
+   "nx": 0.1701606574059212,
+   "ny": 0.14950777983422864,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8605733763526315
+   },
+   "indicative": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 52,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L22: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L58 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 313,
+   "cost": 34523.668569729605,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 15.049186516796793,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.137 Hz (milli-g)",
+     "mg": 15.049186516796793,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.120 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 11.590652327479004,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.120 Hz (milli-g)",
+     "mg": 12.519981137222,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.137 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.875837537643417,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1372080154573524,
+   "ny": 0.12040823557175505,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.13974134239533
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 313,
+   "cost": 36927.37347639628,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 12.624552419660077,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.129 Hz (milli-g)",
+     "mg": 12.624552419660077,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.113 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 11.228067851790808,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.113 Hz (milli-g)",
+     "mg": 10.454244856731496,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.129 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.561943840453845,
+     "indicative": true
+    }
+   ],
+   "nx": 0.12930677750826686,
+   "ny": 0.11341852389192793,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.216206572246693
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 313,
+   "cost": 36260.70680972961,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 14.2995809141249,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.141 Hz (milli-g)",
+     "mg": 14.2995809141249,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.124 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 10.861314851810889,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.124 Hz (milli-g)",
+     "mg": 11.929871607549345,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.141 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.256557481642144,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1411265265298346,
+   "ny": 0.12387453063132425,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.0743134541848154
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 313,
+   "cost": 35190.33523639628,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 13.26459047693951,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.125 Hz (milli-g)",
+     "mg": 13.26459047693951,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.110 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 12.026694988634482,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.110 Hz (milli-g)",
+     "mg": 10.949084267364416,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.125 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 10.239239139466987,
+     "indicative": true
+    }
+   ],
+   "nx": 0.125436620855311,
+   "ny": 0.10999511288493576,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.294151274162149
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 313,
+   "cost": 38642.3320097296,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 13.438459826942204,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.146 Hz (milli-g)",
+     "mg": 13.438459826942204,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.128 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.977880191200132,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.128 Hz (milli-g)",
+     "mg": 11.23947422023882,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.146 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 8.523144251802018,
+     "indicative": true
+    }
+   ],
+   "nx": 0.14609837560847946,
+   "ny": 0.12848347638227556,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.9988498615843472
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 313,
+   "cost": 35190.33523639628,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 11.14341211887731,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.141 Hz (milli-g)",
+     "mg": 11.14341211887731,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.124 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.413145426771338,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.124 Hz (milli-g)",
+     "mg": 9.29801134831452,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.141 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 8.035194470281468,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1414523810769166,
+   "ny": 0.12432301336630015,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.0124268876817588
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 313,
+   "cost": 34523.668569729605,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 12.569374474626674,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.154 Hz (milli-g)",
+     "mg": 12.569374474626674,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.135 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.159522132332755,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.135 Hz (milli-g)",
+     "mg": 10.560612965048398,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.154 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.82573841284915,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1538112829499045,
+   "ny": 0.13529732475938386,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8997481277205822
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 313,
+   "cost": 39308.99867639627,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 11.888303100571683,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.134 Hz (milli-g)",
+     "mg": 11.888303100571683,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.118 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 10.275346495501614,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.118 Hz (milli-g)",
+     "mg": 9.870598928203549,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.134 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 8.768116302213993,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1342006366309484,
+   "ny": 0.11790862938734611,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.1262435595014073
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 313,
+   "cost": 39308.99867639627,
+   "pass": true,
+   "comfort_ok": true,
+   "worst_mg": 9.877280390114093,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.151 Hz (milli-g)",
+     "mg": 9.877280390114093,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.133 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.94706204592876,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.133 Hz (milli-g)",
+     "mg": 8.291977006831482,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.151 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 6.796620788330851,
+     "indicative": true
+    }
+   ],
+   "nx": 0.15058233129370263,
+   "ny": 0.1325618891251065,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8940649603475361
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 313,
+   "cost": 36260.70680972961,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 11.884009981020634,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.158 Hz (milli-g)",
+     "mg": 11.884009981020634,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.139 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 8.546977398378568,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.139 Hz (milli-g)",
+     "mg": 10.012717774852856,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.158 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.302511115297499,
+     "indicative": true
+    }
+   ],
+   "nx": 0.15777657496395422,
+   "ny": 0.13879108249262373,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8525539176547514
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 313,
+   "cost": 38642.3320097296,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 11.10421516649992,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.163 Hz (milli-g)",
+     "mg": 11.10421516649992,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.143 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.808729568804024,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.143 Hz (milli-g)",
+     "mg": 9.378975918973092,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.163 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 6.685970900995285,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1627920514136644,
+   "ny": 0.14345658217345483,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.7982130162276824
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 313,
+   "cost": 36927.37347639628,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 10.551537247776052,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.145 Hz (milli-g)",
+     "mg": 10.551537247776052,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.128 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 8.742105686591731,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.128 Hz (milli-g)",
+     "mg": 8.833304081153122,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.145 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.4628143894444054,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1454945985408354,
+   "ny": 0.12788582781178512,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.955832291824494
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 313,
+   "cost": 35520.85034139626,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 13.968803652735739,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.126 Hz (milli-g)",
+     "mg": 13.968803652735739,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.111 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 11.586280276413051,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.111 Hz (milli-g)",
+     "mg": 11.50833553838004,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.126 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.858054696157952,
+     "indicative": true
+    }
+   ],
+   "nx": 0.12633683606604196,
+   "ny": 0.11072834250191,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.3546340462434427
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 313,
+   "cost": 33231.13343472955,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 16.6637753069269,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.136 Hz (milli-g)",
+     "mg": 16.6637753069269,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.119 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 11.625183946339122,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.119 Hz (milli-g)",
+     "mg": 13.832651849338946,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.136 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.894750000687095,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1361049807265341,
+   "ny": 0.11933566613870641,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.2209803735332412
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 313,
+   "cost": 34854.18367472959,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 15.879619331720617,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.140 Hz (milli-g)",
+     "mg": 15.879619331720617,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.123 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 10.898307685446975,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.123 Hz (milli-g)",
+     "mg": 13.214646112692574,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.140 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.276720418423128,
+     "indicative": true
+    }
+   ],
+   "nx": 0.13996989953356678,
+   "ny": 0.12273543651326684,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.1515023057924891
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 313,
+   "cost": 33897.80010139622,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 14.625059659426885,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.123 Hz (milli-g)",
+     "mg": 14.625059659426885,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.107 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 12.402579215408476,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.107 Hz (milli-g)",
+     "mg": 12.015639701010912,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.123 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 10.550763533540094,
+     "indicative": true
+    }
+   ],
+   "nx": 0.12257874869907784,
+   "ny": 0.1074153936667537,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.4416620810797978
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 313,
+   "cost": 33231.13343472955,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 13.9572148985211,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.152 Hz (milli-g)",
+     "mg": 13.9572148985211,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.134 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.198331676536215,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.134 Hz (milli-g)",
+     "mg": 11.68710743054654,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.152 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.853192191697479,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1523045611288924,
+   "ny": 0.13389119839948257,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.9707091785037497
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 313,
+   "cost": 33897.80010139622,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 12.341508219967228,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.138 Hz (milli-g)",
+     "mg": 12.341508219967228,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.121 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.716198419724726,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.121 Hz (milli-g)",
+     "mg": 10.234668541502312,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.138 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 8.291221462271265,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1380450869441039,
+   "ny": 0.12129313838894903,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.1530470795798482
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 313,
+   "cost": 37092.13927472962,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 14.956245677589141,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.145 Hz (milli-g)",
+     "mg": 14.956245677589141,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.127 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 10.035988679023328,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.127 Hz (milli-g)",
+     "mg": 12.473912695282987,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.145 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 8.560056781797442,
+     "indicative": true
+    }
+   ],
+   "nx": 0.14462816060802275,
+   "ny": 0.12703503857791104,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.0814345672678662
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 313,
+   "cost": 37758.80594139629,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 13.1884975530605,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.131 Hz (milli-g)",
+     "mg": 13.1884975530605,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.115 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 10.632612522383067,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.115 Hz (milli-g)",
+     "mg": 10.888809854458001,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.131 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.062030281043475,
+     "indicative": true
+    }
+   ],
+   "nx": 0.13086834662185043,
+   "ny": 0.11486420961171406,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.272680416409565
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 313,
+   "cost": 37092.13927472962,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 12.393591261711538,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.161 Hz (milli-g)",
+     "mg": 12.393591261711538,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.142 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.857850687794397,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.142 Hz (milli-g)",
+     "mg": 10.426346550649315,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.161 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 6.720017212784594,
+     "indicative": true
+    }
+   ],
+   "nx": 0.16096883763549402,
+   "ny": 0.14171050780106087,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.8688529344460932
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 313,
+   "cost": 37758.80594139629,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 11.01032261516228,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.147 Hz (milli-g)",
+     "mg": 11.01032261516228,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.129 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 8.222117008252118,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.129 Hz (milli-g)",
+     "mg": 9.177078138119665,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.147 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.026441785318494,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1467652755400902,
+   "ny": 0.12911676027428706,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.0372360187928644
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 313,
+   "cost": 34854.18367472959,
+   "pass": true,
+   "comfort_ok": false,
+   "worst_mg": 13.234253128752002,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.156 Hz (milli-g)",
+     "mg": 13.234253128752002,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.137 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 8.583053075190106,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.137 Hz (milli-g)",
+     "mg": 11.109123589057688,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.156 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.326725552407852,
+     "indicative": true
+    }
+   ],
+   "nx": 0.15626313765529773,
+   "ny": 0.13735730350585632,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 0.9196929732792195
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 313,
+   "cost": 35520.85034139626,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 11.729161512699985,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.142 Hz (milli-g)",
+     "mg": 11.729161512699985,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.125 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 9.024131199872118,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.125 Hz (milli-g)",
+     "mg": 9.75435370670177,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.142 Hz (milli-g) — INDICATIVE: H/√(WD) 6.5 > 6; wind tunnel required",
+     "mg": 7.700184467735949,
+     "indicative": true
+    }
+   ],
+   "nx": 0.14202630917381867,
+   "ny": 0.12478911584225712,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.0955650100025893
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 58,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L24: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L64 Penthouse: the plate is too small for the core (tube 9.2 × 7.8 m): less taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 38364.384934729525,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 16.86901833300454,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.118 Hz (milli-g)",
+     "mg": 16.86901833300454,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.104 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 14.12537204422063,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.104 Hz (milli-g)",
+     "mg": 13.82090191417196,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.118 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.040105974234661,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1184031920885632,
+   "ny": 0.10391972952517312,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.4245856237880516
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 39031.0516013962,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 14.833813581755352,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.109 Hz (milli-g)",
+     "mg": 14.833813581755352,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.096 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 14.457202001145198,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.096 Hz (milli-g)",
+     "mg": 12.072969640074263,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.109 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.317362918069593,
+     "indicative": true
+    }
+   ],
+   "nx": 0.10909754208642587,
+   "ny": 0.09570718774466222,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.5987857421013203
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 36514.29933472963,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 17.70732280115994,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.115 Hz (milli-g)",
+     "mg": 17.70732280115994,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.101 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 15.049434856804728,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.101 Hz (milli-g)",
+     "mg": 14.474208478261415,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.115 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.826564970476742,
+     "indicative": true
+    }
+   ],
+   "nx": 0.11522625390737776,
+   "ny": 0.10112037562810582,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.508574210857545
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 37180.9660013963,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 15.547718754400563,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.106 Hz (milli-g)",
+     "mg": 15.547718754400563,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.093 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 15.457824180641326,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.093 Hz (milli-g)",
+     "mg": 12.620519895989787,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.106 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 13.167496648586297,
+     "indicative": true
+    }
+   ],
+   "nx": 0.10595135185457039,
+   "ny": 0.09292995288454287,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.697431886935738
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 40928.91493472962,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 15.863288555187417,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.123 Hz (milli-g)",
+     "mg": 15.863288555187417,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.108 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.962334525249492,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.108 Hz (milli-g)",
+     "mg": 13.025917671351444,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.123 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 11.07612335229631,
+     "indicative": true
+    }
+   ],
+   "nx": 0.12266483802716557,
+   "ny": 0.10788249225988669,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.3212056362698306
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 37180.9660013963,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 13.11571847091389,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.119 Hz (milli-g)",
+     "mg": 13.11571847091389,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.105 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.11563407787688,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.105 Hz (milli-g)",
+     "mg": 10.751697497590705,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.119 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 10.347378211100676,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1194011357633021,
+   "ny": 0.10496518263010716,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.3296097469696344
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 36514.29933472963,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 14.857877234628965,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.129 Hz (milli-g)",
+     "mg": 14.857877234628965,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.114 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 11.908848904827497,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.114 Hz (milli-g)",
+     "mg": 12.256414855374013,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.129 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 10.17700552928815,
+     "indicative": true
+    }
+   ],
+   "nx": 0.12911018336018812,
+   "ny": 0.1135677061636999,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.1910960668479416
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 41595.58160139629,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 13.976669147790536,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.113 Hz (milli-g)",
+     "mg": 13.976669147790536,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.100 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 13.215769865225935,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.100 Hz (milli-g)",
+     "mg": 11.401797939107043,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.113 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 11.284744354385806,
+     "indicative": true
+    }
+   ],
+   "nx": 0.11330153225681863,
+   "ny": 0.09958079231787069,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.4769991595559107
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 41595.58160139629,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 11.656507737593168,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.127 Hz (milli-g)",
+     "mg": 11.656507737593168,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.112 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 10.23779543777394,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.112 Hz (milli-g)",
+     "mg": 9.604779714386686,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.127 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 8.761416857109186,
+     "indicative": true
+    }
+   ],
+   "nx": 0.12704205084088385,
+   "ny": 0.11187631728089169,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.1692149728160055
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 38364.384934729525,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 14.083324109525485,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.132 Hz (milli-g)",
+     "mg": 14.083324109525485,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.116 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 11.131416581634879,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.116 Hz (milli-g)",
+     "mg": 11.643916999264354,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.132 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 9.511556681734024,
+     "indicative": true
+    }
+   ],
+   "nx": 0.13231047403289814,
+   "ny": 0.11637531875090544,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.130823906634658
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 40928.91493472962,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 13.16455278446017,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.137 Hz (milli-g)",
+     "mg": 13.16455278446017,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.120 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 10.158730154015018,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.120 Hz (milli-g)",
+     "mg": 10.908504546588821,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.137 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 8.700461991820182,
+     "indicative": true
+    }
+   ],
+   "nx": 0.13662158121699547,
+   "ny": 0.12039811285260084,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.055683550904329
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 45,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 39031.0516013962,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 12.44848743854863,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.123 Hz (milli-g)",
+     "mg": 12.44848743854863,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.108 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 11.273811524279385,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.108 Hz (milli-g)",
+     "mg": 10.232295337507885,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.123 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 9.628171321247791,
+     "indicative": true
+    }
+   ],
+   "nx": 0.12266958155355787,
+   "ny": 0.10783968642917376,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.2581736342631706
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 35089.98380472961,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 19.656585717150406,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.114 Hz (milli-g)",
+     "mg": 19.656585717150406,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.100 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 15.168499895586136,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.100 Hz (milli-g)",
+     "mg": 16.050570755753313,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.114 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.891346023054147,
+     "indicative": true
+    }
+   ],
+   "nx": 0.11397233189702209,
+   "ny": 0.09978640026874473,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.6318423088223666
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 37502.70567139631,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 16.41844769375533,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.106 Hz (milli-g)",
+     "mg": 16.41844769375533,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.093 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 14.924628632867634,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.093 Hz (milli-g)",
+     "mg": 13.305982096276706,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.106 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.70711185221445,
+     "indicative": true
+    }
+   ],
+   "nx": 0.10648107800968669,
+   "ny": 0.09335795297179986,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.790929752174082
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 36836.03900472964,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 18.740804290624336,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.117 Hz (milli-g)",
+     "mg": 18.740804290624336,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.103 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 14.193042955857814,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.103 Hz (milli-g)",
+     "mg": 15.323566029349532,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.117 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.088342671508318,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1172084440138894,
+   "ny": 0.10280420193263733,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.5330984436105046
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 35756.65047139628,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 17.184458706538347,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.103 Hz (milli-g)",
+     "mg": 17.184458706538347,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.090 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 16.007642686819885,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.090 Hz (milli-g)",
+     "mg": 13.902397865976596,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.103 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 13.598341850967216,
+     "indicative": true
+    }
+   ],
+   "nx": 0.10331706793335282,
+   "ny": 0.09041245118784941,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.9121847635955558
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 35089.98380472961,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 16.534985174766256,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.127 Hz (milli-g)",
+     "mg": 16.534985174766256,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.112 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.02133005041346,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.112 Hz (milli-g)",
+     "mg": 13.611471057723536,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.127 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 10.24867969148981,
+     "indicative": true
+    }
+   ],
+   "nx": 0.12744776021625678,
+   "ny": 0.11188574281412847,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.2983717179191285
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 35756.65047139628,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 14.55529519860523,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.116 Hz (milli-g)",
+     "mg": 14.55529519860523,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.102 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 12.558768947757992,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.102 Hz (milli-g)",
+     "mg": 11.877510565740163,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.116 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 10.702586130697735,
+     "indicative": true
+    }
+   ],
+   "nx": 0.11625861903722542,
+   "ny": 0.10201816143939589,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.5067556190147726
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 39240.437804729605,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 17.649568668295426,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.121 Hz (milli-g)",
+     "mg": 17.649568668295426,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.106 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 13.095087797328208,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.106 Hz (milli-g)",
+     "mg": 14.491190782474236,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.121 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 11.141925327880006,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1212308103285317,
+   "ny": 0.10624874463401769,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.4418279835733696
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 39907.10447139628,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 15.499256011602116,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.110 Hz (milli-g)",
+     "mg": 15.499256011602116,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.097 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 13.719461903446973,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.097 Hz (milli-g)",
+     "mg": 12.609571543585187,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.110 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 11.665103428097439,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1104162031502278,
+   "ny": 0.096704692749723,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.678230563538899
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 39240.437804729605,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 14.680683929445946,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.135 Hz (milli-g)",
+     "mg": 14.680683929445946,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.118 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 10.271260635905108,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.118 Hz (milli-g)",
+     "mg": 12.152385393209038,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.135 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 8.76262912563532,
+     "indicative": true
+    }
+   ],
+   "nx": 0.13482889570033163,
+   "ny": 0.11843918569982238,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.1595742825720161
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "H": 340.6,
+   "cost": 36836.03900472964,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 15.682821301136164,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.131 Hz (milli-g)",
+     "mg": 15.682821301136164,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.115 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 11.195592594102372,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.115 Hz (milli-g)",
+     "mg": 12.926329490694087,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.131 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 9.563758690652405,
+     "indicative": true
+    }
+   ],
+   "nx": 0.130752926088867,
+   "ny": 0.11497790924976446,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.225109994435009
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 37502.70567139631,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 13.833473122424914,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.120 Hz (milli-g)",
+     "mg": 13.833473122424914,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.105 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 11.641501942907178,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.105 Hz (milli-g)",
+     "mg": 11.308019561701562,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.120 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 9.941752293478844,
+     "indicative": true
+    }
+   ],
+   "nx": 0.1195974628023029,
+   "ny": 0.10513199520159779,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.4160060052039738
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 1600,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.62
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "H": 340.6,
+   "cost": 39907.10447139628,
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": 12.978800273747757,
+   "acc": [
+    {
+     "name": "wind x: along-wind peak acceleration, mode 2 at 0.124 Hz (milli-g)",
+     "mg": 12.978800273747757,
+     "indicative": false
+    },
+    {
+     "name": "wind x: across-wind peak acceleration at 0.109 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 10.62753471219513,
+     "indicative": true
+    },
+    {
+     "name": "wind y: along-wind peak acceleration, mode 1 at 0.109 Hz (milli-g)",
+     "mg": 10.652994386276468,
+     "indicative": false
+    },
+    {
+     "name": "wind y: across-wind peak acceleration at 0.124 Hz (milli-g) — INDICATIVE: H/√(WD) 7.1 > 6; wind tunnel required",
+     "mg": 9.06074843726313,
+     "indicative": true
+    }
+   ],
+   "nx": 0.12371564440741617,
+   "ny": 0.1086087768009766,
+   "governing": {
+    "name": "seismic y: stability coefficient θ (P-delta)",
+    "util": 1.3335653506271332
+   },
+   "indicative": 2
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 1600,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 1600,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.5,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.15,
+   "damper": 3200,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1,
+   "damper": 3200,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  },
+  {
+   "floors": 64,
+   "plan": {
+    "twistDeg": 90,
+    "taper": 0.7
+   },
+   "tubeSolidity": 0.7,
+   "tubeScale": 1.35,
+   "damper": 3200,
+   "error": "L25: the floor plate leaves the lot: less twist or more taper",
+   "pass": false,
+   "comfort_ok": false,
+   "worst_mg": null,
+   "cost": null,
+   "H": 0
+  }
+ ],
+ "chosen": {
+  "floors": 52,
+  "plan": {
+   "twistDeg": 45,
+   "taper": 0.7
+  },
+  "tubeSolidity": 0.7,
+  "tubeScale": 1,
+  "damper": 3200,
+  "H": 285.4,
+  "cost": 33234.96541639627,
+  "pass": true,
+  "comfort_ok": true,
+  "worst_mg": 9.232393465085492,
+  "acc": [
+   {
+    "name": "wind x: along-wind peak acceleration, mode 2 at 0.169 Hz (milli-g)",
+    "mg": 9.232393465085492,
+    "indicative": false
+   },
+   {
+    "name": "wind x: across-wind peak acceleration at 0.149 Hz (milli-g)",
+    "mg": 7.185593878846047,
+    "indicative": false
+   },
+   {
+    "name": "wind y: along-wind peak acceleration, mode 1 at 0.149 Hz (milli-g)",
+    "mg": 7.863152299896401,
+    "indicative": false
+   },
+   {
+    "name": "wind y: across-wind peak acceleration at 0.169 Hz (milli-g)",
+    "mg": 6.130879175780033,
+    "indicative": false
+   }
+  ],
+  "nx": 0.16940431145485246,
+  "ny": 0.14886361352142,
+  "governing": {
+   "name": "seismic y: stability coefficient θ (P-delta)",
+   "util": 0.7882142101280063
+  },
+  "indicative": 0
+ }
+}

@@ -10,7 +10,7 @@
 // Versioning (CONTRACT.md §10 of stiffness, adopted): a change to a number or signature bumps the
 // major; widened validity bumps the minor; a patch changes no number.
 
-import { curtainWallMesh, spireMesh, cityMesh, treesMesh } from './archgeom.js';
+import { curtainWallMesh, crownFinsMesh, spireMesh, cityMesh, treesMesh, buildingsMesh } from './archgeom.js';
 import { wallMesh, slabMesh, columnMesh, beamMesh, rebarMesh, cylinderMesh, boxMesh, segmentsMesh } from './geometry.js';
 
 export const registry = new Map();
@@ -105,11 +105,12 @@ register({
 register({
   name: 'geometry.context', version: '1.0.0', forType: 'context',
   assumptions: ['drawn as a 300 mm slab whose top is 20 mm below elevation 0, so it never hides the ground surface or structure and its faces stay apart in the depth buffer at city scale'],
-  inputs(model, el) { const kind = num(el, 'kind', 'park'); return kind === 'city' ? { kind, blocks: num(el, 'blocks') } : kind === 'trees' ? { kind, trees: num(el, 'trees') } : { kind, outline: num(el, 'outline') }; },
+  inputs(model, el) { const kind = num(el, 'kind', 'park'); return kind === 'city' ? { kind, blocks: num(el, 'blocks') } : kind === 'trees' ? { kind, trees: num(el, 'trees') } : kind === 'buildings' ? { kind, buildings: num(el, 'buildings') } : { kind, outline: num(el, 'outline') }; },
   run(inp) {
+    if (inp.kind === 'buildings') return buildingsMesh(inp);
     if (inp.kind === 'city') return cityMesh(inp);
     if (inp.kind === 'trees') return treesMesh(inp);
-    const m = slabMesh({ outline: inp.outline, thickness: 0.3, zTop: -0.02 }); m.context_m2 = m.area_m2; delete m.volume_m3; return m;
+    const m = slabMesh({ outline: inp.outline, thickness: 0.3, zTop: inp.kind === 'park' ? -0.02 : -0.06 }); m.context_m2 = m.area_m2; delete m.volume_m3; return m;   // the park sits just above the city ground
   },
 });
 register({
@@ -122,8 +123,8 @@ register({
 register({
   name: 'geometry.curtain_wall', version: '1.0.0', forType: 'curtain_wall',
   assumptions: ['glass 120 mm outside the slab edge, fins at the stated spacing, a spandrel band at each floor'],
-  inputs(model, el) { const lvl = levelOf(model, el); return { outline: num(el, 'outline'), z0: lvl.elevation, h: num(el, 'height', lvl.height), kind: num(el, 'kind', 'typical'), fin: num(el, 'fin_spacing', 1.5), finDepth: num(el, 'fin_depth', 0.45) }; },
-  run: curtainWallMesh,
+  inputs(model, el) { const lvl = levelOf(model, el), kind = num(el, 'kind', 'typical'); return kind === 'crownfins' ? { kind, outline: num(el, 'outline'), z0: lvl.elevation, h: num(el, 'height', lvl.height), fin: num(el, 'fin_spacing', 2.4), depth: num(el, 'fin_depth', 0.9), topScale: num(el, 'top_scale', 0.45), twistDeg: num(el, 'twist', 20) } : { outline: num(el, 'outline'), z0: lvl.elevation, h: num(el, 'height', lvl.height), kind, fin: num(el, 'fin_spacing', 1.5), finDepth: num(el, 'fin_depth', 0.45) }; },
+  run: inp => inp.kind === 'crownfins' ? crownFinsMesh(inp) : curtainWallMesh(inp),
 });
 register({
   name: 'geometry.spire', version: '1.0.0', forType: 'spire',
