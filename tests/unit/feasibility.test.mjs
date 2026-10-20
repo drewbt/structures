@@ -67,3 +67,11 @@ test('process and exits: every stage names who is paid; exits state capital, net
   for (const x of ex) assert.ok(Number.isFinite(x.net) && x.capital >= 0 && x.years > 0 && x.tax);
   assert.equal(ex.find(x => x.route.startsWith('Fee')).capital, 0);
 });
+
+test('spendable deposits cut the equity needed and the interest, and lose no money', () => {
+  const d = F.appraise(m, { deposit_use: { v: 20 } }, q);
+  assert.ok(d.cf.equity <= r.cf.equity + 1 && d.cf.interest < r.cf.interest);
+  const cost = d.cf.rows.reduce((s, x) => s + x.cost, 0), funded = d.cf.rows.reduce((s, x) => s + x.equity_in + x.loan_draw + x.deposits, 0);
+  assert.ok(Math.abs(funded - cost - d.cf.loan_fee) < 1e3, `${funded} vs ${cost}`);
+  assert.ok(Math.abs(d.cf.rows.reduce((s, x) => s + x.income, 0) - d.rev.net) < 1);
+});

@@ -51,6 +51,7 @@ export const FEAS_DEFAULTS = {
   q_demolish: { v: 4, unit: 'quarters', basis: 'demolition and excavation to rock (assumed)' },
   q_build: { v: 16, unit: 'quarters', basis: 'superstructure, facade, fit-out to TCO for 52 storeys (assumed)' },
   q_sell: { v: 8, unit: 'quarters', basis: 'closings after TCO; the corridor sells slowly (2026 reporting) (assumed)' },
+  deposit_use: { v: 0, unit: '% of presold price', basis: 'buyer deposits the law lets the sponsor spend on construction; 0 in New York (held in escrow to closing, Part 20)' },
   presold: { v: 35, unit: '% of units', basis: 'contracts signed before TCO under an accepted offering plan (assumed)' },
   // the developer's own position (for the exit comparison)
   overhead: { v: 35, unit: '% of fee', basis: 'developer\'s own staff and office cost against the fee (assumed)' },
@@ -157,18 +158,20 @@ export function cashFlow(cost, rev, a, interestBudget = null) {
   spread(L('Development fee'), qE, qD + qB, 'flat');
   spread(L('Marketing'), qE + qD, qB + qS, 'flat');
   // closings: pre-sold units close at TCO; the rest across the sell-out; commissions paid with closings
-  const tco = qE + qD + qB, pre = v(a, 'presold') / 100;
-  inc[tco] += rev.net * pre; for (let i = 1; i <= qS; i++) inc[tco + i] += rev.net * (1 - pre) / qS;
+  const tco = qE + qD + qB, pre = v(a, 'presold') / 100, depTotal = rev.net * pre * v(a, 'deposit_use') / 100, depIn = Array(N).fill(0);
+  for (let i = 0; i < qB; i++) depIn[qE + qD + i] = depTotal / qB;   // spendable deposits arrive as contracts are signed through construction
+  inc[tco] += rev.net * pre - depTotal; for (let i = 1; i <= qS; i++) inc[tco + i] += rev.net * (1 - pre) / qS;
   for (let i = 0; i < N; i++) out[i] += inc[i] * v(a, 'commissions') / 100;
   // finance: equity funds costs until it reaches (1 − LTC) of total cost; then the loan; interest capitalised
-  const allIn = cost.total + interestBudget, loanCap = allIn * v(a, 'ltc') / 100, equityCap = allIn - loanCap; let eq = 0, loan = 0, fee = 0, interest = 0; const rows = [];
+  const allIn = cost.total + interestBudget, loanCap = allIn * v(a, 'ltc') / 100, equityCap = allIn - loanCap; let eq = 0, loan = 0, fee = 0, interest = 0, carryDep = 0; const rows = [];
   for (let i = 0; i < N; i++) {
-    let need = out[i], e = 0, d = 0;
+    let need = out[i] - depIn[i] + carryDep, e = 0, d = 0; carryDep = 0; if (need < 0) { carryDep = need; need = 0; }   // deposits pay costs first
+    if (i === tco && carryDep < 0) { inc[i] -= carryDep; carryDep = 0; }   // any deposit not yet spent is cash at closing
     const int = loan * r; interest += int; loan += int;
     if (eq < equityCap) { e = Math.min(need, equityCap - eq); eq += e; need -= e; }
     if (need > 0) { if (loan === 0 && need > 0) { fee = loanCap * v(a, 'loan_fee') / 100; need += fee; } d = need; loan += d; need = 0; }
     let cash = inc[i], repay = Math.min(loan, cash); loan -= repay; cash -= repay;
-    rows.push({ q: i, cost: out[i], income: inc[i], equity_in: e, loan_draw: d, interest: int, loan, repay, to_equity: cash });
+    rows.push({ q: i, cost: out[i], income: inc[i] + depIn[i], deposits: depIn[i], equity_in: e, loan_draw: d, interest: int, loan, repay, to_equity: cash });
   }
   const eqFlows = rows.map(x => x.to_equity - x.equity_in);
   return { rows, equity: eq, peak_loan: Math.max(...rows.map(x => x.loan)), interest, loan_fee: fee, profit: eqFlows.reduce((s, x) => s + x, 0), loan_commitment: loanCap, irr: irr(eqFlows, 4), multiple: eq > 0 ? rows.reduce((s, x) => s + x.to_equity, 0) / eq : null, quarters: N, tco };
