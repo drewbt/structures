@@ -15,4 +15,4 @@ const rows = PARCELS.map(p => {
 }).sort((a, b) => (b.best?.irr ?? -9) - (a.best?.irr ?? -9));
 writeFileSync(new URL('../docs/parcel-search.json', import.meta.url), JSON.stringify({ generated: new Date().toISOString(), rows }, null, 1));
 const P = x => `$${(x / 1e6).toFixed(1)}M`, pc = x => x === null || x === undefined ? 'none' : `${(x * 100).toFixed(0)}%`;
-for (const r of rows) { const b = r.best; console.log(`${r.market.slice(0, 12).padEnd(13)} ${r.name.slice(0, 44).padEnd(45)} ${r.acres}ac ${P(r.land)} | ${b ? `${b.floors}fl ${b.units}u IRR ${pc(b.irr)} profit ${P(b.profit)} eq ${P(b.equity)} ${b.years}y` : 'no scheme fits'} | down ${pc(r.downside?.irr)} ${P(r.downside?.profit ?? 0)}`); }
+for (const r of rows) { const b = r.best; console.log(`${r.market.slice(0, 12).padEnd(13)} ${r.name.slice(0, 44).padEnd(45)} ${(r.status||'').slice(0,10).padEnd(11)} ${r.acres}ac ${P(r.land)} | ${b ? `${b.floors}fl ${b.units}u IRR ${pc(b.irr)} profit ${P(b.profit)} eq ${P(b.equity)} ${b.years}y` : 'no scheme fits'} | down ${pc(r.downside?.irr)} ${P(r.downside?.profit ?? 0)}`); }

@@ -1,8 +1,9 @@
 {
- "generated": "2026-10-20T07:16:40.253Z",
+ "generated": "2026-10-20T07:17:34.566Z",
  "rows": [
   {
    "market": "Puerto Rico: Dorado",
+   "status": "listed",
    "name": "Oceanfront residential site (Christiansen Commercial)",
    "acres": 1.93,
    "land": 8794800,
@@ -34,6 +35,7 @@
   },
   {
    "market": "Puerto Rico: Dorado",
+   "status": "listed",
    "name": "Former Rockefeller estate, opposite the Ritz-Carlton Reserve",
    "acres": 3.8,
    "land": 8500000,
@@ -64,7 +66,104 @@
    }
   },
   {
+   "market": "Charlotte Myers Park / Eastover boutique",
+   "name": "E Blvd & Scott Ave, Dilworth (former Alpine Ski Center)",
+   "acres": 0.5,
+   "land": 2550000,
+   "status": "sold 2025-26 (comp)",
+   "price_factor": 0.95,
+   "max_floors": 6,
+   "max_far": 3,
+   "note": "bought for a 70k sf office (R); zoning not stated",
+   "src": "thecharlotteledger.com",
+   "per_acre": 5100000,
+   "schemes": 8,
+   "meeting": 5,
+   "best": {
+    "floors": 5,
+    "plate_sf": 9000,
+    "units": 11,
+    "gsf": 45000,
+    "gdv": 32024109.644999996,
+    "cost": 25406942.339046303,
+    "profit": 6617167.305953691,
+    "margin": 0.2604472123268525,
+    "irr": 0.24094119525298452,
+    "equity": 11447687.688800044,
+    "years": 3.5
+   },
+   "downside": {
+    "profit": 178866.8278666666,
+    "irr": -0.005316554534769091
+   }
+  },
+  {
+   "market": "Nashville core (Gulch / SoBro / Midtown)",
+   "name": "15th Ave N & Church St, Midtown (ex-Roers site)",
+   "acres": 1.2,
+   "land": 10000000,
+   "status": "sold ~2024-11 (comp)",
+   "price_factor": 0.95,
+   "max_floors": 20,
+   "max_far": 8,
+   "note": "zoning not stated (E)",
+   "src": "nashvillepost.com",
+   "per_acre": 8333333.333333334,
+   "schemes": 73,
+   "meeting": 16,
+   "best": {
+    "floors": 7,
+    "plate_sf": 30000,
+    "units": 72,
+    "gsf": 210000,
+    "gdv": 170182349.81999996,
+    "cost": 135487959.80216914,
+    "profit": 34694390.01783081,
+    "margin": 0.25606991254787026,
+    "irr": 0.2233749538915477,
+    "equity": 54269778.38061954,
+    "years": 4
+   },
+   "downside": {
+    "profit": 79219.04418857465,
+    "irr": -0.028447859913011242
+   }
+  },
+  {
+   "market": "Charlotte Myers Park / Eastover boutique",
+   "name": "Edgehill Rd at Brunswick Ave, Myers Park (rezoning 2026-016)",
+   "acres": 1.88,
+   "land": 9400000,
+   "status": "not for sale (owner redeveloping); land at $5M/acre E",
+   "price_factor": 1,
+   "max_floors": 5,
+   "max_far": 2.5,
+   "note": "N2-B, petition for N2-C(CD) up to 225 stacked units (R); owner avoids 8+ storeys (R)",
+   "src": "charmeck.org rezoning 2026-016",
+   "per_acre": 5000000,
+   "schemes": 21,
+   "meeting": 7,
+   "best": {
+    "floors": 5,
+    "plate_sf": 30000,
+    "units": 35,
+    "gsf": 150000,
+    "gdv": 112365297,
+    "cost": 85999728.991715,
+    "profit": 26365568.008285,
+    "margin": 0.3065773382939962,
+    "irr": 0.20458729860179248,
+    "equity": 38735833.75996648,
+    "years": 4.5
+   },
+   "downside": {
+    "profit": 4129997.786353472,
+    "irr": 0.004573620927575517
+   }
+  },
+  {
    "market": "Puerto Rico: Dorado",
+   "status": "listed",
    "name": "Villa Dorado Estates lot 8 (in Dorado Beach Resort)",
    "acres": 1,
    "land": 6900000,
@@ -95,7 +194,200 @@
    }
   },
   {
+   "market": "Charlotte Myers Park / Eastover boutique",
+   "name": "329 Rensselaer Ave, South End / Dilworth",
+   "acres": 0.34,
+   "land": 1650000,
+   "status": "listed (date unknown)",
+   "price_factor": 0.9,
+   "max_floors": 5,
+   "max_far": 2.5,
+   "note": "TOD-NC with historic overlay, marketed for townhomes or condos (R); must be split from parent parcel",
+   "src": "mpvre.com",
+   "per_acre": 4852941.176470588,
+   "schemes": 3,
+   "meeting": 2,
+   "best": {
+    "floors": 5,
+    "plate_sf": 6000,
+    "units": 7,
+    "gsf": 30000,
+    "gdv": 19935778.499999993,
+    "cost": 16762909.679461423,
+    "profit": 3172868.8205385697,
+    "margin": 0.18927912165667118,
+    "irr": 0.1847462860396898,
+    "equity": 7553258.258060766,
+    "years": 3.5
+   },
+   "downside": {
+    "profit": -922514.6865326287,
+    "irr": -0.06514179146413879
+   }
+  },
+  {
+   "market": "Charlotte Myers Park / Eastover boutique",
+   "name": "2001 Radcliffe Ave, Myers Park",
+   "acres": 0.52,
+   "land": 2150000,
+   "status": "listed",
+   "price_factor": 1,
+   "max_floors": 3,
+   "max_far": 1,
+   "note": "probably N1-A single-family (E): condos need rezoning",
+   "src": "homes.com",
+   "per_acre": 4134615.3846153845,
+   "schemes": 1,
+   "meeting": 1,
+   "best": {
+    "floors": 3,
+    "plate_sf": 6000,
+    "units": 4,
+    "gsf": 18000,
+    "gdv": 13290518.999999996,
+    "cost": 11359360.358187571,
+    "profit": 1931158.641812427,
+    "margin": 0.17000593175305784,
+    "irr": 0.15627471162238615,
+    "equity": 5118411.745939183,
+    "years": 3.25
+   },
+   "downside": {
+    "profit": -707327.8771801415,
+    "irr": -0.06994752752741107
+   }
+  },
+  {
+   "market": "Nashville core (Gulch / SoBro / Midtown)",
+   "name": "319 Peabody St, SoBro (DAC)",
+   "acres": 0.96,
+   "land": 22000000,
+   "status": "sold 2025-26 (comp)",
+   "price_factor": 1,
+   "max_floors": 60,
+   "max_far": 15,
+   "note": "DTC, 53-storey hotel-condo tower planned (R)",
+   "src": "connectcre.com",
+   "per_acre": 22916666.666666668,
+   "schemes": 88,
+   "meeting": 2,
+   "best": {
+    "floors": 7,
+    "plate_sf": 30000,
+    "units": 72,
+    "gsf": 210000,
+    "gdv": 179139315.59999996,
+    "cost": 149393604.72476944,
+    "profit": 29745710.87523053,
+    "margin": 0.19910966690998314,
+    "irr": 0.15120982797753202,
+    "equity": 59844022.428111866,
+    "years": 4
+   },
+   "downside": {
+    "profit": -6237344.64794635,
+    "irr": -0.062097025913458226
+   }
+  },
+  {
+   "market": "Nashville core (Gulch / SoBro / Midtown)",
+   "name": "1020-1026 3rd Ave S, Chestnut Hill (Richland)",
+   "acres": 0.57,
+   "land": 8100000,
+   "status": "sold 2025-26 (comp)",
+   "price_factor": 0.85,
+   "max_floors": 8,
+   "max_far": 5,
+   "note": "8-storey for-sale condo planned, setback variance granted (R)",
+   "src": "nashvillepost.com",
+   "per_acre": 14210526.315789474,
+   "schemes": 23,
+   "meeting": 0,
+   "best": {
+    "floors": 5,
+    "plate_sf": 16000,
+    "units": 27,
+    "gsf": 80000,
+    "gdv": 58007016.480000004,
+    "cost": 51754208.06742311,
+    "profit": 6252808.4125768915,
+    "margin": 0.12081739139802906,
+    "irr": 0.11126063059511071,
+    "equity": 20732923.163796887,
+    "years": 3.5
+   },
+   "downside": {
+    "profit": -5503426.72804823,
+    "irr": -0.126015841359715
+   }
+  },
+  {
+   "market": "Nashville West End / Green Hills boutique",
+   "name": "4012 Hillsboro Pike, Green Hills",
+   "acres": 1.03,
+   "land": 13050000,
+   "status": "sold ~2024 (comp)",
+   "price_factor": 1,
+   "max_floors": 12,
+   "max_far": 4,
+   "note": "zoned for up to 15 floors (R); market cap 12 applied",
+   "src": "nashvillepost.com",
+   "per_acre": 12669902.912621358,
+   "schemes": 42,
+   "meeting": 0,
+   "best": {
+    "floors": 5,
+    "plate_sf": 25000,
+    "units": 36,
+    "gsf": 125000,
+    "gdv": 90680766,
+    "cost": 77463293.05939221,
+    "profit": 13217472.940607786,
+    "margin": 0.170628854242922,
+    "irr": 0.10720230477321224,
+    "equity": 31030887.060792252,
+    "years": 4.5
+   },
+   "downside": {
+    "profit": -5100840.91730686,
+    "irr": -0.07539099119447967
+   }
+  },
+  {
+   "market": "Nashville West End / Green Hills boutique",
+   "name": "1701 21st Ave S, Hillsboro Village (Avison Young)",
+   "acres": 1.32,
+   "land": 15000000,
+   "status": "listed 2025-11",
+   "price_factor": 1,
+   "max_floors": 8,
+   "max_far": 3,
+   "note": "zoning not stated, likely MUL-A (E); 30k sf office plus parking, delivered vacant (R)",
+   "src": "avisonyoung.us 2025-11-04",
+   "per_acre": 11363636.363636363,
+   "schemes": 37,
+   "meeting": 0,
+   "best": {
+    "floors": 5,
+    "plate_sf": 30000,
+    "units": 43,
+    "gsf": 150000,
+    "gdv": 108816919.2,
+    "cost": 92223246.32495958,
+    "profit": 16593672.87504043,
+    "margin": 0.1799293945538487,
+    "irr": 0.10455096599422697,
+    "equity": 36943037.13140274,
+    "years": 4.75
+   },
+   "downside": {
+    "profit": -5424075.836166916,
+    "irr": -0.07321452844935783
+   }
+  },
+  {
    "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
    "name": "Block 5C Parcel 282, Seven Mile Beach beachfront",
    "acres": 0.6075,
    "land": 23900000,
@@ -127,6 +419,7 @@
   },
   {
    "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
    "name": "Seven Mile Corridor Hotel/Tourism acreage",
    "acres": 3.78,
    "land": 26500000,
@@ -158,6 +451,7 @@
   },
   {
    "market": "Puerto Rico: Dorado",
+   "status": "listed",
    "name": "Bo. Higuillar, Carr. 695 Km 3.2 (CT-L)",
    "acres": 6.7,
    "land": 10000000,
@@ -190,6 +484,7 @@
   },
   {
    "market": "Puerto Rico: Dorado",
+   "status": "listed",
    "name": "Bo. Higuillar 10 cuerdas",
    "acres": 9.7,
    "land": 2350000,
@@ -222,6 +517,7 @@
   },
   {
    "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
    "name": "Cayman Islander parcels, West Bay Road",
    "acres": 5.67,
    "land": 32500000,
@@ -253,6 +549,7 @@
   },
   {
    "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
    "name": "South Sound development land 1.75 acres",
    "acres": 1.75,
    "land": 2670000,
@@ -284,6 +581,7 @@
   },
   {
    "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
    "name": "South Sound development land 7.19 acres",
    "acres": 7.19,
    "land": 10700000,
@@ -315,6 +613,7 @@
   },
   {
    "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
    "name": "Near Seven Mile Beach, low-density residential",
    "acres": 1.18,
    "land": 6402000,
@@ -346,6 +645,7 @@
   },
   {
    "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
    "name": "Off Esterley Tibbetts Hwy, Camana Bay side, high density",
    "acres": 4.08,
    "land": 3850000,
@@ -378,6 +678,7 @@
   },
   {
    "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
    "name": "Esterley Tibbetts Hwy 8.09 acres",
    "acres": 8.09,
    "land": 6960000,
@@ -410,6 +711,7 @@
   },
   {
    "market": "Puerto Rico: Dorado",
+   "status": "listed",
    "name": "Dorado Plantation lot near The Cottages",
    "acres": 0.36,
    "land": 3200000,
@@ -426,6 +728,7 @@
   },
   {
    "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
    "name": "Boggy Sand Road beachfront, approved plans",
    "acres": 0.28,
    "land": 4950000,

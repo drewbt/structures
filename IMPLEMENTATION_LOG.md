@@ -163,3 +163,18 @@ South frontage and cannot be seen from the street at this height. Replaced by a 
 **Blocked:** no zoning analysis (ZR, lot area, transfers) and no current land valuation; both drive the result.
 
 **Next:** a larger, wider form tested against the appraisal; zoning check; land negotiated as a JV contribution.
+
+## 13 · Market and site search (2026-10-20)
+
+**Implemented:** screening.js (parametric product, construction type, option, searchSpace, bestForSite), markets.js
+(22 submarkets: Caribbean 6, NC 6, TN 6, KY 4, each with sourced basis), parcels.js (24 real parcels: Dorado,
+Grand Cayman, Charlotte, Nashville), tools/search-markets.mjs and tools/search-parcels.mjs → docs/*.json;
+spendable buyer deposits in the cash flow.
+
+**Verified:** 104 unit tests. 4,968 market options; 5 markets reach 15 %. Best listed parcel: Dorado oceanfront
+1.93 ac at $8.8M, 4 storeys, 20 units: IRR ~47 %, ~22 % in the downside; needs about $1,700/sf at FAR 1.0.
+
+**Blocked:** listing pages unreachable (DNS/proxy): every parcel figure is a search snippet, unverified; zoning
+capacity of each parcel unconfirmed.
+
+**Next:** confirm Dorado zoning (R-I density) and location; model the front-runner in Coral; price check with brokers.

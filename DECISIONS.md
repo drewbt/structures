@@ -174,3 +174,11 @@ area and damper mass. Prices, rates, finance and time are assumptions with their
 first, then a loan sized on cost including interest. Break-evens (land at zero profit and at the target IRR, the
 price factor that meets each) are solved by bisection on the full appraisal, not by formula. The page and every
 brochure render say plainly: design study, not an offering, not advice.
+
+**D-28 · Markets are screened by search, not by judgement.** core/screening.js appraises a parametric building
+(floors × plate on a site) in each market profile (core/markets.js) with the full feasibility engine: cost by
+construction type (wood/block low-rise to supertall), price by building type, build time by height, sell-out time
+by the market's shown absorption. Every market is searched over site size, height and plate; the optimum is the
+most profit that meets a 15 % equity IRR, then re-run with prices −15 %, cost +10 %, sales 30 % slower. Real
+parcels (core/parcels.js) run at their asking price with their zoning limits. Result 2026-10-20: the optimum
+everywhere is a 3-7 storey boutique; towers fail on cost and sell-out time.
