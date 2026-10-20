@@ -1,8 +1,10 @@
 // reference.js - a SYNTHETIC reference structure that exercises every standard element: a 3 × 3 bay flat
 // slab (6 m grid) with drop panels on 16 columns, a continuous 3-span grade beam and a simply supported
-// grade beam at foundation level. Pile caps and piles are not created here: they are designed from the
+// grade beam at foundation level. The ground is an assumed soil profile. Pile caps and piles are not created here: they are designed from the
 // load path (page 03, "Create foundations"). Every element is marked method "assumed", source
 // "reference-frame (synthetic)": it is a test structure, not a building.
+
+import { createSoilProfile } from './geotech.js';
 
 const P = (v, unit = '') => ({ value: v, unit });
 const PROV = note => ({ source: 'reference-frame (synthetic)', trace: '', method: 'assumed', note });
@@ -15,7 +17,7 @@ function clearOrigin(model) {
   return Number.isFinite(maxX) ? [Math.ceil(maxX + 10), 0] : [0, 0];
 }
 
-export function createReferenceFrame(app, { bay = 6, n = 3, col = 0.45, h = 0.25, drop = 2.2, projection = 0.15, ll = 4.8, above = { D: 600, L: 250 }, dropsAt = 'interior' } = {}) {
+export function createReferenceFrame(app, { bay = 6, n = 3, col = 0.45, h = 0.25, drop = 2.2, projection = 0.15, ll = 4.8, above = { D: 0, L: 0 }, dropsAt = 'interior' } = {}) {
   const m = app.model, [ox, oy] = clearOrigin(m), half = col / 2, ids = {};
   m.batch('reference frame', () => {
     const fnd = m.create({ type: 'level', name: 'RF Foundation', params: { elevation: P(-1.0, 'm'), height: P(1.0, 'm') }, provenance: PROV('foundation level; grade beam tops at 0.000') });
@@ -24,7 +26,7 @@ export function createReferenceFrame(app, { bay = 6, n = 3, col = 0.45, h = 0.25
     ids.columns = [];
     for (let i = 0; i <= n; i++) for (let j = 0; j <= n; j++) {
       const c = m.create({ type: 'column', name: `RC${String.fromCharCode(65 + i)}${j + 1}`, parent: gnd.id, params: { center: P([ox + bay * i, oy + bay * j], 'm'), width: P(col, 'm'), depth: P(col, 'm'), rotation: P(0, 'deg'),
-        fc: P(28, 'MPa'), fy: P(420, 'MPa'), cover: P(0.04, 'm'), bar_main: P('#8'), k: P(1.0), slab_depth: P(h, 'm'), continues_above: P(false), P_D: P(above.D, 'kN'), P_L: P(above.L, 'kN') }, provenance: PROV(`450 × 450 column on a 6 m grid; P_D ${above.D} kN and P_L ${above.L} kN stand for floors above (not modelled)`) });
+        fc: P(28, 'MPa'), fy: P(420, 'MPa'), cover: P(0.04, 'm'), bar_main: P('#8'), k: P(1.0), slab_depth: P(h, 'm'), continues_above: P(false), P_D: P(above.D, 'kN'), P_L: P(above.L, 'kN') }, provenance: PROV(`450 × 450 column on a 6 m grid; ${above.D || above.L ? `P_D ${above.D} kN and P_L ${above.L} kN stand for floors above (not modelled)` : 'the slab is the roof: no floors above'}`) });
       ids.columns.push(c.id);
     }
     const X0 = ox - half, X1 = ox + n * bay + half, Y0 = oy - half, Y1 = oy + n * bay + half;
@@ -41,6 +43,7 @@ export function createReferenceFrame(app, { bay = 6, n = 3, col = 0.45, h = 0.25
     const sb = m.create({ type: 'beam', name: 'RF GB2 (simply supported)', parent: fnd.id, params: { start: P([ox, oy + bay], 'm'), end: P([ox, oy + 2 * bay], 'm'), width: P(0.3, 'm'), depth: P(0.6, 'm'), top_offset: P(1.0, 'm'),
       support_start: P('pinned'), support_end: P('roller'), sdl: P(8, 'kN/m'), ll: P(0, 'kN/m'), fc: P(28, 'MPa'), fy: P(420, 'MPa'), fyt: P(420, 'MPa'), unit_weight: P(23.6, 'kN/m3'), cover: P(0.05, 'm'), bar_main: P('#6'), bar_stirrup: P('#3'), bar_hanger: P('#4'), segments: P(20) }, provenance: PROV('simply supported grade beam between two caps') });
     ids.beams = [gb.id, sb.id];
+    if (!m.byType('soil').length) ids.soil = createSoilProfile(m, { extent: [[X0 - 4, Y0 - 4], [X1 + 4, Y1 + 4]], surface: 0, note: 'ASSUMED generic profile for the synthetic reference frame: fill over stiff clay over dense sand, water at 3 m' }).id;
   });
   app.regenerate();
   return ids;

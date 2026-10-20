@@ -50,3 +50,10 @@ means its acceptance tests pass (TEST_REGISTRY.md); nothing here is promoted on 
 |---|---|---|
 | src/json.h | d836c1f | vendored verbatim (D-03) |
 | the engine itself (`stiffness` CLI: sparse LDLᵀ, Timoshenko beams) | d836c1f | run as a subprocess by the service (D-11); identity = SHA-256 of the binary |
+
+| geotech.pileCapacity | 1.0.0 | side + tip resistance of a bored pile in the soil profile; Qallow = Qult / FS |
+| geotech.pileLength | 1.0.0 | shortest pile (0.5 m steps, 3 m min, 30 m max) whose Qallow ≥ P |
+| geometry.soil | 1.0.0 | ground surface sheet |
+| geometry.soil_layer | 1.0.0 | a soil layer as a box over the profile extent (earth_m3, not concrete) |
+| structure.pileCapLayout | 1.1.0 | adds a fixed pile count option |
+| structure.pileCapDesign | 1.1.0 | pile geotechnical row uses each pile's computed allowable when present |

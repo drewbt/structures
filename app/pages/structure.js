@@ -13,6 +13,7 @@ import { beamInputs, beamModel, beamResults, rcBeamDesign, beamBars } from '../c
 import { columnInputs, columnDesign, columnBars } from '../core/columns.js';
 import { slabInputs, flatSlabDesign, flatSlabBars } from '../core/slabs.js';
 import { loadTakedown, capInputs, pileCapLayout, pileCapDesign, pileCapBars } from '../core/foundations.js';
+import { soilInputs, pileLength, createSoilProfile, modelExtent } from '../core/geotech.js';
 import { axisFrame } from '../core/detail.js';
 import { sha256, canonicalJSON } from '../core/hash.js';
 import { createReferenceFrame } from '../core/reference.js';
@@ -85,41 +86,49 @@ export class PageStructure extends HTMLElement {
   }
 
   /**
-   * Create a pile cap with its piles under every column that stands on no cap. A search, cheapest first: pile
-   * diameter (with its ASSUMED allowable load) × cap depth, keeping the first arrangement whose governing
-   * check passes; the best failing one is kept and flagged when none passes.
+   * Create a pile cap with its piles under every column that stands on no cap. A search for the least concrete:
+   * pile diameter × pile count × cap depth; each pile is as short as the soil profile allows for its load
+   * (geotech.pileLength), and the arrangement must pass every cap and pile check. With no soil profile in the
+   * model the assumed default profile is added first, and the status says so.
    */
   createFoundations({ level } = {}) {
     const m = this.model, take = this.takedown; if (!take) throw new Error('design first: the pile count comes from the column loads');
-    const OPTIONS = [{ D: 0.45, Q: 900 }, { D: 0.6, Q: 1300 }, { D: 0.75, Q: 1800 }], DEPTHS = [0.9, 1.0, 1.2, 1.4, 1.6];
+    const DIAMS = [0.45, 0.6, 0.75], DEPTHS = [0.6, 0.75, 0.9, 1.0, 1.2, 1.4, 1.6], EMBED = 0.075;
     let made = 0; this.foundationNotes = [];
     m.batch('create foundations', () => {
+      if (!m.byType('soil').length) { createSoilProfile(m, { extent: modelExtent(m) }); this.foundationNotes.push('no soil profile in the model: the assumed default (fill over stiff clay over dense sand) was added as "Ground"; replace it with site data'); }
+      const soil = soilInputs(m);
       const lvl = level || m.byType('level').reduce((lo, l) => (!lo || (l.params.elevation?.value ?? 0) < (lo.params.elevation?.value ?? 0) ? l : lo), null);
       for (const c of m.byType('column')) {
         if (m.byType('pilecap').some(k => k.params.column?.value === c.id)) continue;
         const ci = columnInputs(m, c), ld = take.columns.find(q => q.column === c.id), cd = this.designs.get(c.id)?.design;
+        const gb0 = (this.beamReactions || []).filter(r => r.z <= ci.z0 + 1e-6 && Math.hypot(r.at[0] - ci.center[0], r.at[1] - ci.center[1]) < 0.5);
         let best = null;
-        search: for (const o of OPTIONS) for (const H of DEPTHS) {
-          const proto = { spacing: 3 * o.D, pile_D: o.D, edge: 0.15, H, unit_weight: 23.6, Qallow: o.Q };
-          const gb0 = (this.beamReactions || []).filter(r => r.z <= ci.z0 + 1e-6 && Math.hypot(r.at[0] - ci.center[0], r.at[1] - ci.center[1]) < 0.5);
-          const lay = pileCapLayout.run({ cap: proto, D: ld.D + gb0.reduce((a, r) => a + r.D, 0), L: ld.L + gb0.reduce((a, r) => a + r.L, 0), Mx: ld.Mux, My: ld.Muy });
-          const cap = { id: 'trial', name: 'trial', column: c.id, center: ci.center, size: lay.size, H, zTop: ci.z0, fc: 28, fy: 420, cover: 0.075, embed: 0.075, bar: '#7', unit_weight: 23.6, pile_D: o.D, pile_length: 12, Qallow: o.Q, spacing: 3 * o.D, edge: 0.15,
-            piles: lay.layout.map(([x, y], i) => ({ id: `p${i}`, at: [ci.center[0] + x, ci.center[1] + y], D: o.D, length: 12, fc: 28, fy: 420 })) };
+        for (const D of DIAMS) for (let n = 1; n <= 9; n++) for (const H of DEPTHS) {
+          const proto = { spacing: 3 * D, pile_D: D, edge: 0.15, H, unit_weight: 23.6 };
+          const lay = pileCapLayout.run({ cap: proto, D: ld.D + gb0.reduce((a, r) => a + r.D, 0), L: ld.L + gb0.reduce((a, r) => a + r.L, 0), Mx: ld.Mux, My: ld.Muy, n });
+          if (lay.n !== n) break;   // 8 piles are laid out as 9
+          const zHead = ci.z0 - H + EMBED;
           // grade-beam reactions that will land on this trial cap (below the column base, inside its footprint)
           const gb = (this.beamReactions || []).filter(r => r.z <= ci.z0 + 1e-6 && Math.abs(r.at[0] - ci.center[0]) <= lay.size[0] / 2 && Math.abs(r.at[1] - ci.center[1]) <= lay.size[1] / 2);
           const self = 23.6 * lay.size[0] * lay.size[1] * H, Dt = ld.D + self + gb.reduce((a, r) => a + r.D, 0), Lt = ld.L + gb.reduce((a, r) => a + r.L, 0);
-          const des = pileCapDesign.run({ cap, col: { b: ci.b, h: ci.h, fy: ci.fy, dowel_db: cd?.bars.main.db }, load: { D: Dt, L: Lt, Pu: Math.max(1.4 * Dt, 1.2 * Dt + 1.6 * Lt), Mux: ld.Mux, Muy: ld.Muy } });
-          const u = des.governing.util, trial = { o, H, lay, u, gov: des.governing.name, concrete: lay.size[0] * lay.size[1] * H + lay.layout.length * Math.PI * o.D ** 2 / 4 * 12 };
+          const trialDesign = len => pileCapDesign.run({ cap: { id: 'trial', name: 'trial', column: c.id, center: ci.center, size: lay.size, H, zTop: ci.z0, fc: 28, fy: 420, cover: 0.075, embed: EMBED, bar: '#7', unit_weight: 23.6, pile_D: D, pile_length: len.L, Qallow: len.capacity.Qallow, spacing: 3 * D, edge: 0.15,
+            piles: lay.layout.map(([x, y], i) => ({ id: `p${i}`, at: [ci.center[0] + x, ci.center[1] + y], D, length: len.L, fc: 28, fy: 420, Qallow: len.capacity.Qallow, geo: len.capacity })) }, col: { b: ci.b, h: ci.h, fy: ci.fy, dowel_db: cd?.bars.main.db }, load: { D: Dt, L: Lt, Pu: Math.max(1.4 * Dt, 1.2 * Dt + 1.6 * Lt), Mux: ld.Mux, Muy: ld.Muy } });
+          let len = pileLength.run({ soil, D, zHead, P: lay.maxService }); if (!len) break;   // no length up to 30 m carries it: more piles
+          let des = trialDesign(len); const Pmax = Math.max(...des.reactions.Ps);
+          if (Pmax > len.capacity.Qallow) { len = pileLength.run({ soil, D, zHead, P: Pmax }); if (!len) break; des = trialDesign(len); }
+          const u = des.governing.util, trial = { D, H, lay, len, u, gov: des.governing.name, concrete: lay.size[0] * lay.size[1] * H + n * Math.PI * D * D / 4 * len.L };
           if (!best || (u <= 1 && (best.u > 1 || trial.concrete < best.concrete)) || (best.u > 1 && u < best.u)) best = trial;
-          if (u <= 1) break search;
+          if (u <= 1) break;   // a deeper cap with the same piles only adds concrete
         }
-        const { o, H, lay } = best;
+        if (!best) { this.foundationNotes.push(`${c.name}: no pile up to 30 m carries the load in this soil profile`); continue; }
+        const { D, H, lay, len } = best, L = len.L, g = len.capacity;
         if (best.u > 1) this.foundationNotes.push(`${c.name}: no searched arrangement passes (best ${best.gov} ${best.u.toFixed(2)})`);
         const cap = m.create({ type: 'pilecap', name: `K-${c.name}`, parent: lvl.id, params: { column: P(c.id, 'id'), center: P(ci.center, 'm'), size: P(lay.size.map(v => Math.round(v * 1000) / 1000), 'm'), thickness: P(H, 'm'), top: P(ci.z0, 'm'),
-          fc: P(28, 'MPa'), fy: P(420, 'MPa'), cover: P(0.075, 'm'), pile_embed: P(0.075, 'm'), bar: P('#7'), pile_diameter: P(o.D, 'm'), pile_length: P(12, 'm'), pile_spacing: P(3 * o.D, 'm'), pile_edge: P(0.15, 'm'), pile_allowable_kN: P(o.Q, 'kN') },
-          provenance: { source: `${pileCapLayout.name}@${pileCapLayout.version}+${pileCapDesign.name}@${pileCapDesign.version}`, trace: '', method: 'designed', note: `${lay.layout.length} × Ø${o.D * 1000} piles, cap ${H} m, chosen by search (governing ${best.gov} ${best.u.toFixed(2)}); allowable pile load ${o.Q} kN ASSUMED (no site investigation)` } });
-        lay.layout.forEach(([x, y], i) => m.create({ type: 'pile', name: `${cap.name}-P${i + 1}`, parent: cap.id, params: { center: P([ci.center[0] + x, ci.center[1] + y].map(v => Math.round(v * 1e6) / 1e6), 'm'), diameter: P(o.D, 'm'), length: P(12, 'm'), fc: P(28, 'MPa'), fy: P(420, 'MPa') },
-          provenance: { source: `${pileCapLayout.name}@${pileCapLayout.version}`, trace: cap.id, method: 'designed', note: 'bored cast-in-place pile; length 12 m assumed' } }));
+          fc: P(28, 'MPa'), fy: P(420, 'MPa'), cover: P(0.075, 'm'), pile_embed: P(EMBED, 'm'), bar: P('#7'), pile_diameter: P(D, 'm'), pile_length: P(L, 'm'), pile_spacing: P(3 * D, 'm'), pile_edge: P(0.15, 'm') },
+          provenance: { source: `${pileCapLayout.name}@${pileCapLayout.version}+${pileLength.name}@${pileLength.version}+${pileCapDesign.name}@${pileCapDesign.version}`, trace: '', method: 'designed', note: `${lay.layout.length} × Ø${D * 1000} piles ${L} m long, cap ${H} m: least concrete of the searched arrangements (governing ${best.gov} ${best.u.toFixed(2)}); pile allowable ${g.Qallow.toFixed(0)} kN from the soil profile, which is ASSUMED` } });
+        lay.layout.forEach(([x, y], i) => m.create({ type: 'pile', name: `${cap.name}-P${i + 1}`, parent: cap.id, params: { center: P([ci.center[0] + x, ci.center[1] + y].map(v => Math.round(v * 1e6) / 1e6), 'm'), diameter: P(D, 'm'), length: P(L, 'm'), fc: P(28, 'MPa'), fy: P(420, 'MPa') },
+          provenance: { source: `${pileLength.name}@${pileLength.version}`, trace: cap.id, method: 'designed', note: `bored cast-in-place pile; shortest length (0.5 m steps, 3 m minimum) whose allowable load ${g.Qallow.toFixed(0)} kN (side ${g.Qside.toFixed(0)} + tip ${g.Qtip.toFixed(0)} kN, FS ${g.fs}) carries ${best.lay.maxService.toFixed(0)} kN; toe in ${g.toe_layer}` } }));
         made++;
       }
     });
@@ -216,7 +225,7 @@ export class PageStructure extends HTMLElement {
         <details style="margin-top:8px"><summary>Strips (${x.strips.x.strips.length + x.strips.y.strips.length})</summary><table>${['x', 'y'].flatMap(dir => x.strips[dir].strips.map(st => `<tr><td>${esc(st.kind)}</td><td>${f(st.width, 2)} m</td><td>${st.locations.map(l => `${esc(l.label)}: Mu ${f(l.Mu, 1)} → ${l.n ?? '—'} ${x.bar} @ ${l.spacing ?? '—'}`).join('<br>')}</td></tr>`)).join('')}</table></details>${this.checksTable(d)}</div>`;
     }
     if (d.kind === 'pilecap') return `<div class="card"><h3>${esc(e.name)} — ${d.cap.piles.length} piles Ø${f(d.cap.pile_D * 1000, 0)}, cap ${f(d.cap.size[0], 2)} × ${f(d.cap.size[1], 2)} × ${f(d.cap.H, 2)} m, d ${f(x.d, 0)} mm</h3>
-      <div class="hint">Load D ${f(d.load.D, 1)} kN, L ${f(d.load.L, 1)} kN, Pu ${f(d.load.Pu, 1)} kN, Mux ${f(d.load.Mux, 1)}, Muy ${f(d.load.Muy, 1)} kN·m · pile reactions Pu ${x.reactions.Pu.map(v => f(v, 0)).join(', ')} kN (Σ ${f(x.sumPu, 1)}) · service ${x.reactions.Ps.map(v => f(v, 0)).join(', ')} kN vs allowable ${d.cap.Qallow} kN <span class="pill warn">assumed</span> · mats ${x.faces.x.n} + ${x.faces.y.n} ${x.bar}${x.stm ? ` · strut-and-tie: lever ${f(x.stm.lever_mm, 0)} mm, struts ${x.stm.struts.map(q => `${f(q.F_kN, 0)} kN @ ${f(q.theta_deg, 1)}°`).join(', ')}` : ''}</div>${this.checksTable(d)}</div>`;
+      <div class="hint">Load D ${f(d.load.D, 1)} kN, L ${f(d.load.L, 1)} kN, Pu ${f(d.load.Pu, 1)} kN, Mux ${f(d.load.Mux, 1)}, Muy ${f(d.load.Muy, 1)} kN·m · pile reactions Pu ${x.reactions.Pu.map(v => f(v, 0)).join(', ')} kN (Σ ${f(x.sumPu, 1)}) · service ${x.reactions.Ps.map(v => f(v, 0)).join(', ')} kN vs allowable ${d.cap.Qsource === 'soil' ? `${d.cap.piles.map(p => f(p.Qallow, 0)).join(', ')} kN from the soil profile (piles ${[...new Set(d.cap.piles.map(p => p.length))].join(', ')} m)` : `${d.cap.Qallow} kN`} <span class="pill warn">assumed</span> · mats ${x.faces.x.n} + ${x.faces.y.n} ${x.bar}${x.stm ? ` · strut-and-tie: lever ${f(x.stm.lever_mm, 0)} mm, struts ${x.stm.struts.map(q => `${f(q.F_kN, 0)} kN @ ${f(q.theta_deg, 1)}°`).join(', ')}` : ''}</div>${this.checksTable(d)}</div>`;
     return '';
   }
   loadsView() {

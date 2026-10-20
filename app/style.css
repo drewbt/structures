@@ -133,3 +133,6 @@ coral-app.model-stage coral-properties { font-size: 12.5px; }
   .model-bar { gap: 4px; padding: 6px 8px; }
   .model-bar button { padding: 4px 8px; }
 }
+.legend .sw { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+.legend .sw i { width: 12px; height: 12px; border-radius: 2px; flex: none; }
+@media (max-width: 600px) { #earth-key { display: none; } }

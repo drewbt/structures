@@ -89,6 +89,12 @@ After feedback that the interface was not working, page 02 became the whole work
 the window, utilisation colouring with a legend, Design drawer, Add menu, collapsed log, phone layout. Verified
 by unit 66/66, e2e 64/64 and screenshots at 1600 px and 420 px (screens/model-*.png); published copy rebuilt.
 
+## 7 · Ground and pile length (2026-10-20)
+Piles had been 12 m by assumption and loaded by 850 kN per column of undrawn floors. Now the soil profile is in
+the model, pile capacity is computed from it, and pile length is the shortest that carries the load: single
+Ø450 piles of 5.5–10.5 m under the reference frame. The Model view draws the ground (layers, surface, water
+table) with a key and an Earth toggle. Unit 73/73 (7 new, closed forms worked by hand), e2e 67/67.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency

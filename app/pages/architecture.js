@@ -3,6 +3,7 @@
 // design and detailing (<page-structure>) open in a drawer over the viewport's right side. Geometry
 // comes from the model's results (the versioned functions); this page never computes geometry.
 import { Viewer, PALETTE } from '../render/webgl.js';
+import { boxMesh } from '../core/geometry.js';
 import './structure.js';
 
 /** Utilisation colour ramp: green (low) → amber (near 1) → red (over 1). RGBA. */
@@ -19,13 +20,14 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 export class PageArchitecture extends HTMLElement {
   connectedCallback() {
     this.app = this.closest('coral-app');
-    this.colorBy = 'util'; this.show = { concrete: true, bars: true, zones: true }; this.xray = false; this.ghost = true;
+    this.colorBy = 'util'; this.show = { concrete: true, bars: true, zones: true, earth: true }; this.xray = false; this.ghost = true;
     this.innerHTML = `
       <div class="toolbar model-bar">
         <div class="group" aria-label="View">
           <button id="fit" title="Frame the whole model">Fit</button>
           <button id="xray" aria-pressed="false" title="Draw concrete translucent to see reinforcement">X-ray</button>
           <button id="ghost" aria-pressed="true" title="Draw slabs translucent">Ghost slabs</button>
+          <button id="show-earth" aria-pressed="true" title="Show the ground: soil layers and water table">Earth</button>
           <button id="show-bars" aria-pressed="true" title="Show reinforcement">Bars</button>
           <button id="show-zones" aria-pressed="true" title="Show punching critical perimeters">Punching zones</button>
           <label class="cut">Cut <input id="cut" type="range" min="-1" max="12" step="0.05" value="12"> <span id="cutv">off</span></label>
@@ -45,6 +47,7 @@ export class PageArchitecture extends HTMLElement {
         <div class="hud">
           <div class="overlay-msg" id="msg">Drag to orbit · right-drag or Shift to pan · wheel to zoom · click an element</div>
           <div class="legend" id="legend" hidden></div>
+          <div class="legend" id="earth-key" hidden></div>
           <div class="stats" id="stats"></div>
         </div>
         <aside class="drawer" id="drawer" hidden><button class="drawer-close" id="drawer-close" title="Close the design panel">×</button><page-structure></page-structure></aside>
@@ -61,7 +64,7 @@ export class PageArchitecture extends HTMLElement {
     this.querySelector('#fit').onclick = () => this.viewer?.fit();
     this.querySelector('#cut').oninput = e => { const v = parseFloat(e.target.value); const off = v >= parseFloat(e.target.max); this.viewer?.setCut(off ? null : v); this.querySelector('#cutv').textContent = off ? 'off' : `${v.toFixed(2)} m`; };
     toggle('xray', () => { this.xray = !this.xray; }); toggle('ghost', () => { this.ghost = !this.ghost; });
-    toggle('show-bars', () => { this.show.bars = !this.show.bars; }); toggle('show-zones', () => { this.show.zones = !this.show.zones; });
+    toggle('show-bars', () => { this.show.bars = !this.show.bars; }); toggle('show-zones', () => { this.show.zones = !this.show.zones; }); toggle('show-earth', () => { this.show.earth = !this.show.earth; });
     toggle('color-util', () => { this.colorBy = 'util'; }); toggle('color-mat', () => { this.colorBy = 'material'; });
     this.querySelector('#export').onclick = () => this.exportJSON(true);
     this.querySelector('#add-level').onclick = () => { this.querySelector('.add-menu').open = false; this.addLevel(); };
@@ -80,7 +83,7 @@ export class PageArchitecture extends HTMLElement {
   }
   syncButtons() {
     const set = (id, v) => this.querySelector('#' + id)?.setAttribute('aria-pressed', String(v));
-    set('xray', this.xray); set('ghost', this.ghost); set('show-bars', this.show.bars); set('show-zones', this.show.zones); set('color-util', this.colorBy === 'util'); set('color-mat', this.colorBy === 'material');
+    set('xray', this.xray); set('ghost', this.ghost); set('show-bars', this.show.bars); set('show-zones', this.show.zones); set('show-earth', this.show.earth); set('color-util', this.colorBy === 'util'); set('color-mat', this.colorBy === 'material');
   }
   /** Governing utilisation of an element, or of the designed element that owns it (a pile's cap, a drop panel's slab). */
   utilOf(el) {
@@ -97,6 +100,15 @@ export class PageArchitecture extends HTMLElement {
       const bar = e.type === 'rebar', zone = e.type === 'punching_zone';
       if (bar) steel += e.params.mass_kg?.value ?? r.mass_kg ?? 0; else if (!zone) vol += r.volume_m3 || 0;
       if ((bar && !this.show.bars) || (zone && !this.show.zones)) continue;
+      if (e.type === 'soil' || e.type === 'soil_layer') {   // the ground: seen through, never picked or coloured by design
+        if (!this.show.earth) continue;
+        if (e.type === 'soil') {   // the surface sheet, and the water table drawn from the profile's stated depth
+          items.push({ id: e.id, mesh: r, color: PALETTE.soil, alpha: 0.18, background: true });
+          const w = e.params.water_depth?.value, [[x0, y0], [x1, y1]] = e.params.extent.value, zw = (e.params.surface?.value ?? 0) - w;
+          if (Number.isFinite(w)) items.push({ id: e.id, mesh: boxMesh({ center: [(x0 + x1) / 2, (y0 + y1) / 2], size: [x1 - x0, y1 - y0], z0: zw - 0.01, z1: zw + 0.01 }), color: PALETTE.water, alpha: 0.22, background: true });
+        } else items.push({ id: e.id, mesh: r, color: PALETTE[`soil_${e.params.kind?.value}`] || PALETTE.soil_fill, alpha: 0.7, background: true, cull: 'front' });   // cutaway: far walls and floor only
+        continue;
+      }
       let color = zone ? ((e.params.util?.value ?? 0) > 1 ? PALETTE.punching_fail : PALETTE.punching_zone) : PALETTE[e.type] || PALETTE.default;
       if (this.colorBy === 'util' && !bar && !zone) { const u = this.utilOf(e); if (u !== null) { color = utilColor(u); designed++; } }
       items.push({ id: e.id, mesh: r, color, alpha: this.xray && !bar && !zone ? 0.22 : this.ghost && e.type === 'slab' ? 0.35 : color[3] });
@@ -104,8 +116,14 @@ export class PageArchitecture extends HTMLElement {
     this.items = items;
     if (this.viewer) { const first = !this.viewer.items.length; this.viewer.setItems(items); this.viewer.setSelection(this.app.selection); if (first && items.length) this.viewer.fit(); }
     const lv = m.byType('level'); const zmax = Math.max(3, ...lv.map(l => (l.params.elevation?.value ?? 0) + (l.params.height?.value ?? 3))) + 1;
-    const cut = this.querySelector('#cut'); if (parseFloat(cut.max) !== zmax) { const wasOff = parseFloat(cut.value) >= parseFloat(cut.max); cut.max = zmax; if (wasOff) cut.value = zmax; }
-    this.querySelector('#stats').textContent = `${vol.toFixed(1)} m³ concrete · ${(steel / 1000).toFixed(2)} t reinforcement · ${items.length} solids`;
+    const zmin = Math.floor(Math.min(-1, ...items.filter(it => it.mesh.bounds).map(it => it.mesh.bounds.min[2])));
+    const cut = this.querySelector('#cut'); if (parseFloat(cut.min) !== zmin) cut.min = zmin; if (parseFloat(cut.max) !== zmax) { const wasOff = parseFloat(cut.value) >= parseFloat(cut.max); cut.max = zmax; if (wasOff) cut.value = zmax; }
+    this.querySelector('#stats').textContent = `${vol.toFixed(1)} m³ concrete · ${(steel / 1000).toFixed(2)} t reinforcement · ${items.filter(it => !it.background).length} solids`;
+    const soil = m.byType('soil')[0], key = this.querySelector('#earth-key'); key.hidden = !(soil && this.show.earth);
+    if (soil) {
+      const rgb = c => `rgb(${c.slice(0, 3).map(v => Math.round(v * 255)).join(',')})`, layers = m.children(soil.id).filter(l => l.type === 'soil_layer').sort((a, b) => a.params.top.value - b.params.top.value);
+      key.innerHTML = `<b>Ground</b> <span class="pill warn">assumed</span>${layers.map(l => { const k = l.params.kind?.value; return `<div class="sw"><i style="background:${rgb(PALETTE['soil_' + k] || PALETTE.soil_fill)}"></i>${esc(l.name)} ${l.params.top.value}–${l.params.bottom.value} m${k === 'clay' ? ` · su ${l.params.su?.value} kPa` : k === 'sand' ? ` · N60 ${l.params.N60?.value}` : ''}</div>`; }).join('')}${Number.isFinite(soil.params.water_depth?.value) ? `<div class="sw"><i style="background:${rgb(PALETTE.water)}"></i>water table ${soil.params.water_depth.value} m</div>` : ''}`;
+    }
     const legend = this.querySelector('#legend'); legend.hidden = !(this.colorBy === 'util' && designed);
     legend.innerHTML = `<b>Governing utilisation</b><div class="ramp"></div><div class="ticks"><span>0</span><span>0.5</span><span>1.0</span><span class="bad">&gt; 1</span></div><div class="hint">${designed} designed elements coloured; others by material</div>`;
   }

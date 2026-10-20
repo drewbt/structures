@@ -6,7 +6,7 @@ const LABEL = { wall: 'Walls', column: 'Columns', beam: 'Beams', slab: 'Slabs', 
 export class CoralTree extends HTMLElement {
   connectedCallback() {
     this.app = this.closest('coral-app');
-    this.open = new Set(['project', 'levels', 'sources', 'drawings']); this.closed = new Set();   // levels and type groups are open unless closed
+    this.open = new Set(['project', 'levels', 'sources', 'drawings', 'ground']); this.closed = new Set();   // levels and type groups are open unless closed
     this.app.addEventListener('model', () => this.render());
     this.app.addEventListener('regenerate', () => this.render());
     this.app.addEventListener('select', () => this.render());
@@ -40,9 +40,11 @@ export class CoralTree extends HTMLElement {
       const groups = TYPE_ORDER.filter(t => kids.some(k => k.type === t)).map(t => this.node(`grp:${l.id}:${t}`, `${LABEL[t]} (${kids.filter(k => k.type === t).length})`, { kids: kids.filter(k => k.type === t).map(el).join(''), depth: 1 })).join('');
       return this.node('lvl:' + l.id, l.name, { type: `${l.params.elevation?.value ?? 0} m`, id: l.id, kids: groups || '<div class="hint">empty</div>' });
     }).join('');
-    const orphans = m.all().filter(e => !['level', 'drawing', 'rebar', 'pile', 'drop_panel', 'punching_zone'].includes(e.type) && !m.get(e.parent)).map(el).join('');   // rebar's parent is its beam, so it is never an orphan
+    const orphans = m.all().filter(e => !['level', 'drawing', 'rebar', 'pile', 'drop_panel', 'punching_zone', 'soil', 'soil_layer'].includes(e.type) && !m.get(e.parent)).map(el).join('');   // rebar's parent is its beam, so it is never an orphan
+    const ground = m.byType('soil').map(sp => this.node('el:' + sp.id, sp.name, { type: `water ${sp.params.water_depth?.value ?? '—'} m`, id: sp.id, bad: !!errors[sp.id], kids: m.children(sp.id).filter(k => k.type === 'soil_layer').sort((a, b) => (a.params.top?.value ?? 0) - (b.params.top?.value ?? 0)).map(l => this.node('el:' + l.id, l.name, { type: `${l.params.kind?.value} ${l.params.top?.value}–${l.params.bottom?.value} m`, id: l.id, bad: !!errors[l.id], depth: 1 })).join('') || null })).join('');
     this.innerHTML = `<div class="collapse" title="Collapse the tree">${this.classList.contains('collapsed') ? '»' : '« tree'}</div>` +
       this.node('project', this.app.project, { kids: this.node('sources', `Sources (${this.app.sources.length})`, { kids: sources || '<div class="hint">none</div>', depth: 1 }) + this.node('drawings', `Drawings (${m.byType('drawing').length})`, { kids: drawings || '<div class="hint">none</div>', depth: 1 }) }) +
+      (ground ? this.node('ground', 'Ground (assumed soil)', { kids: ground }) : '') +
       this.node('levels', `Levels (${m.byType('level').length})`, { kids: levels || '<div class="hint">no levels yet</div>' }) +
       (orphans ? this.node('orphans', 'Unparented', { kids: orphans, bad: true }) : '');
     this.querySelector('.collapse').onclick = () => { this.classList.toggle('collapsed'); this.app.classList.toggle('tree-collapsed'); this.render(); };

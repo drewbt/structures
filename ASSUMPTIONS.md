@@ -85,9 +85,12 @@ and engine plate analysis are owed.
 reinforcement per 23.5 is provided; this is the most conservative coefficient. STM covers deep 2- and
 4-pile caps; 3-pile and larger deep caps keep the sectional checks and are flagged.
 
-**A-21 · Pile geotechnical capacity is not computed.** The allowable pile load (900 / 1300 / 1800 kN for
-450 / 600 / 750 mm piles) and pile length (12 m) are ASSUMED until a site investigation gives them; each
-cap's provenance says so.
+**A-21 · The ground is an ASSUMED soil profile until a site investigation replaces it.** Pile capacity is
+computed from it (core/geotech.js): clay side α su and tip Nc* su (FHWA GEC 10), sand side β σ′v with the
+O'Neill & Reese (1999) depth method and tip 0.6 pa N60 (GEC 10), FS 2.5; all unverified against the printed
+texts. The default profile (fill 0–1 m, stiff clay su 75 kPa to 6 m, dense sand N60 35 to 20 m and below,
+water at 3 m) is generic, not from any site. Each pile is the shortest 0.5 m step, 3 m minimum, that carries
+its load. Pile self-weight, negative skin friction, group effects and settlement are not considered.
 
 **A-22 · Pile cages (6 bars minimum, ρ ≥ 0.5 %, over max(L/3, 3 m)) and spirals (#3 at 150 mm) are practice,**
 not ACI 318-19 requirements outside seismic design (18.13).
@@ -101,3 +104,7 @@ refused with a message rather than analysed wrongly.
 
 **A-25 · The reference frame is synthetic.** Its loads (live 4.8 kPa; 600 kN dead and 250 kN live on each
 column for floors above) are chosen to exercise every element path, not taken from a building.
+
+**A-24 · The reference frame's slab is a roof: no floors above.** Earlier builds added 600 kN dead and 250 kN
+live per column for floors that were not drawn; that load made one storey look like a tower to its foundations
+and is gone (2026-10-20).

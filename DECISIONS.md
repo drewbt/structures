@@ -94,3 +94,11 @@ utilisation (default) or material, an Add menu, and a Design drawer that holds t
 `#architecture` and `#structure` redirect to `#model` (the latter opens the drawer). The event log is collapsed
 to one status line. Slabs open ghosted so columns, caps and piles show their colours. Utilisation colours come
 from the same design results as the tables; an undesigned element is drawn by material.
+
+**D-20 · The ground is part of the model.** (2026-10-20)
+A `soil` element (surface, water table, factor of safety, plan extent) with `soil_layer` children is the one
+source for pile capacity and for the earth drawn in the Model view. Pile length is designed, not assumed:
+the foundation search runs over pile diameter × count × cap depth for the least concrete, each pile as short
+as the profile allows. The earth is drawn as a cutaway (inner faces only) so the piles stay visible; it is
+never picked, never fitted and never counted as concrete. Browser storage of the published copy is keyed by
+its seed so a rebuilt copy is not masked by an older saved model.

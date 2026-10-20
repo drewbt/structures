@@ -5,12 +5,14 @@
 // arrive at each column; each column with its cap's self-weight arrives at the cap; a rigid cap shares it
 // among its piles by statics. Global equilibrium (Σ pile reactions = Σ everything applied) is a gate.
 //
-// Geotechnical capacity is NOT computed: the allowable pile load is an input with provenance "assumed"
-// until a site investigation gives it (ASSUMPTIONS A-21).
+// Geotechnical capacity comes from the model's soil profile (geotech.js) when it has one: each pile's
+// allowable load follows from its diameter, head level and length. The profile itself is ASSUMED until a
+// site investigation gives it (ASSUMPTIONS A-21). Without a profile, the cap's stated allowable is used.
 import { register } from './functions.js';
 import * as ACI from './standards/aci318-19.js';
 import { criticalPerimeter, sectionProps } from './slabs.js';
 import { helix, hookedBar, roundPath, spread } from './detail.js';
+import { soilInputs, pileCapacity } from './geotech.js';
 
 const num = (el, name, dflt) => { const p = el.params[name]; return p === undefined ? dflt : p.value; };
 
@@ -56,8 +58,13 @@ export const loadTakedown = register({
 
 /** Inputs of a cap element. Piles are its children. */
 export function capInputs(model, cap) {
-  const piles = model.all().filter(e => e.type === 'pile' && e.parent === cap.id).map(p => ({ id: p.id, at: num(p, 'center'), D: num(p, 'diameter', 0.45), length: num(p, 'length', 12), fc: num(p, 'fc', 28), fy: num(p, 'fy', 420) }));
-  return { id: cap.id, name: cap.name, column: num(cap, 'column', null), center: num(cap, 'center'), size: num(cap, 'size'), H: num(cap, 'thickness', 0.9), zTop: num(cap, 'top', 0),
+  const soil = soilInputs(model), zHead = num(cap, 'top', 0) - num(cap, 'thickness', 0.9) + num(cap, 'pile_embed', 0.075);
+  const piles = model.all().filter(e => e.type === 'pile' && e.parent === cap.id).map(p => {
+    const q = { id: p.id, at: num(p, 'center'), D: num(p, 'diameter', 0.45), length: num(p, 'length', 12), fc: num(p, 'fc', 28), fy: num(p, 'fy', 420) };
+    if (soil) { q.geo = pileCapacity.run({ soil, D: q.D, zHead, L: q.length }); q.Qallow = q.geo.Qallow; }
+    return q;
+  });
+  return { Qsource: soil ? 'soil' : 'stated', zHead, id: cap.id, name: cap.name, column: num(cap, 'column', null), center: num(cap, 'center'), size: num(cap, 'size'), H: num(cap, 'thickness', 0.9), zTop: num(cap, 'top', 0),
     fc: num(cap, 'fc', 28), fy: num(cap, 'fy', 420), cover: num(cap, 'cover', 0.075), embed: num(cap, 'pile_embed', 0.075), bar: num(cap, 'bar', '#7'), unit_weight: num(cap, 'unit_weight', 23.6),
     pile_D: num(cap, 'pile_diameter', 0.45), pile_length: num(cap, 'pile_length', 12), Qallow: num(cap, 'pile_allowable_kN', 900), spacing: num(cap, 'pile_spacing', 3 * num(cap, 'pile_diameter', 0.45)), edge: num(cap, 'pile_edge', 0.15), piles };
 }
@@ -67,16 +74,16 @@ export function capInputs(model, cap) {
  * the standard layout at the stated spacing, and the cap plan size with the stated edge distance.
  */
 export const pileCapLayout = register({
-  name: 'structure.pileCapLayout', version: '1.0.0',
+  name: 'structure.pileCapLayout', version: '1.1.0',
   assumptions: ['allowable pile load is an input (geotechnical, assumed until a site investigation gives it)', 'service load includes the cap self-weight at a first-guess thickness; moments raise the count by checking the corner pile', 'layouts 1–6 as drawn, 7 as a hexagon round a centre pile, 8 and 9 as a 3 × 3 grid (8 rounds up to 9 so the group stays centred)'],
   inputs: null,
-  run({ cap, D, L, Mx = 0, My = 0 }) {
-    for (let n = 1; n <= 9; n++) {
+  run({ cap, D, L, Mx = 0, My = 0, n: only = null }) {
+    for (let n = only ?? 1; n <= (only ?? 9); n++) {
       const lay = pileLayout(n, cap.spacing), xs = lay.map(q => q[0]), ys = lay.map(q => q[1]);
       const sx = Math.max(...xs) - Math.min(...xs) + cap.pile_D + 2 * cap.edge, sy = Math.max(...ys) - Math.min(...ys) + cap.pile_D + 2 * cap.edge;
       const self = cap.unit_weight * sx * sy * cap.H, P = D + L + self, Sx = xs.reduce((a, x) => a + x * x, 0), Sy = ys.reduce((a, y) => a + y * y, 0);
       const max = Math.max(...lay.map(([x, y]) => P / n + (Sx > 0 ? Mx * Math.abs(x) / Sx : 0) + (Sy > 0 ? My * Math.abs(y) / Sy : 0)));
-      if (max <= cap.Qallow || n === 9) return { n: lay.length, layout: lay, size: [sx, sy], Pservice: P, maxService: max };
+      if (only || max <= cap.Qallow || n === 9) return { n: lay.length, layout: lay, size: [sx, sy], Pservice: P, maxService: max };
     }
   },
 });
@@ -88,7 +95,7 @@ export const pileCapLayout = register({
  * (25.4.9.2); pile service load against the assumed allowable and pile structural strength (13.4.2.1).
  */
 export const pileCapDesign = register({
-  name: 'structure.pileCapDesign', version: '1.0.0',
+  name: 'structure.pileCapDesign', version: '1.1.0',
   assumptions: ['ACI 318-19 as encoded (unverified)', 'rigid cap: Pi = P/n ± Mx xi/Σx² ± My yi/Σy²', 'cap self-weight in the pile reactions; not deducted from the flexural moment (conservative)', 'sectional design; a cap with a pile within d of the column face is deep, and for 2- and 4-pile layouts it is designed by strut-and-tie (Ch. 23) with the sectional shear rows kept for information', 'column square to the cap axes'],
   inputs: null,
   run({ cap, col, load }) {
@@ -152,7 +159,9 @@ export const pileCapDesign = register({
     // piles
     const piles = cap.piles.map((p, i) => {
       const Ag = Math.PI * (p.D * 1000) ** 2 / 4, phiPn = ACI.PILE_AXIAL.phi * ACI.PILE_AXIAL.coeff * p.fc * Ag / 1000;
-      checks.push({ name: `pile ${i + 1} service load vs allowable (assumed geotechnical)`, clause: 'geotechnical input', demand: Ps[i], capacity: cap.Qallow, util: Ps[i] / cap.Qallow });
+      const Qa = p.Qallow ?? cap.Qallow;
+      checks.push(p.geo ? { name: `pile ${i + 1} service load vs geotechnical allowable (${p.length} m, toe in ${p.geo.toe_layer}; soil profile assumed)`, clause: 'GEC 10 / O\'Neill & Reese, FS ' + p.geo.fs, demand: Ps[i], capacity: Qa, util: Ps[i] / Qa }
+        : { name: `pile ${i + 1} service load vs allowable (stated, assumed geotechnical)`, clause: 'geotechnical input', demand: Ps[i], capacity: Qa, util: Ps[i] / Qa });
       checks.push({ name: `pile ${i + 1} structural axial strength`, clause: ACI.PILE_AXIAL.clause, demand: Pu[i], capacity: phiPn, util: Pu[i] / phiPn });
       if (Pu[i] < 0) checks.push({ name: `pile ${i + 1} in tension (uplift): tension design owed`, clause: '13.4', demand: -Pu[i], capacity: 0, util: Infinity });
       return { id: p.id, Pu_kN: Pu[i], Pservice_kN: Ps[i], phiPn_kN: phiPn };

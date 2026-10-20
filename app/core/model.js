@@ -15,7 +15,7 @@ import { registry, fnFor } from './functions.js';
 import { sha256, canonicalJSON, modelHash } from './hash.js';
 
 /** Element types owned by their parent: removed with it. */
-const OWNED = new Set(['rebar', 'pile', 'drop_panel', 'punching_zone']);
+const OWNED = new Set(['rebar', 'pile', 'drop_panel', 'punching_zone', 'soil_layer']);
 
 let counter = 0;
 export function newId(prefix) { counter++; return `${prefix}-${Date.now().toString(36)}${counter.toString(36)}`; }

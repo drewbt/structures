@@ -203,6 +203,17 @@ try {
     check(gb1.patterns === 5 && gb1.top >= 1 && gb1.bottom === 3, 'continuous grade beam: 5 live patterns (all, odd, even, 2 adjacent pairs), top steel over the supports, bottom steel per span', JSON.stringify(gb1));
     const eq = await page.evaluate(() => { const t = coralStructure.takedown, caps = t.caps.reduce((a, c) => a + c.D + c.L, 0); const piles = [...coralStructure.designs.values()].filter(d => d.kind === 'pilecap').reduce((a, d) => a + d.design.reactions.Ps.reduce((p, v) => p + v, 0), 0); return { applied: t.total, caps, piles }; });
     check(Math.abs(eq.caps - eq.applied) <= 1e-9 * eq.applied && Math.abs(eq.piles - eq.caps) <= 1e-9 * eq.caps, 'load path in equilibrium: Σ applied = Σ at the caps = Σ pile service reactions', `${eq.applied.toFixed(3)} = ${eq.caps.toFixed(3)} = ${eq.piles.toFixed(3)} kN`);
+    const ground = await page.evaluate(() => { const m = coral.model, s = m.byType('soil')[0], ls = m.byType('soil_layer'); return { s: !!s, n: ls.length, earth: ls.every(l => m.result(l.id)?.earth_m3 > 0 && m.result(l.id)?.volume_m3 === undefined) }; });
+    check(ground.s && ground.n === 3 && ground.earth, 'the ground is in the model: an assumed soil profile of 3 layers, drawn as earth and not counted as concrete', JSON.stringify(ground));
+    const geo = await page.evaluate(async () => {
+      const { soilInputs, pileCapacity } = await import(`${location.origin}/core/geotech.js`); const soil = soilInputs(coral.model);
+      const caps = [...coralStructure.designs.values()].filter(d => d.kind === 'pilecap' && !d.error);
+      return caps.map(d => { const rows = d.design.checks.filter(c => /geotechnical allowable/.test(c.name)), p = d.cap.piles[0];
+        const shorter = p.length > 3 ? pileCapacity.run({ soil, D: p.D, zHead: d.cap.zHead, L: p.length - 0.5 }).Qallow : -Infinity;
+        return { name: d.el.name, rows: rows.length, n: d.cap.piles.length, ok: rows.every(r => r.util <= 1), L: p.length, shortest: Math.max(...d.design.reactions.Ps) > shorter }; });
+    });
+    check(geo.length >= 16 && geo.every(g => g.rows === g.n && g.ok), 'every pile is checked against an allowable load computed from the soil profile, and passes', geo.map(g => `${g.name} ${g.n}×${g.L} m`).join(', '));
+    check(geo.every(g => g.shortest), 'each pile is the shortest 0.5 m step that carries its load (0.5 m shorter would not, or it is at the 3 m minimum)');
     const nGen = await page.evaluate(() => coralStructure.generateAll());
     const counts = await page.evaluate(() => { const by = s => coral.model.byType('rebar').filter(b => b.params.shape.value === s).length; return { total: coral.model.byType('rebar').length, stirrup: by('stirrup'), tie: by('tie'), hooked: by('hooked'), spiral: by('spiral'), rails: by('stud_rail'), zones: coral.model.byType('punching_zone').length, dowels: coral.model.byType('rebar').filter(b => b.params.mark.value === 'D').length }; });
     check(counts.total > 1000 && counts.stirrup > 0 && counts.tie > 0 && counts.hooked > 0 && counts.spiral === await page.evaluate(() => coral.model.byType('pile').length) && counts.rails > 0 && counts.zones >= 20 && counts.dowels > 0, 'reinforcement for every kind: stirrups, ties, dowels, hooked mats, pile spirals, stud rails, punching zones', JSON.stringify(counts));

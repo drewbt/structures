@@ -23,12 +23,15 @@ export class LocalApi {
     if (!this.cache) { try { this.cache = await (await fetch(this.cacheUrl)).json(); } catch { this.cache = { engine: null, results: {} }; } }
     return this.cache;
   }
-  key(p) { return `coral:${p}`; }
+  async _seed() { if (this.seed === undefined) { try { this.seed = await (await fetch(this.seedUrl)).json(); } catch { this.seed = null; } } return this.seed; }
+  /** Storage is per project and per published seed: a rebuilt copy opens on its own seed, not on an older copy's saved model. */
+  key(p) { const h = this.seed?.project === p ? this.seed.model_hash?.slice(0, 12) : null; return h ? `coral:${p}@${h}` : `coral:${p}`; }
   async _project(p) {
+    const seed = await this._seed();
     let s = store.get(this.key(p));
     if (!s) {
       s = { rev: 0, elements: [], revisions: [], events: [], sources: [], history: {} };
-      try { const seed = await (await fetch(this.seedUrl)).json(); if (seed.project === p) Object.assign(s, { rev: 1, elements: seed.elements, sources: seed.sources || [], revisions: [{ rev: 1, parent_rev: 0, time: seed.created, message: 'seed: the reference frame, designed and detailed by the local service and engine', actor: 'build-static', model_hash: modelHash(seed.elements) }] }); } catch { /* no seed */ }
+      try { if (seed?.project === p) Object.assign(s, { rev: 1, elements: seed.elements, sources: seed.sources || [], revisions: [{ rev: 1, parent_rev: 0, time: seed.created, message: 'seed: the reference frame, designed and detailed by the local service and engine', actor: 'build-static', model_hash: modelHash(seed.elements) }] }); } catch { /* seed unreadable */ }
       this.persisted = store.set(this.key(p), s);
     }
     return s;

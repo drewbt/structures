@@ -26,7 +26,7 @@ void main() {
 
 export const PALETTE = {
   wall: [0.80, 0.78, 0.74, 1], slab: [0.70, 0.72, 0.74, 1], column: [0.55, 0.58, 0.62, 1], opening: [0.3, 0.6, 0.9, 0.5],
-  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], pile: [0.55, 0.50, 0.45, 1], pilecap: [0.66, 0.64, 0.60, 1], drop_panel: [0.74, 0.74, 0.76, 1], punching_zone: [0.17, 0.60, 0.37, 1], punching_fail: [0.82, 0.24, 0.24, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
+  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], pile: [0.55, 0.50, 0.45, 1], soil_fill: [0.45, 0.40, 0.35, 1], soil_clay: [0.62, 0.40, 0.26, 1], soil_sand: [0.90, 0.76, 0.45, 1], soil: [0.55, 0.62, 0.42, 1], water: [0.25, 0.55, 0.85, 1], pilecap: [0.66, 0.64, 0.60, 1], drop_panel: [0.74, 0.74, 0.76, 1], punching_zone: [0.17, 0.60, 0.37, 1], punching_fail: [0.82, 0.24, 0.24, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
 };
 
 function mat4Perspective(fovy, aspect, near, far) {
@@ -54,7 +54,7 @@ export class Viewer {
     this.items = [];            // [{id, mesh, color, offset, count}]
     this.idIndex = [];          // pick index -> element id
     this.selected = new Set(); this.hover = null;
-    this.camera = { theta: -0.8, phi: 0.95, dist: 20, target: [0, 0, 1.5], fov: 45 * Math.PI / 180 };
+    this.camera = { theta: -0.8, phi: 0.35, dist: 20, target: [0, 0, 1.5], fov: 45 * Math.PI / 180 };
     this.cutZ = Infinity;
     this.needsDraw = true; this.frames = 0;
     this.onPick = null; this.onHover = null;
@@ -62,7 +62,7 @@ export class Viewer {
     this._tick = this._tick.bind(this); requestAnimationFrame(this._tick);
   }
 
-  /** Replace the scene. items: [{id, mesh, color?, alpha?}]. Uploads once; colours are rebuilt on selection. */
+  /** Replace the scene. items: [{id, mesh, color?, alpha?, background?}]; a background item is drawn but not picked or fitted. Uploads once; colours are rebuilt on selection. */
   setItems(items) {
     const gl = this.gl;
     let np = 0, ni = 0; for (const it of items) { np += it.mesh.positions.length; ni += it.mesh.indices.length; }
@@ -72,7 +72,7 @@ export class Viewer {
       pos.set(it.mesh.positions, po); nrm.set(it.mesh.normals, po);
       for (let i = 0; i < it.mesh.indices.length; i++) idx[io + i] = it.mesh.indices[i] + po / 3;
       const b = it.mesh.bounds; const center = b ? [0, 1, 2].map(k => (b.min[k] + b.max[k]) / 2) : [0, 0, 0];
-      this.items.push({ id: it.id, mesh: it.mesh, center, color: it.color || PALETTE.default, alpha: it.alpha ?? (it.color ? it.color[3] : 1), vOffset: po / 3, vCount: it.mesh.positions.length / 3, iOffset: io, iCount: it.mesh.indices.length, pickIndex: k + 1 });
+      this.items.push({ id: it.id, mesh: it.mesh, center, color: it.color || PALETTE.default, alpha: it.alpha ?? (it.color ? it.color[3] : 1), background: !!it.background, cull: it.cull || null, vOffset: po / 3, vCount: it.mesh.positions.length / 3, iOffset: io, iCount: it.mesh.indices.length, pickIndex: k + 1 });
       this.idIndex[k + 1] = it.id; po += it.mesh.positions.length; io += it.mesh.indices.length;
     });
     this.vertexCount = np / 3;
@@ -97,7 +97,7 @@ export class Viewer {
   setCut(z) { this.cutZ = z == null ? Infinity : z; this.needsDraw = true; }
   /** Frame the scene: fit the bounds of all items. */
   fit(bounds) {
-    if (!bounds) { const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity]; for (const it of this.items) if (it.mesh?.bounds) for (let k = 0; k < 3; k++) { min[k] = Math.min(min[k], it.mesh.bounds.min[k]); max[k] = Math.max(max[k], it.mesh.bounds.max[k]); } bounds = isFinite(min[0]) ? { min, max } : { min: [-5, -5, 0], max: [5, 5, 3] }; }
+    if (!bounds) { const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity]; for (const it of this.items) if (it.mesh?.bounds && !it.background) for (let k = 0; k < 3; k++) { min[k] = Math.min(min[k], it.mesh.bounds.min[k]); max[k] = Math.max(max[k], it.mesh.bounds.max[k]); } bounds = isFinite(min[0]) ? { min, max } : { min: [-5, -5, 0], max: [5, 5, 3] }; }
     const c = [0, 1, 2].map(k => (bounds.min[k] + bounds.max[k]) / 2), size = Math.max(...[0, 1, 2].map(k => bounds.max[k] - bounds.min[k]), 1);
     this.camera.target = c; this.camera.dist = size * 1.4 / Math.tan(this.camera.fov / 2) * 0.6; this.needsDraw = true;
   }
@@ -127,13 +127,17 @@ export class Viewer {
     gl.uniformMatrix4fv(this.loc.uView, false, mat4LookAt(this.eye(), this.camera.target, [0, 0, 1]));
     gl.uniform1f(this.loc.uPick, pick ? 1 : 0); gl.uniform1f(this.loc.uCutZ, isFinite(this.cutZ) ? this.cutZ : 1e9);
     gl.uniform3f(this.loc.uLight, 0.4, -0.6, 1.0); gl.uniform3f(this.loc.uLight2, -0.7, 0.5, 0.3);
-    const opaque = this.items.filter(it => it.alpha >= 1 || pick), trans = pick ? [] : this.items.filter(it => it.alpha < 1);
+    const opaque = pick ? this.items.filter(it => !it.background) : this.items.filter(it => it.alpha >= 1), trans = pick ? [] : this.items.filter(it => it.alpha < 1);   // background (the ground) is seen, never picked
     gl.disable(gl.BLEND); gl.depthMask(true);
     for (const it of opaque) gl.drawElements(gl.TRIANGLES, it.iCount, gl.UNSIGNED_INT, it.iOffset * 4);
     if (trans.length) {
       const e = this.eye(); trans.sort((a, b) => dist2(b.center, e) - dist2(a.center, e));   // far to near
       gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
-      for (const it of trans) gl.drawElements(gl.TRIANGLES, it.iCount, gl.UNSIGNED_INT, it.iOffset * 4);
+      for (const it of trans) {   // cull: 'front' draws only the inside faces of a closed solid, a cutaway (the ground)
+        if (it.cull) { gl.enable(gl.CULL_FACE); gl.cullFace(it.cull === 'front' ? gl.FRONT : gl.BACK); } else gl.disable(gl.CULL_FACE);
+        gl.drawElements(gl.TRIANGLES, it.iCount, gl.UNSIGNED_INT, it.iOffset * 4);
+      }
+      gl.disable(gl.CULL_FACE);
       gl.depthMask(true); gl.disable(gl.BLEND);
     }
     function dist2(c, e) { return (c[0] - e[0]) ** 2 + (c[1] - e[1]) ** 2 + (c[2] - e[2]) ** 2; }

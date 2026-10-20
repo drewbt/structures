@@ -1,7 +1,7 @@
 # Test registry
 
 Run everything: `./tests/run.sh` (build, service gate, unit tests, end to end). Last full run
-2026-10-19: service-gate 29/29, unit 66/66, e2e 64/64 (on the model-first interface, D-19). The structural tests need the stiffness
+2026-10-20: service-gate 29/29, unit 73/73, e2e 67/67 (ground and designed pile lengths, D-20). The structural tests need the stiffness
 binary (STIFFNESS_BIN, default /home/user/stiffness/build/stiffness); without it they are skipped
 (unit) or fail with a stated reason (e2e), never faked.
 
@@ -85,3 +85,17 @@ page errors.
 Performance (60 FPS target) is not measured; no numbers are claimed. Visual correctness is checked by
 screenshots (tests/e2e/out/*.png) read by a person, not by a pixel oracle. Pan/zoom input on the
 canvases is exercised manually only.
+
+## geotech (tests/unit/geotech.test.mjs)
+| test | oracle |
+|---|---|
+| clay side and tip | α su πD (L − 1.5 − D) and Nc* su πD²/4 worked by hand |
+| shallow clay tip | 2/3 (1 + z/6D) reduction |
+| sand side and tip | closed-form integral πDγ[0.75z² − 0.098z^2.5]; 0.6 pa N60 |
+| effective stress | γ − γw below the water table; deepest layer continues |
+| fill | carries nothing |
+| pile length | shortest 0.5 m step; one step shorter fails |
+| profile gaps | refused |
+
+e2e adds: the ground is in the model and not counted as concrete; every pile has a geotechnical row from the
+profile and passes; every pile is the shortest step that carries its load.

@@ -85,6 +85,21 @@ register({
   inputs(model, el) { const slab = model.get(el.parent); if (!slab || slab.type !== 'slab') throw new Error(`${el.id}: a drop panel's parent is its slab`); const lvl = levelOf(model, slab); const soffit = lvl.elevation + num(slab, 'offset', lvl.height) - num(slab, 'thickness', 0.2); return { center: num(el, 'center'), size: num(el, 'size'), z0: soffit - num(el, 'projection', 0.15), z1: soffit }; },
   run: boxMesh,
 });
+/** The ground: one translucent box per soil layer over the profile's plan extent. Earth is not concrete, so its volume is stated as earth_m3. */
+const soilOf = (model, el) => { const s = model.get(el.parent); if (!s || s.type !== 'soil') throw new Error(`${el.id}: a soil layer's parent is its soil profile`); return s; };
+const earthBox = inp => { const m = boxMesh(inp); m.earth_m3 = m.volume_m3; delete m.volume_m3; return m; };
+register({
+  name: 'geometry.soil_layer', version: '1.0.0', forType: 'soil_layer',
+  assumptions: ['horizontal layer between its top and bottom depths below the ground surface, over the profile\'s plan extent'],
+  inputs(model, el) { const s = soilOf(model, el), surf = num(s, 'surface', 0), [[x0, y0], [x1, y1]] = num(s, 'extent'); return { center: [(x0 + x1) / 2, (y0 + y1) / 2], size: [x1 - x0, y1 - y0], z0: surf - num(el, 'bottom', 1), z1: surf - num(el, 'top', 0) }; },
+  run: earthBox,
+});
+register({
+  name: 'geometry.soil', version: '1.0.0', forType: 'soil',
+  assumptions: ['the ground surface drawn as a 10 mm sheet whose top is 5 mm below the stated surface, so elements built to the surface show above it'],
+  inputs(model, el) { const surf = num(el, 'surface', 0), [[x0, y0], [x1, y1]] = num(el, 'extent'); return { center: [(x0 + x1) / 2, (y0 + y1) / 2], size: [x1 - x0, y1 - y0], z: surf }; },
+  run({ center, size, z }) { const m = boxMesh({ center, size, z0: z - 0.015, z1: z - 0.005 }); delete m.volume_m3; return m; },
+});
 register({
   name: 'geometry.punching_zone', version: '1.0.0', forType: 'punching_zone',
   assumptions: ['the critical perimeter drawn at slab mid-depth as separate segments'],
