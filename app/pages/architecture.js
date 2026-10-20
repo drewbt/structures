@@ -17,6 +17,9 @@ export function utilColor(u) {
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+/** Presentation finishes: concrete in render mode is drawn as its finished surface (white render, painted soffits). */
+const RENDER_FINISH = { slab: [0.93, 0.91, 0.87, 1], wall: [0.92, 0.89, 0.84, 1], column: [0.93, 0.92, 0.89, 1] };
+
 export class PageArchitecture extends HTMLElement {
   connectedCallback() {
     this.app = this.closest('coral-app');
@@ -119,7 +122,7 @@ export class PageArchitecture extends HTMLElement {
       if ((bar && !this.show.bars) || (zone && !this.show.zones)) continue;
       if (R && (bar || zone)) continue;   // the presentation hides analysis overlays
       if (e.type === 'curtain_wall' || e.type === 'spire') { items.push({ id: e.id, mesh: r, color: PALETTE[e.type], alpha: R ? 1 : 0.14, background: !R }); continue; }
-      if (e.type === 'context') { if (this.show.earth) items.push({ id: e.id, mesh: r, color: PALETTE[`context_${e.params.kind?.value}`] || PALETTE.default, alpha: 1, background: true }); continue; }
+      if (e.type === 'context') { const k = e.params.kind?.value; if (this.show.earth) items.push({ id: e.id, mesh: r, color: PALETTE[`context_${k}`] || PALETTE.default, alpha: 1, background: true, material: k === 'ocean' || k === 'pool' ? 6 : 0 }); continue; }
       if (e.type === 'soil' || e.type === 'soil_layer') {   // the ground: seen through, never picked or coloured by design
         if (!this.show.earth) continue;
         if (R) { if (e.type === 'soil') items.push({ id: e.id, mesh: r, color: [0.30, 0.31, 0.33, 1], alpha: 1, background: true }); continue; }   // render: a paved plaza, no cutaway
@@ -132,7 +135,7 @@ export class PageArchitecture extends HTMLElement {
       }
       let color = zone ? ((e.params.util?.value ?? 0) > 1 ? PALETTE.punching_fail : PALETTE.punching_zone) : PALETTE[e.type] || PALETTE.default;
       if (this.colorBy === 'util' && !bar && !zone) { const u = this.utilOf(e); if (u !== null) { color = utilColor(u); designed++; } }
-      if (R) { const below = r.bounds && r.bounds.max[2] < -0.05; if (below) continue; items.push({ id: e.id, mesh: r, color: PALETTE[e.type] || PALETTE.default, alpha: 1 }); continue; }   // render: no ghosting, no utilisation colours, nothing below grade
+      if (R) { const below = r.bounds && r.bounds.max[2] < -0.05; if (below) continue; items.push({ id: e.id, mesh: r, color: RENDER_FINISH[e.type] || PALETTE[e.type] || PALETTE.default, alpha: 1 }); continue; }   // render: no ghosting, no utilisation colours, nothing below grade
       items.push({ id: e.id, mesh: r, color, alpha: this.xray && !bar && !zone ? 0.22 : this.ghost && e.type === 'slab' ? 0.35 : color[3] });
     }
     this.items = items;

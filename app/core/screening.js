@@ -80,7 +80,7 @@ export function option(market, site, prod) {
   const a = {
     price_base: psf, price_podium: psf, price_penthouse: psf * (market.top_premium ?? 1.6),
     price_step: prod.floors > 7 ? (market.floor_premium ?? 0.5) : 0,
-    other_hard: market.hard_psf * prod.ct.factor + parking, demolition: 0, carry_tax: (market.carry_pct ?? 1.2) / 100 * landCost / 1e6,
+    other_hard: market.hard_psf * (prod.floors <= 7 && market.lowrise_cost_factor ? market.lowrise_cost_factor : prod.ct.factor) + parking, demolition: 0, carry_tax: (market.carry_pct ?? 1.2) / 100 * landCost / 1e6,   // islands build low-rise in concrete too: no wood-frame saving there
     q_entitle: market.entitle_q ?? 4, q_demolish: prod.floors > 14 ? 2 : 1, q_build: Math.round(4 + prod.floors * 0.35), q_sell: sellQ, presold: 40,
     ...(market.a || {}),
   };

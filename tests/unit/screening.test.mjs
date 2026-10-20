@@ -25,3 +25,8 @@ test('slower sales and dearer land cost money; a parcel price overrides the mark
   const parcel = option(M, { acres: 1, land: 1e6 }, p); assert.equal(parcel.land, 1e6); assert.ok(parcel.profit > base.profit);
   const b = bestForSite(M, { acres: 1 }); assert.ok(b.best && b.tried > 5);
 });
+
+test('market options carry the market\'s own costs, never the New York defaults (no demolition, carry on the land)', () => {
+  const o = option(M, { acres: 1 }, makeProduct({ floors: 5, plate_sf: 12000 }));
+  assert.equal(o.assumptions.demolition.v, 0); assert.ok(o.assumptions.carry_tax.v < 1);
+});

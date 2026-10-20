@@ -7,6 +7,7 @@
 
 import { createNeedleTower } from '../core/tower.js';
 import { createSiteTower } from '../core/sitetower.js';
+import { createBeachResidences } from '../core/lowrise.js';
 import { Model } from '../core/model.js';
 import { Api } from '../core/api.js';
 import { LocalApi } from '../core/api-local.js';
@@ -73,7 +74,7 @@ export class CoralApp extends HTMLElement {
       <span class="brand">Coral Concrete</span>${this.static ? '<span class="pill warn" title="Model kept in this browser; engine results precomputed from the local service">published copy</span>' : ''}
       <nav class="stages">${STAGES.map(s => `<a href="#${s.id}" class="${s.id === (ALIASES[this.stageId] || this.stageId) ? 'on' : ''}"><span class="n">${s.n}</span>${s.label}</a>`).join('')}</nav>
       <span class="spacer"></span>
-      <select id="project" title="Project">${[...new Set([...(this.static ? [] : ['section-haus']), 'park-lane', 'needle-tower', 'reference-frame', this.project])].map(p => `<option ${p === this.project ? 'selected' : ''}>${p}</option>`).join('')}</select>
+      <select id="project" title="Project">${[...new Set([...(this.static ? [] : ['section-haus']), 'park-lane', 'dorado', 'needle-tower', 'reference-frame', this.project])].map(p => `<option ${p === this.project ? 'selected' : ''}>${p}</option>`).join('')}</select>
       <span class="status" id="status">rev ${m.rev}${this.status.saved ? '' : ' · unsaved'} · ${m.elements.size} elements${this.status.text ? ' · ' + this.status.text : ''}</span>
       <button id="undo" title="Undo (Ctrl+Z)">↶</button><button id="redo" title="Redo (Ctrl+Shift+Z)">↷</button>
       <button id="reload" title="Discard unsaved changes and reload from the service">Reload</button>
@@ -90,6 +91,7 @@ export class CoralApp extends HTMLElement {
     this.sources = await this.api.sources(this.project);
     this.status.saved = true; this.status.text = '';
     if (this.project === 'needle-tower' && !this.model.elements.size) { createNeedleTower(this); this.status.text = 'synthetic needle tower generated (not yet saved)'; }   // generated on first open, from tower.js
+    if (this.project === 'dorado' && !this.model.elements.size) { createBeachResidences(this); this.status.text = 'Dorado beach residences concept generated (not yet saved)'; }
     if (this.project === 'park-lane' && !this.model.elements.size) {   // the study on the real site, among its real neighbours
       try { const site = await (await fetch('data/site-park-lane.json')).json(); createSiteTower(this, site); this.status.text = 'Park Lane study generated on the real site (not yet saved)'; }
       catch (err) { this.status.text = `site data unavailable: ${err.message}`; }

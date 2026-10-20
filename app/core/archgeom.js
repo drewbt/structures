@@ -139,3 +139,25 @@ export function crownFinsMesh({ outline, z0, h, fin = 2.4, depth = 0.9, topScale
   m.solidity = Math.min(1, count * depth * 0.35 / per * 2);        // projected blade area over the face, a blade seen at about 70° on average
   return m;
 }
+
+/** Palms: [x, y, height, seed]. A slender, slightly leaning trunk (bark) and a crown of drooping fronds (foliage). */
+export function palmsMesh({ palms }) {
+  const mb = new MeshBuilder();
+  for (const [x, y, h, sd] of palms) {
+    const rnd = seeded(Math.round(sd * 1e4)), lean = [(rnd() - 0.5) * 0.12 * h, (rnd() - 0.5) * 0.12 * h], r0 = 0.22, r1 = 0.15, N = 6, segs = 5;
+    const at = t => [x + lean[0] * t * t, y + lean[1] * t * t, h * t];
+    mb.mat = MAT.bark;
+    for (let k = 0; k < segs; k++) {
+      const a = at(k / segs), b = at((k + 1) / segs), ra = r0 + (r1 - r0) * k / segs, rb = r0 + (r1 - r0) * (k + 1) / segs;
+      for (let i = 0; i < N; i++) { const t0 = 2 * Math.PI * i / N, t1 = 2 * Math.PI * (i + 1) / N; mb.quad([a[0] + ra * Math.cos(t0), a[1] + ra * Math.sin(t0), a[2]], [a[0] + ra * Math.cos(t1), a[1] + ra * Math.sin(t1), a[2]], [b[0] + rb * Math.cos(t1), b[1] + rb * Math.sin(t1), b[2]], [b[0] + rb * Math.cos(t0), b[1] + rb * Math.sin(t0), b[2]]); }
+    }
+    const top = at(1); mb.mat = MAT.foliage;
+    const F = 9;
+    for (let i = 0; i < F; i++) {
+      const th = 2 * Math.PI * (i + rnd() * 0.4) / F, L = 3.2 + rnd() * 1.4, up = 0.6 + rnd() * 0.5, dx = Math.cos(th), dy = Math.sin(th), w = 0.55;
+      const P = (s, side) => { const droop = up * s * 2 - 1.6 * s * s * L / 3; return [top[0] + dx * s * L - dy * side * w * (1 - s), top[1] + dy * s * L + dx * side * w * (1 - s), top[2] + droop]; };
+      for (let k = 0; k < 4; k++) { const s0 = k / 4, s1 = (k + 1) / 4; const q = [P(s0, -1), P(s1, -1), P(s1, 1), P(s0, 1)]; mb.quad(...q); mb.quad(q[3], q[2], q[1], q[0]); }
+    }
+  }
+  const m = mb.finish(); delete m.volume_m3; return m;
+}

@@ -24,6 +24,14 @@ vec3 sky(vec3 d) {
   vec3 c = t >= 0.0 ? mix(hor, mix(mid, zen, smoothstep(0.12, 0.75, t)), smoothstep(0.0, 0.22, t)) : mix(hor, gnd, smoothstep(0.0, 0.10, -t));   // continuous through the horizon: no line where the ground ends
   float s = max(dot(d, normalize(uSun)), 0.0);
   c += vec3(1.0, 0.62, 0.32) * (pow(s, 48.0) * 1.2 + pow(s, 6.0) * 0.18);
+  // daylight: as the sun climbs the dusk palette gives way to a clear blue sky with a pale horizon
+  float day = smoothstep(0.18, 0.55, normalize(uSun).z);
+  if (day > 0.0) {
+    vec3 dh = vec3(0.78, 0.86, 0.95), dz = vec3(0.16, 0.38, 0.78), dg = vec3(0.45, 0.48, 0.50);
+    vec3 dc = t >= 0.0 ? mix(dh, dz, pow(smoothstep(0.0, 0.9, t), 0.6)) : mix(dh, dg, smoothstep(0.0, 0.1, -t));
+    dc += vec3(1.0, 0.95, 0.85) * (pow(s, 400.0) * 3.0 + pow(s, 12.0) * 0.12);
+    c = mix(c, dc, day);
+  }
   return c;
 }`;
 
@@ -56,29 +64,41 @@ void main() {
   }
   vec3 V = normalize(vW - uEye); if (dot(n, V) > 0.0) n = -n;
   vec3 R = reflect(V, n); float ndv = max(dot(n, -V), 0.0), fres = 0.04 + 0.96 * pow(1.0 - ndv, 5.0);
-  vec3 L = normalize(uSun), sunCol = vec3(1.0, 0.68, 0.42), amb = sky(vec3(n.xy * 0.6, 0.6)) * 0.55;
+  float dayL = smoothstep(0.18, 0.55, normalize(uSun).z);
+  vec3 L = normalize(uSun), sunCol = mix(vec3(1.0, 0.68, 0.42), vec3(1.0, 0.95, 0.86) * 1.15, dayL), amb = sky(vec3(n.xy * 0.6, 0.6)) * 0.55;
   float diff = max(dot(n, L), 0.0), spec = pow(max(dot(R, L), 0.0), 120.0);
   int m = int(vMat + 0.5); vec3 c;
   if (m == 1) {        // vision glass: sky reflection over lit rooms
     vec3 refl = sky(R) * vec3(0.82, 0.90, 1.0) + sunCol * spec * 2.0;   // a cool, silvered glass
-    c = mix(rooms(n, 4.6, 1.5, 0.30, vec3(1.0, 0.80, 0.55)) + vec3(0.015, 0.03, 0.06), refl, clamp(fres * 1.8 + 0.34, 0.0, 0.94));
+    vec3 inside = mix(rooms(n, 4.6, 1.5, 0.30, vec3(1.0, 0.80, 0.55)), vec3(0.10, 0.12, 0.13) + 0.05 * hash(floor(vW.xy * 0.4)), dayL) + vec3(0.015, 0.03, 0.06);   // by day the rooms read as shaded interiors, not lit windows
+    c = mix(inside, refl, clamp(fres * 1.8 + 0.34 + 0.22 * dayL, 0.0, 0.94));
   } else if (m == 2) { // the crown lantern and the spire tip
     float g = 0.75 + 0.25 * sin(vW.z * 0.9); c = vec3(1.0, 0.86, 0.62) * 1.25 * g + sky(R) * 0.1;
   } else if (m == 3) { // fins and spandrels: brushed metal
     c = vec3(0.62, 0.64, 0.68) * (amb * 1.4 + sunCol * diff * 0.9) + sky(R) * (0.45 + 0.4 * fres) + sunCol * spec * 1.5;   // brushed metal picks up the sky
   } else if (m == 4) { // louvres on the mechanical floors
     float st = step(0.5, fract(vW.z * 3.0)); c = mix(vec3(0.05, 0.055, 0.065), vec3(0.16, 0.17, 0.19), st) * (0.6 + amb) + sky(R) * 0.06;
+  } else if (m == 6) { // open water: small waves, the sky in it, a sun glint; turquoise in the shallows near the shore
+    vec2 p = vW.xy; vec3 wn = normalize(vec3(0.05 * sin(p.x * 0.35 + p.y * 0.21) + 0.04 * sin(p.x * 0.9 - p.y * 0.7) + 0.02 * sin(p.y * 2.3), 0.05 * cos(p.y * 0.31 - p.x * 0.17) + 0.03 * cos(p.y * 1.1 + p.x * 0.5) + 0.02 * cos(p.x * 2.1), 1.0));
+    vec3 Rw = reflect(V, wn); float fw = 0.02 + 0.98 * pow(1.0 - max(dot(wn, -V), 0.0), 5.0);
+    vec3 deep = mix(vec3(0.02, 0.32, 0.42), vec3(0.01, 0.10, 0.22), clamp(length(vW - uEye) / 2500.0, 0.0, 1.0)) * (0.35 + 0.9 * max(L.z, 0.1));
+    c = mix(mix(deep, vCol.rgb * (0.55 + 0.6 * max(L.z, 0.1)), step(0.5, vCol.g)), sky(Rw), clamp(fw * 1.3, 0.0, 0.9)) + sunCol * pow(max(dot(Rw, L), 0.0), 220.0) * 4.0;
+  } else if (m == 7) { // palm bark
+    c = vec3(0.42, 0.33, 0.24) * (amb * 0.9 + sunCol * diff * 0.8);
+  } else if (m == 8) { // foliage: the item colour, translucent where the sun is behind
+    c = vCol.rgb * (amb * 0.8 + sunCol * (diff * 0.7 + 0.25 * max(dot(-n, L), 0.0)));
   } else if (m == 5) { // the city: darker glass, smaller bays
     vec3 refl = sky(R) * 0.35;
     c = mix(rooms(n, 3.6, 3.0, 0.22, vec3(1.0, 0.74, 0.48)) * 0.55 + vec3(0.04, 0.05, 0.08), refl, clamp(fres * 1.2 + 0.2, 0.0, 0.8));
     if (n.z > 0.9) c = vec3(0.04, 0.045, 0.06) + amb * 0.08;
   } else {             // matte: the item's colour under a low sun and the sky (ground lifted a little so grass reads as grass)
-    c = vCol.rgb * (amb * 0.9 + sunCol * diff * 0.75 + (n.z > 0.9 ? vec3(0.10, 0.12, 0.10) : vec3(0.0)));
+    c = vCol.rgb * (amb * 0.9 + sunCol * diff * 0.75 + (n.z > 0.9 ? vec3(0.10, 0.12, 0.10) : vec3(0.0)) + (n.z > 0.9 ? vec3(0.0) : vec3(0.30, 0.29, 0.27) * dayL));   // daylight: bounce light off sand and paving lifts the shaded walls
   }
-  float dist = length(vW - uEye), fog = 1.0 - exp(-dist / (m == 5 ? uFog * 0.45 : uFog));   // the city sits back in the haze
-  vec3 haze = mix(sky(normalize(vec3(V.xy, 0.03))), vec3(0.16, 0.19, 0.30), m == 5 ? 0.75 : 0.45);   // a cool dusk haze, cooler still over the city
+  float dist = length(vW - uEye), fog = 1.0 - exp(-dist / ((m == 5 ? uFog * 0.45 : uFog) * (1.0 + 2.5 * dayL)));   // clear tropical air by day   // the city sits back in the haze
+  vec3 haze = mix(sky(normalize(vec3(V.xy, 0.03))), mix(vec3(0.16, 0.19, 0.30), vec3(0.72, 0.80, 0.90), dayL), m == 5 ? 0.75 : 0.45);   // a cool dusk haze, cooler still over the city
   c = mix(c, haze, clamp(fog, 0.0, 0.85));
-  c = mix(c, sky(normalize(vec3(V.xy, 0.01))), smoothstep(2500.0, 14000.0, dist));   // the ground melts into the sky at the horizon: no edge band
+  c = mix(c, sky(normalize(vec3(V.xy, 0.01))), smoothstep(2500.0, 14000.0, dist));
+  c = mix(c, 1.0 - exp(-c * 1.7), dayL);   // daylight exposure: bright sand and render roll off instead of clipping   // the ground melts into the sky at the horizon: no edge band
   gl_FragColor = vec4(c, m == 0 ? vCol.a : 1.0);
 }`;
 
@@ -95,7 +115,7 @@ void main() { vec3 d = uCamF + vP.x * uTan * uAspect * uCamR + vP.y * uTan * uCa
 
 export const PALETTE = {
   wall: [0.80, 0.78, 0.74, 1], slab: [0.70, 0.72, 0.74, 1], column: [0.55, 0.58, 0.62, 1], opening: [0.3, 0.6, 0.9, 0.5],
-  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], pile: [0.55, 0.50, 0.45, 1], soil_fill: [0.45, 0.40, 0.35, 1], soil_clay: [0.62, 0.40, 0.26, 1], soil_sand: [0.90, 0.76, 0.45, 1], soil: [0.55, 0.62, 0.42, 1], soil_rock: [0.48, 0.50, 0.54, 1], context_park: [0.36, 0.62, 0.32, 1], context_street: [0.42, 0.42, 0.44, 1], context_city: [0.84, 0.85, 0.87, 1], context_buildings: [0.84, 0.85, 0.87, 1], context_trees: [0.18, 0.40, 0.20, 1], curtain_wall: [0.55, 0.72, 0.88, 1], spire: [0.75, 0.77, 0.80, 1], water: [0.25, 0.55, 0.85, 1], pilecap: [0.66, 0.64, 0.60, 1], drop_panel: [0.74, 0.74, 0.76, 1], punching_zone: [0.17, 0.60, 0.37, 1], punching_fail: [0.82, 0.24, 0.24, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
+  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], pile: [0.55, 0.50, 0.45, 1], soil_fill: [0.45, 0.40, 0.35, 1], soil_clay: [0.62, 0.40, 0.26, 1], soil_sand: [0.90, 0.76, 0.45, 1], soil: [0.55, 0.62, 0.42, 1], soil_rock: [0.48, 0.50, 0.54, 1], context_park: [0.36, 0.62, 0.32, 1], context_street: [0.42, 0.42, 0.44, 1], context_city: [0.84, 0.85, 0.87, 1], context_buildings: [0.84, 0.85, 0.87, 1], context_trees: [0.18, 0.40, 0.20, 1], context_ocean: [0.05, 0.33, 0.42, 1], context_sand: [0.95, 0.84, 0.62, 1], context_lawn: [0.32, 0.50, 0.22, 1], context_deck: [0.91, 0.85, 0.74, 1], context_pool: [0.25, 0.78, 0.82, 1], context_road: [0.36, 0.36, 0.38, 1], context_palms: [0.34, 0.58, 0.22, 1], curtain_wall: [0.55, 0.72, 0.88, 1], spire: [0.75, 0.77, 0.80, 1], water: [0.25, 0.55, 0.85, 1], pilecap: [0.66, 0.64, 0.60, 1], drop_panel: [0.74, 0.74, 0.76, 1], punching_zone: [0.17, 0.60, 0.37, 1], punching_fail: [0.82, 0.24, 0.24, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
 };
 
 function mat4Perspective(fovy, aspect, near, far) {

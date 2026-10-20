@@ -44,7 +44,7 @@ export function triangulatePolygon(pts) {
 }
 
 /** Surface materials a mesh may carry per vertex (the viewer's render mode shades by them; 0 = the item's colour). */
-export const MAT = { matte: 0, glass: 1, glow: 2, metal: 3, louvre: 4, cityglass: 5 };
+export const MAT = { matte: 0, glass: 1, glow: 2, metal: 3, louvre: 4, cityglass: 5, water: 6, bark: 7, foliage: 8 };
 
 export class MeshBuilder {
   constructor() { this.pos = []; this.nrm = []; this.idx = []; this.volume = 0; this.mat = 0; this.mats = []; }

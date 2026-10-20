@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-20T07:17:34.566Z",
+ "generated": "2026-10-20T07:30:30.045Z",
  "rows": [
   {
    "market": "Puerto Rico: Dorado",
@@ -14,55 +14,23 @@
    "src": "commercialsearch.com listing, Jun 2026",
    "per_acre": 4556891.191709844,
    "schemes": 11,
-   "meeting": 10,
+   "meeting": 8,
    "best": {
     "floors": 4,
     "plate_sf": 20000,
     "units": 20,
     "gsf": 80000,
     "gdv": 137634047.99999997,
-    "cost": 80218915.9714107,
-    "profit": 57415132.02858927,
-    "margin": 0.7157305896411204,
-    "irr": 0.4734493281462484,
-    "equity": 40133766.80158512,
+    "cost": 99318740.33476062,
+    "profit": 38315307.66523935,
+    "margin": 0.38578124869581487,
+    "irr": 0.2739510660066218,
+    "equity": 49690760.9398773,
     "years": 4.5
    },
    "downside": {
-    "profit": 32368112.684149995,
-    "irr": 0.22059861444639606
-   }
-  },
-  {
-   "market": "Puerto Rico: Dorado",
-   "status": "listed",
-   "name": "Former Rockefeller estate, opposite the Ritz-Carlton Reserve",
-   "acres": 3.8,
-   "land": 8500000,
-   "price_factor": 0.85,
-   "max_floors": 3,
-   "max_far": 0.6,
-   "note": "listing date unknown; zoning not stated (E 3 storeys)",
-   "src": "newsismybusiness.com",
-   "per_acre": 2236842.105263158,
-   "schemes": 7,
-   "meeting": 5,
-   "best": {
-    "floors": 3,
-    "plate_sf": 30000,
-    "units": 23,
-    "gsf": 90000,
-    "gdv": 131612558.39999999,
-    "cost": 86910392.92868309,
-    "profit": 44702165.471316904,
-    "margin": 0.514347754796122,
-    "irr": 0.33837676425969665,
-    "equity": 43482121.98368682,
-    "years": 4.75
-   },
-   "downside": {
-    "profit": 19737804.552396398,
-    "irr": 0.10380231097880732
+    "profit": 11353386.975316286,
+    "irr": 0.04230614732102489
    }
   },
   {
@@ -162,38 +130,6 @@
    }
   },
   {
-   "market": "Puerto Rico: Dorado",
-   "status": "listed",
-   "name": "Villa Dorado Estates lot 8 (in Dorado Beach Resort)",
-   "acres": 1,
-   "land": 6900000,
-   "price_factor": 1,
-   "max_floors": 3,
-   "max_far": 0.5,
-   "note": "estate lot; multi-unit needs rezoning (E)",
-   "src": "nestseekers.com, finditpr.com 2026",
-   "per_acre": 6900000,
-   "schemes": 1,
-   "meeting": 1,
-   "best": {
-    "floors": 3,
-    "plate_sf": 6000,
-    "units": 5,
-    "gsf": 18000,
-    "gdv": 30523679.999999993,
-    "cost": 23350224.1768962,
-    "profit": 7173455.823103795,
-    "margin": 0.3072114326937189,
-    "irr": 0.2000332489787544,
-    "equity": 11687382.38847008,
-    "years": 3.5
-   },
-   "downside": {
-    "profit": 1584244.977352862,
-    "irr": 0.038675650841599296
-   }
-  },
-  {
    "market": "Charlotte Myers Park / Eastover boutique",
    "name": "329 Rensselaer Ave, South End / Dilworth",
    "acres": 0.34,
@@ -287,6 +223,38 @@
    "downside": {
     "profit": -6237344.64794635,
     "irr": -0.062097025913458226
+   }
+  },
+  {
+   "market": "Puerto Rico: Dorado",
+   "status": "listed",
+   "name": "Former Rockefeller estate, opposite the Ritz-Carlton Reserve",
+   "acres": 3.8,
+   "land": 8500000,
+   "price_factor": 0.85,
+   "max_floors": 3,
+   "max_far": 0.6,
+   "note": "listing date unknown; zoning not stated (E 3 storeys)",
+   "src": "newsismybusiness.com",
+   "per_acre": 2236842.105263158,
+   "schemes": 7,
+   "meeting": 0,
+   "best": {
+    "floors": 3,
+    "plate_sf": 30000,
+    "units": 23,
+    "gsf": 90000,
+    "gdv": 131612558.39999999,
+    "cost": 108397695.33745174,
+    "profit": 23214863.062548254,
+    "margin": 0.21416380662225618,
+    "irr": 0.13546120762196523,
+    "equity": 54233740.389265515,
+    "years": 4.75
+   },
+   "downside": {
+    "profit": -4079027.0860267375,
+    "irr": -0.0632715899727585
    }
   },
   {
@@ -386,6 +354,38 @@
    }
   },
   {
+   "market": "Puerto Rico: Dorado",
+   "status": "listed",
+   "name": "Villa Dorado Estates lot 8 (in Dorado Beach Resort)",
+   "acres": 1,
+   "land": 6900000,
+   "price_factor": 1,
+   "max_floors": 3,
+   "max_far": 0.5,
+   "note": "estate lot; multi-unit needs rezoning (E)",
+   "src": "nestseekers.com, finditpr.com 2026",
+   "per_acre": 6900000,
+   "schemes": 1,
+   "meeting": 0,
+   "best": {
+    "floors": 3,
+    "plate_sf": 6000,
+    "units": 5,
+    "gsf": 18000,
+    "gdv": 30523679.999999993,
+    "cost": 27646835.84557267,
+    "profit": 2876844.154427324,
+    "margin": 0.10405690439573462,
+    "irr": 0.07744219586477108,
+    "equity": 13842690.143647375,
+    "years": 3.5
+   },
+   "downside": {
+    "profit": -3178248.769409909,
+    "irr": -0.10608945437951567
+   }
+  },
+  {
    "market": "Cayman: Seven Mile Beach",
    "status": "listed",
    "name": "Block 5C Parcel 282, Seven Mile Beach beachfront",
@@ -405,16 +405,16 @@
     "units": 20,
     "gsf": 63000,
     "gdv": 97690389.2118,
-    "cost": 92548910.30020036,
-    "profit": 5141478.911599628,
-    "margin": 0.05555418097222585,
-    "irr": 0.03546572493022904,
-    "equity": 64816594.15125106,
+    "cost": 103538575.92060535,
+    "profit": -5848186.708805349,
+    "margin": -0.05648316732972849,
+    "irr": -0.04428878407560566,
+    "equity": 72515663.0017593,
     "years": 3.5
    },
    "downside": {
-    "profit": -14324422.107162602,
-    "irr": -0.11095822447025205
+    "profit": -26413054.289608102,
+    "irr": -0.19235142023384988
    }
   },
   {
@@ -432,21 +432,53 @@
    "schemes": 49,
    "meeting": 0,
    "best": {
-    "floors": 5,
+    "floors": 10,
     "plate_sf": 30000,
-    "units": 47,
-    "gsf": 150000,
-    "gdv": 171943097.89499998,
-    "cost": 167981971.12664586,
-    "profit": 3961126.768354145,
-    "margin": 0.023580666078550482,
-    "irr": 0.009120751902184532,
-    "equity": 117622344.82797363,
-    "years": 4
+    "units": 94,
+    "gsf": 300000,
+    "gdv": 353647204.2,
+    "cost": 405544264.88483906,
+    "profit": -51897060.68483905,
+    "margin": -0.12796891776925035,
+    "irr": -0.09551463229977153,
+    "equity": 284048316.27787864,
+    "years": 5.5
    },
    "downside": {
-    "profit": -32501166.64925616,
-    "irr": -0.14225023883237342
+    "profit": -136160086.50477207,
+    "irr": -0.20461859115378955
+   }
+  },
+  {
+   "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
+   "name": "Cayman Islander parcels, West Bay Road",
+   "acres": 5.67,
+   "land": 32500000,
+   "price_factor": 0.75,
+   "max_floors": 10,
+   "max_far": 3,
+   "note": "asking $30-35M (two sources; midpoint used); across West Bay Road, inland view (R)",
+   "src": "cireba MLS 420808; Caribbean Journal 2026-07",
+   "per_acre": 5731922.398589065,
+   "schemes": 49,
+   "meeting": 0,
+   "best": {
+    "floors": 10,
+    "plate_sf": 30000,
+    "units": 94,
+    "gsf": 300000,
+    "gdv": 353647204.2,
+    "cost": 412341549.2564876,
+    "profit": -58694345.056487575,
+    "margin": -0.14234399895504612,
+    "irr": -0.10332063311871942,
+    "equity": 288811885.24963695,
+    "years": 5.5
+   },
+   "downside": {
+    "profit": -142981037.47048378,
+    "irr": -0.20946949858420982
    }
   },
   {
@@ -470,16 +502,16 @@
     "units": 30,
     "gsf": 120000,
     "gdv": 113548089.6,
-    "cost": 109620438.75280309,
-    "profit": 3927650.847196908,
-    "margin": 0.03582954868529455,
-    "irr": 0.0039013335448316866,
-    "equity": 54864640.42014157,
+    "cost": 138727170.2310508,
+    "profit": -25179080.631050814,
+    "margin": -0.1815007153185272,
+    "irr": -0.19923064993010564,
+    "equity": 69469954.8433165,
     "years": 4.5
    },
    "downside": {
-    "profit": -21276588.310501806,
-    "irr": -0.17745113528656076
+    "profit": -54212414.563258946,
+    "irr": -0.35911995935539065
    }
   },
   {
@@ -499,84 +531,20 @@
    "meeting": 0,
    "best": {
     "floors": 4,
-    "plate_sf": 25000,
-    "units": 25,
-    "gsf": 100000,
-    "gdv": 86021280,
-    "cost": 84151499.25077441,
-    "profit": 1869780.7492255971,
-    "margin": 0.02221922087987506,
-    "irr": -0.00285837491737162,
-    "equity": 42117108.44195558,
-    "years": 4.25
-   },
-   "downside": {
-    "profit": -17876254.507016025,
-    "irr": -0.20903949543761913
-   }
-  },
-  {
-   "market": "Cayman: Seven Mile Beach",
-   "status": "listed",
-   "name": "Cayman Islander parcels, West Bay Road",
-   "acres": 5.67,
-   "land": 32500000,
-   "price_factor": 0.75,
-   "max_floors": 10,
-   "max_far": 3,
-   "note": "asking $30-35M (two sources; midpoint used); across West Bay Road, inland view (R)",
-   "src": "cireba MLS 420808; Caribbean Journal 2026-07",
-   "per_acre": 5731922.398589065,
-   "schemes": 49,
-   "meeting": 0,
-   "best": {
-    "floors": 5,
     "plate_sf": 30000,
-    "units": 47,
-    "gsf": 150000,
-    "gdv": 171943097.89499998,
-    "cost": 174682320.6481279,
-    "profit": -2739222.753127914,
-    "margin": -0.01568116763599494,
-    "irr": -0.018749767529557704,
-    "equity": 122315062.26619336,
-    "years": 4
+    "units": 30,
+    "gsf": 120000,
+    "gdv": 103225536,
+    "cost": 129585701.27487245,
+    "profit": -26360165.27487246,
+    "margin": -0.20341878012419165,
+    "irr": -0.2377984879570172,
+    "equity": 64912900.34372121,
+    "years": 4.5
    },
    "downside": {
-    "profit": -39249036.267732136,
-    "irr": -0.16026287087880053
-   }
-  },
-  {
-   "market": "Cayman: Seven Mile Beach",
-   "status": "listed",
-   "name": "South Sound development land 1.75 acres",
-   "acres": 1.75,
-   "land": 2670000,
-   "price_factor": 0.6,
-   "max_floors": 5,
-   "max_far": 1.2,
-   "note": "development land; oceanfront not stated (E)",
-   "src": "cireba MLS 419392",
-   "per_acre": 1525714.2857142857,
-   "schemes": 16,
-   "meeting": 0,
-   "best": {
-    "floors": 5,
-    "plate_sf": 16000,
-    "units": 25,
-    "gsf": 80000,
-    "gdv": 73362388.4352,
-    "cost": 75418928.18231177,
-    "profit": -2056539.7471117673,
-    "margin": -0.02726821763020087,
-    "irr": -0.0306283333043057,
-    "equity": 52809428.388319224,
-    "years": 3.5
-   },
-   "downside": {
-    "profit": -18922725.67273145,
-    "irr": -0.23290757141935836
+    "profit": -53984292.20618638,
+    "irr": -0.4044144618896923
    }
   },
   {
@@ -599,16 +567,48 @@
     "units": 47,
     "gsf": 150000,
     "gdv": 137554478.31599998,
-    "cost": 147756995.0668025,
-    "profit": -10202516.75080252,
-    "margin": -0.06904929777564747,
-    "irr": -0.06705793123056358,
-    "equity": 103462002.15034553,
+    "cost": 187842528.81998494,
+    "profit": -50288050.503984936,
+    "margin": -0.26771387086774934,
+    "irr": -0.24874743622046824,
+    "equity": 131535389.75531605,
     "years": 4
    },
    "downside": {
-    "profit": -41851965.52728179,
-    "irr": -0.22316832033626
+    "profit": -86135855.89371285,
+    "irr": -0.36780054184117994
+   }
+  },
+  {
+   "market": "Cayman: Seven Mile Beach",
+   "status": "listed",
+   "name": "South Sound development land 1.75 acres",
+   "acres": 1.75,
+   "land": 2670000,
+   "price_factor": 0.6,
+   "max_floors": 5,
+   "max_far": 1.2,
+   "note": "development land; oceanfront not stated (E)",
+   "src": "cireba MLS 419392",
+   "per_acre": 1525714.2857142857,
+   "schemes": 16,
+   "meeting": 0,
+   "best": {
+    "floors": 5,
+    "plate_sf": 16000,
+    "units": 25,
+    "gsf": 80000,
+    "gdv": 73362388.4352,
+    "cost": 96797879.5173424,
+    "profit": -23435491.08214239,
+    "margin": -0.24210748416181643,
+    "irr": -0.2567602217488527,
+    "equity": 67781901.77763684,
+    "years": 3.5
+   },
+   "downside": {
+    "profit": -42527329.67707593,
+    "irr": -0.4168579500293089
    }
   },
   {
@@ -631,16 +631,16 @@
     "units": 8,
     "gsf": 27000,
     "gdv": 28465764.12918,
-    "cost": 31835162.777925767,
-    "profit": -3369398.64874577,
-    "margin": -0.1058389012253483,
-    "irr": -0.09450342697941128,
-    "equity": 22291654.019654512,
+    "cost": 39045854.58098683,
+    "profit": -10580090.451806828,
+    "margin": -0.2709657802433846,
+    "irr": -0.2648111830726071,
+    "equity": 27341469.951261565,
     "years": 3.25
    },
    "downside": {
-    "profit": -9575265.964101788,
-    "irr": -0.26937061925684724
+    "profit": -17549285.162025437,
+    "irr": -0.43977679352105314
    }
   },
   {
@@ -659,21 +659,21 @@
    "schemes": 35,
    "meeting": 0,
    "best": {
-    "floors": 5,
+    "floors": 7,
     "plate_sf": 30000,
-    "units": 47,
-    "gsf": 150000,
-    "gdv": 114628731.92999998,
-    "cost": 138391129.51346317,
-    "profit": -23762397.583463177,
-    "margin": -0.1717046292418004,
-    "irr": -0.1730951726451524,
-    "equity": 96905721.42441085,
-    "years": 3.75
+    "units": 66,
+    "gsf": 210000,
+    "gdv": 162817315.353,
+    "cost": 248366426.75885418,
+    "profit": -85549111.40585421,
+    "margin": -0.34444716430581096,
+    "irr": -0.3335497007004803,
+    "equity": 173958859.9187501,
+    "years": 4
    },
    "downside": {
-    "profit": -52247108.09899781,
-    "irr": -0.33489384123368915
+    "profit": -131825005.8375945,
+    "irr": -0.440765013673197
    }
   },
   {
@@ -692,21 +692,21 @@
    "schemes": 35,
    "meeting": 0,
    "best": {
-    "floors": 5,
+    "floors": 7,
     "plate_sf": 30000,
-    "units": 47,
-    "gsf": 150000,
-    "gdv": 114628731.92999998,
-    "cost": 141859613.51505926,
-    "profit": -27230881.58505928,
-    "margin": -0.1919565471124631,
-    "irr": -0.18767354685799686,
-    "equity": 99334944.82959256,
-    "years": 3.75
+    "units": 66,
+    "gsf": 210000,
+    "gdv": 162817315.353,
+    "cost": 251862626.34776387,
+    "profit": -89045310.99476387,
+    "margin": -0.3535471391131011,
+    "irr": -0.33891017923671174,
+    "equity": 176409067.02504492,
+    "years": 4
    },
    "downside": {
-    "profit": -55743307.68790748,
-    "irr": -0.3436683891398311
+    "profit": -135351090.91011816,
+    "irr": -0.444632954135459
    }
   },
   {

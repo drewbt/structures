@@ -10,7 +10,7 @@
 // Versioning (CONTRACT.md §10 of stiffness, adopted): a change to a number or signature bumps the
 // major; widened validity bumps the minor; a patch changes no number.
 
-import { curtainWallMesh, crownFinsMesh, spireMesh, cityMesh, treesMesh, buildingsMesh } from './archgeom.js';
+import { curtainWallMesh, crownFinsMesh, spireMesh, cityMesh, treesMesh, buildingsMesh, palmsMesh } from './archgeom.js';
 import { wallMesh, slabMesh, columnMesh, beamMesh, rebarMesh, cylinderMesh, boxMesh, segmentsMesh } from './geometry.js';
 
 export const registry = new Map();
@@ -101,12 +101,16 @@ register({
   inputs(model, el) { const surf = num(el, 'surface', 0), [[x0, y0], [x1, y1]] = num(el, 'extent'); return { center: [(x0 + x1) / 2, (y0 + y1) / 2], size: [x1 - x0, y1 - y0], z: surf }; },
   run({ center, size, z }) { const m = boxMesh({ center, size, z0: z - 0.015, z1: z - 0.005 }); delete m.volume_m3; return m; },
 });
+/** Surface heights of landscape context, m: the sea below the beach, a pool's water just above its deck. */
+const SURFACE_Z = { ocean: -0.45, sand: -0.03, lawn: -0.02, deck: 0.12, pool: 0.16, road: -0.04 };
 /** Site context (a park, a street): a flat sheet just under the ground surface. Not structure; no volume. */
 register({
   name: 'geometry.context', version: '1.0.0', forType: 'context',
   assumptions: ['drawn as a 300 mm slab whose top is 20 mm below elevation 0, so it never hides the ground surface or structure and its faces stay apart in the depth buffer at city scale'],
-  inputs(model, el) { const kind = num(el, 'kind', 'park'); return kind === 'city' ? { kind, blocks: num(el, 'blocks') } : kind === 'trees' ? { kind, trees: num(el, 'trees') } : kind === 'buildings' ? { kind, buildings: num(el, 'buildings') } : { kind, outline: num(el, 'outline') }; },
+  inputs(model, el) { const kind = num(el, 'kind', 'park'); return kind === 'city' ? { kind, blocks: num(el, 'blocks') } : kind === 'trees' ? { kind, trees: num(el, 'trees') } : kind === 'palms' ? { kind, palms: num(el, 'palms') } : kind === 'buildings' ? { kind, buildings: num(el, 'buildings') } : { kind, outline: num(el, 'outline'), z: num(el, 'z', null) }; },
   run(inp) {
+    if (inp.kind === 'palms') return palmsMesh(inp);
+    if (SURFACE_Z[inp.kind] !== undefined || inp.z != null) { const m = slabMesh({ outline: inp.outline, thickness: 0.3, zTop: inp.z ?? SURFACE_Z[inp.kind] }); m.context_m2 = m.area_m2; delete m.volume_m3; return m; }
     if (inp.kind === 'buildings') return buildingsMesh(inp);
     if (inp.kind === 'city') return cityMesh(inp);
     if (inp.kind === 'trees') return treesMesh(inp);
