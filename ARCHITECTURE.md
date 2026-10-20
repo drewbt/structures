@@ -26,6 +26,8 @@ app/                the browser application: vanilla JS modules, native web comp
   core/foundations.js  load takedown, pile caps (sectional + strut-and-tie), piles
   core/geotech.js   soil profile (fill, clay, sand, rock), bored-pile axial capacity, designed pile length
   core/tower.js     the synthetic needle tower, floor by floor; gravity summary
+  core/archgeom.js  architecture over the structure: curtain wall, spire, illustrative city and trees (per-vertex materials)
+  render/webgl.js   also a Render mode: dusk sky pass, Fresnel glass, lit rooms, haze
   core/towerdyn.js  the tower's lateral frame for the engine; wind, earthquake and other-chapter checks
   core/wind.js      ASCE 7-16 gust factor, along-wind forces and acceleration; across-wind screening
   core/coverage.js  every ASCE 7-16 chapter: applied / not applicable / owed

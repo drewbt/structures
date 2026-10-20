@@ -43,23 +43,28 @@ export function triangulatePolygon(pts) {
   return tris;
 }
 
-class MeshBuilder {
-  constructor() { this.pos = []; this.nrm = []; this.idx = []; this.volume = 0; }
+/** Surface materials a mesh may carry per vertex (the viewer's render mode shades by them; 0 = the item's colour). */
+export const MAT = { matte: 0, glass: 1, glow: 2, metal: 3, louvre: 4, cityglass: 5 };
+
+export class MeshBuilder {
+  constructor() { this.pos = []; this.nrm = []; this.idx = []; this.volume = 0; this.mat = 0; this.mats = []; }
   quad(a, b, c, d) {   // counter-clockwise seen from outside
     const n = normal(a, b, c); const base = this.pos.length / 3;
-    for (const p of [a, b, c, d]) { this.pos.push(...p); this.nrm.push(...n); }
+    for (const p of [a, b, c, d]) { this.pos.push(...p); this.nrm.push(...n); this.mats.push(this.mat); }
     this.idx.push(base, base + 1, base + 2, base, base + 2, base + 3);
   }
   tri(a, b, c) {
     const n = normal(a, b, c); const base = this.pos.length / 3;
-    for (const p of [a, b, c]) { this.pos.push(...p); this.nrm.push(...n); }
+    for (const p of [a, b, c]) { this.pos.push(...p); this.nrm.push(...n); this.mats.push(this.mat); }
     this.idx.push(base, base + 1, base + 2);
   }
   finish() {
     const pos = new Float64Array(this.pos);
     const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity];
     for (let i = 0; i < pos.length; i += 3) for (let k = 0; k < 3; k++) { min[k] = Math.min(min[k], pos[i + k]); max[k] = Math.max(max[k], pos[i + k]); }
-    return { positions: pos, normals: new Float64Array(this.nrm), indices: new Uint32Array(this.idx), volume_m3: this.volume, bounds: { min, max } };
+    const out = { positions: pos, normals: new Float64Array(this.nrm), indices: new Uint32Array(this.idx), volume_m3: this.volume, bounds: { min, max } };
+    if (this.mats.some(m => m)) out.materials = new Float32Array(this.mats);   // only meshes that use materials carry them
+    return out;
   }
 }
 function normal(a, b, c) {
@@ -69,7 +74,7 @@ function normal(a, b, c) {
 }
 
 /** An axis-aligned box in a local frame: origin o, unit axes ex, ey (plan) and z up; extents lx, ly, from z0 to z1. */
-function boxInto(mb, o, ex, ey, lx, ly, z0, z1) {
+export function boxInto(mb, o, ex, ey, lx, ly, z0, z1) {
   const P = (u, v, z) => [o[0] + ex[0] * u + ey[0] * v, o[1] + ex[1] * u + ey[1] * v, z];
   const p000 = P(0, 0, z0), p100 = P(lx, 0, z0), p110 = P(lx, ly, z0), p010 = P(0, ly, z0);
   const p001 = P(0, 0, z1), p101 = P(lx, 0, z1), p111 = P(lx, ly, z1), p011 = P(0, ly, z1);

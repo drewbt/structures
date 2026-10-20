@@ -241,7 +241,7 @@ try {
     // ---- the needle tower: every floor modelled; wind and vibration through the engine
     const tp = await browser.newPage({ viewport: { width: 1500, height: 950 } }); tp.on('pageerror', e => errors.push(e.message));
     await tp.goto(`${base}/?project=needle-tower#model`); await tp.waitForFunction(() => globalThis.coralArch?.items?.length > 500 && coral.status.health, null, { timeout: 30000 });
-    const tinfo = await tp.evaluate(() => ({ storeys: coral.model.byType('level').filter(l => l.params.floor?.value >= 1).length, errs: Object.keys(coral.lastRegenerate.errors).length, park: coral.model.byType('context').length, rock: coral.model.byType('soil_layer').some(l => l.params.kind.value === 'rock') }));
+    const tinfo = await tp.evaluate(() => ({ storeys: coral.model.byType('level').filter(l => l.params.floor?.value >= 1).length, errs: Object.keys(coral.lastRegenerate.errors).length, park: coral.model.byType('context').filter(c => ['park', 'street'].includes(c.params.kind.value)).length, rock: coral.model.byType('soil_layer').some(l => l.params.kind.value === 'rock') }));
     check(tinfo.storeys >= 50 && tinfo.errs === 0 && tinfo.park === 2 && tinfo.rock, 'tower generated floor by floor with its crown, Central Park context, rock under the mat, every element valid', JSON.stringify(tinfo));
     await tp.evaluate(() => coralArch.setDrawer(true)); await tp.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure);
     await tp.evaluate(() => coralStructure.designAll());
@@ -252,6 +252,11 @@ try {
     check(worst <= 10, 'the tower is comfortable: worst 10-year peak acceleration, along- and across-wind, at or under 10 milli-g', `${worst.toFixed(2)} milli-g`);
     const vis = await tp.evaluate(() => { const v = coralArch.viewer, b = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] }; for (const it of v.items) if (!it.background) for (let k = 0; k < 3; k++) { b.min[k] = Math.min(b.min[k], it.mesh.bounds.min[k]); b.max[k] = Math.max(b.max[k], it.mesh.bounds.max[k]); } const c = v.camera, r = Math.hypot(...[0, 1, 2].map(k => b.max[k] - b.min[k])) / 2, asp = v.canvas.clientWidth / v.canvas.clientHeight, fh = 2 * Math.atan(Math.tan(c.fov / 2) * asp); return c.dist * Math.sin(Math.min(c.fov, fh) / 2) >= r * 0.999; });
     check(vis, 'the whole tower, mat to crown, is inside the view when the model opens');
+    const rnd = await tp.evaluate(() => ({ on: coralArch.renderMode, facade: coral.model.byType('curtain_wall').length, spire: coral.model.byType('spire').length, sky: coralArch.viewer.render }));
+    check(rnd.facade >= 50 && rnd.spire === 1, 'the tower carries its architecture: a facade on every storey and a spire', JSON.stringify(rnd));
+    await tp.evaluate(() => coralArch.setDrawer(false)); await tp.click('#render'); await tp.waitForTimeout(300); await tp.click('#render'); await tp.waitForTimeout(500);
+    check(await tp.evaluate(() => coralArch.renderMode === true && coralArch.viewer.render === true), 'the presentation render toggles off and on without errors');
+    await tp.screenshot({ path: join(out, 'tower-render.png') });
     check(tw.ind === 2 && await tp.evaluate(() => document.querySelector('page-structure').textContent.includes('wind tunnel test')), 'the across-wind rows are marked indicative and the page states that compliance needs a wind tunnel test');
     const cov = await tp.evaluate(() => [...document.querySelectorAll('details.coverage tbody tr')].map(tr => [tr.cells[0].textContent, tr.cells[2].textContent]));
     check(cov.length === 29 && cov.some(([c, st]) => c === '31' && st === 'owed') && cov.some(([c, st]) => c === '12' && st === 'applied') && cov.some(([c, st]) => c === '7' && st === 'applied'), 'every ASCE 7-16 chapter is listed for the tower: seismic and snow applied, the wind tunnel owed', cov.map(r => r.join(':')).join(' '));

@@ -10,6 +10,7 @@
 // Versioning (CONTRACT.md §10 of stiffness, adopted): a change to a number or signature bumps the
 // major; widened validity bumps the minor; a patch changes no number.
 
+import { curtainWallMesh, spireMesh, cityMesh, treesMesh } from './archgeom.js';
 import { wallMesh, slabMesh, columnMesh, beamMesh, rebarMesh, cylinderMesh, boxMesh, segmentsMesh } from './geometry.js';
 
 export const registry = new Map();
@@ -104,14 +105,31 @@ register({
 register({
   name: 'geometry.context', version: '1.0.0', forType: 'context',
   assumptions: ['drawn as a 300 mm slab whose top is 20 mm below elevation 0, so it never hides the ground surface or structure and its faces stay apart in the depth buffer at city scale'],
-  inputs(model, el) { return { outline: num(el, 'outline') }; },
-  run({ outline }) { const m = slabMesh({ outline, thickness: 0.3, zTop: -0.02 }); m.context_m2 = m.area_m2; delete m.volume_m3; return m; },
+  inputs(model, el) { const kind = num(el, 'kind', 'park'); return kind === 'city' ? { kind, blocks: num(el, 'blocks') } : kind === 'trees' ? { kind, trees: num(el, 'trees') } : { kind, outline: num(el, 'outline') }; },
+  run(inp) {
+    if (inp.kind === 'city') return cityMesh(inp);
+    if (inp.kind === 'trees') return treesMesh(inp);
+    const m = slabMesh({ outline: inp.outline, thickness: 0.3, zTop: -0.02 }); m.context_m2 = m.area_m2; delete m.volume_m3; return m;
+  },
 });
 register({
   name: 'geometry.damper', version: '1.0.0', forType: 'damper',
   assumptions: ['a tuned mass damper drawn as a block of its stated plan size and height, 2 m below the top of its storey'],
   inputs(model, el) { const lvl = levelOf(model, el), h = num(el, 'height', 3); return { center: num(el, 'center'), size: num(el, 'size'), z1: lvl.elevation + lvl.height - 2, z0: lvl.elevation + lvl.height - 2 - h }; },
   run(inp) { const m = boxMesh(inp); delete m.volume_m3; return m; },
+});
+/** Architecture over the structure: a storey of curtain wall around its outline, and a spire. Not concrete. */
+register({
+  name: 'geometry.curtain_wall', version: '1.0.0', forType: 'curtain_wall',
+  assumptions: ['glass 120 mm outside the slab edge, fins at the stated spacing, a spandrel band at each floor'],
+  inputs(model, el) { const lvl = levelOf(model, el); return { outline: num(el, 'outline'), z0: lvl.elevation, h: num(el, 'height', lvl.height), kind: num(el, 'kind', 'typical'), fin: num(el, 'fin_spacing', 1.5), finDepth: num(el, 'fin_depth', 0.45) }; },
+  run: curtainWallMesh,
+});
+register({
+  name: 'geometry.spire', version: '1.0.0', forType: 'spire',
+  assumptions: ['an octagonal tapering spire standing on top of its storey'],
+  inputs(model, el) { const lvl = levelOf(model, el); return { center: num(el, 'center'), z0: lvl.elevation + lvl.height, height: num(el, 'height', 30), r0: num(el, 'base_radius', 2.5) }; },
+  run: spireMesh,
 });
 register({
   name: 'geometry.punching_zone', version: '1.0.0', forType: 'punching_zone',

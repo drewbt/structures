@@ -1,7 +1,7 @@
 # Test registry
 
 Run everything: `./tests/run.sh` (build, service gate, unit tests, end to end). Last full run
-2026-10-20: service-gate 29/29, unit 86/86, e2e 75/75 (tower comfort and full view, D-23). The structural tests need the stiffness
+2026-10-20: service-gate 29/29, unit 88/88, e2e 77/77 (facade, spire, render mode, D-24). The structural tests need the stiffness
 binary (STIFFNESS_BIN, default /home/user/stiffness/build/stiffness); without it they are skipped
 (unit) or fail with a stated reason (e2e), never faked.
 
@@ -116,3 +116,5 @@ e2e: the tower generates; wind and vibration run through the engine in two runs;
 the across-wind rows are indicative and the page says the tunnel is required; 29 ASCE chapters listed; SDC B.
 
 e2e adds: the default tower's worst 10-year acceleration ≤ 10 milli-g; the whole tower is inside the opening view.
+
+unit adds: curtain wall glass area = perimeter × height, materials per vertex, no concrete; every storey has a facade, one spire, no context building on the lot. e2e adds: facade and spire present; render toggles cleanly.

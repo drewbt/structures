@@ -129,3 +129,16 @@ damper 1600-4800 t). No 84-storey (435 m) form reaches 10 milli-g (best 13.3); t
 storeys, 389 m, 32 m wide (12:1), facade tube, four outriggers, 3200 t damper: 9.7 milli-g
 (docs/tower-comfort.json). That is now the default tower; docs/tower-wind.json keeps the earlier
 least-concrete 435 m search, which met the code route but not comfort. The tunnel test remains the confirmation.
+
+**D-24 · Architecture over the structure, and a presentation render.** (2026-10-20)
+Direction from the owner: the tower read as a solid block; take marketing-grade visualisation (Emaar's launches:
+blue-hour skies, silvered glass with vertical fins, floors lit from within, a lit crown and spire, low views
+across water or park with the city in haze) as the visual brief. The facade is modelled, not painted: a
+`curtain_wall` element per storey (vision glass over spandrels, fins at 1.5 m, louvred mechanical floors, a
+full-height lobby, a glowing crown lantern) and a `spire`, each with provenance; the facade's 0.5 kPa weight goes
+into gravity and the dynamic model (comfort rechecked: 9.73 milli-g). The city and park trees are illustrative
+massing, labelled so. The viewer gains a Render mode (analytic dusk sky warm only towards the sun, Fresnel glass
+reflecting it over procedurally lit rooms, brushed fins, haze) that hides analysis overlays and frames a hero
+view from the park; Engineering mode is unchanged, with the facade as faint glass. Emaar's own pages were not
+reachable from the build environment, so the brief is their established, published visual language rather than
+a specific brochure.

@@ -61,7 +61,8 @@ export function towerStoreys(model) {
     const outriggers = tag('outrigger');
     const slabArea = slab ? model.result(slab.id)?.area_m2 || 0 : 0;
     const slabMass = (slab ? vol(slab.id) * DYN.density_t + slabArea * num(slab, 'sdl', 0) / 9.81 : 0) + outriggers.reduce((s, w) => s + vol(w.id), 0) * DYN.density_t;
-    const live = slab ? slabArea * num(slab, 'll', 0) : 0, colMass = kids.filter(k => k.type === 'column').reduce((s, c) => s + vol(c.id), 0) * DYN.density_t;
+    const live = slab ? slabArea * num(slab, 'll', 0) : 0, colMass = kids.filter(k => k.type === 'column').reduce((s, c) => s + vol(c.id), 0) * DYN.density_t
+      + kids.filter(k => k.type === 'curtain_wall').reduce((s, c) => s + (model.result(c.id)?.glass_m2 || 0) * num(c, 'weight', 0) / 9.81, 0);   // facade mass, t
     const isTop = i === levels.length - 1, dmass = isTop && damper ? num(damper, 'mass', 0) : 0;
     return { id: l.id, name: l.name, z0: num(l, 'elevation'), h: num(l, 'height'), piers, outriggers, wallMass, slabMass: slabMass + colMass, live, slabArea, slabT: slab ? num(slab, 'thickness', 0.25) : 0, damperMass: dmass,
       ...(() => { const ew = walls.filter(w => /east wall|west wall/.test(w.name)), xs = ew.map(w => num(w, 'start')[0]), t = num(ew[0], 'thickness'), e = ew[0]; return { width_x: Math.max(...xs) - Math.min(...xs) + t, depth_y: Math.abs(num(e, 'end')[1] - num(e, 'start')[1]) }; })() };

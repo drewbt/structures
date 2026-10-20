@@ -15,6 +15,7 @@
 
 import { register } from './functions.js';
 import { createSoilProfile, soilInputs } from './geotech.js';
+import { manhattanBlocks, scatterTrees } from './archgeom.js';
 
 const P = (v, unit = '') => ({ value: v, unit });
 const PROV = note => ({ source: 'needle-tower (synthetic)', trace: '', method: 'assumed', note });
@@ -34,6 +35,9 @@ export const TOWER_DEFAULTS = {
   tube: { thickness: 0.6, solidity: 0.5 },                           // { thickness, solidity }: north and south facades as perforated concrete walls joined to the east and west walls (a tube)
   anchors: { capacity: 2500, edge: 1.5 },   // rock anchors at the mat edges if overturning needs them: working capacity kN each, distance from the edge (m)                  // tuned mass damper at the crown (t); 0 = none
   wallScale: 0.8, coreScale: 1.0,       // multipliers on the wall and core thickness tables
+  facade: { weight: 0.5, fin: 1.5, finDepth: 0.45 },   // curtain wall: kPa of facade, fin spacing and depth (m)
+  spire: 36,                            // m above the crown (architectural; its wind and seismic design are owed, ASCE 7 Ch. 29 / 13)
+  context: true,                        // illustrative city blocks and park trees
   seismic: { Ss: 0.28, S1: 0.07, site_class: 'B', TL: 6, Ie: 1.0 },
   wind: { V: 51.4, V10: 34.0, exposure: 'C', beta_service: 0.015, beta_ultimate: 0.02 },
 };
@@ -90,6 +94,12 @@ export function createNeedleTower(app, opts = {}) {
     for (const c of [{ name: 'Central Park (context)', outline: [[-400, ly1 + 30], [400, ly1 + 30], [400, ly1 + 430], [-400, ly1 + 430]], kind: 'park', note: 'the park as context: 400 m deep, starting across the street; not to survey' },
       { name: 'Central Park South (street)', outline: [[-400, ly1], [400, ly1], [400, ly1 + 30], [-400, ly1 + 30]], kind: 'street', note: 'street and sidewalks, 30 m assumed' }])
       m.create({ type: 'context', name: c.name, params: { outline: P(c.outline, 'm'), kind: P(c.kind) }, provenance: PROV(c.note) });
+    if (o.context) {
+      const blocks = manhattanBlocks({ exclude: { x0: lx0 - 60, x1: lx1 + 60, y0: ly0 - 40, y1: ly1 }, north: ly1 });   // a plaza around the tower
+      m.create({ type: 'context', name: 'Midtown blocks (illustrative)', params: { kind: P('city'), blocks: P(blocks, 'm') }, provenance: PROV(`${blocks.length} illustrative buildings on a Manhattan-like grid, procedurally generated for scale and setting: NOT a survey of Midtown`) });
+      const trees = scatterTrees({ x0: -400, y0: ly1 + 36, x1: 400, y1: ly1 + 420, n: 700 });
+      m.create({ type: 'context', name: 'Park trees (illustrative)', params: { kind: P('trees'), trees: P(trees, 'm') }, provenance: PROV('700 illustrative trees scattered over the park, for setting only') });
+    }
     ids.wind = m.create({ type: 'wind', name: 'Wind (site)', params: { V: P(o.wind.V, 'm/s'), V10: P(o.wind.V10, 'm/s'), exposure: P(o.wind.exposure), beta_service: P(o.wind.beta_service), beta_ultimate: P(o.wind.beta_ultimate), snow_pg: P(o.snow_pg ?? 1.2, 'kPa'), anchor_capacity: P(o.anchors.capacity, 'kN'), anchor_edge: P(o.anchors.edge, 'm') }, provenance: PROV('ASCE 7-16 basic wind speed for Risk Category II at Manhattan, 115 mph, and the 10-year serviceability speed, 76 mph (both read from the maps from memory, unverified); Exposure C because the open park lies within 20 H upwind to the north (26.7.3); ground snow 1.20 kPa (25 psf, ASCE 7-16 Figure 7.2-1, unverified); inherent damping 1.5 % service, 2 % ultimate (assumed)') }).id;
     ids.seismic = m.create({ type: 'seismic', name: 'Earthquake (site)', params: { Ss: P(o.seismic.Ss, 'g'), S1: P(o.seismic.S1, 'g'), site_class: P(o.seismic.site_class), TL: P(o.seismic.TL, 's'), Ie: P(o.seismic.Ie) }, provenance: PROV('ASCE 7-16 mapped MCER accelerations for midtown Manhattan, Ss 0.28 g and S1 0.07 g, from memory of the USGS values (unverified: take them from the ASCE hazard tool); site class B on Manhattan schist (needs a measured shear-wave velocity, 20.3); long-period transition TL 6 s (Figure 22-14); Risk Category II, Ie 1.0') }).id;
     const fnd = m.create({ type: 'level', name: 'Foundation', params: { elevation: P(r3(-o.cellars * o.cellarHeight - o.mat), 'm'), height: P(o.mat, 'm') }, provenance: PROV(`mat ${o.mat} m thick bearing on rock`) });
@@ -119,6 +129,11 @@ export function createNeedleTower(app, opts = {}) {
       for (let i = 0; i < 4; i++) wall(`${f.name} core ${'SENW'[i]}`, cc[i], cc[(i + 1) % 4], tc, `core wall ${tc} m (lifts, stairs, risers; door openings not modelled)`, 'core');
       if (o.outriggers.floors.includes(f.k)) for (const y of [cy0, cy1]) for (const [xa, xb, side] of [[-W + te, cx0, 'west'], [cx1, W - te, 'east']])
         wall(`${f.name} outrigger ${side} y${y}`, [xa, y], [xb, y], o.outriggers.thickness, `outrigger wall ${o.outriggers.thickness} m, storey-deep, core to the ${side} wall`, 'outrigger');
+      if (f.kind !== 'cellar') {   // the facade: architecture over the structure
+        const fo = [[-W, y0], [W, y0], [W, y1], [-W, y1]];
+        m.create({ type: 'curtain_wall', name: `${f.name} facade`, parent: lvl.id, params: { outline: P(fo, 'm'), kind: P(f.kind === 'cellar' ? 'typical' : f.kind === 'lobby' ? 'lobby' : f.kind), weight: P(o.facade.weight, 'kPa'), fin_spacing: P(o.facade.fin, 'm'), fin_depth: P(o.facade.finDepth, 'm') }, provenance: PROV(`${f.kind === 'mechanical' ? 'louvred mechanical floor' : f.kind === 'crown' ? 'glass crown lantern, lit' : f.kind === 'lobby' ? 'full-height lobby glazing' : 'unitised curtain wall, vision glass over a spandrel band'}, vertical fins at ${o.facade.fin} m; ${o.facade.weight} kPa (assumed)`) });
+        if (f.kind === 'crown' && o.spire > 0) m.create({ type: 'spire', name: 'Spire', parent: lvl.id, params: { center: P([0, (y0 + y1) / 2], 'm'), height: P(o.spire, 'm'), base_radius: P(2.5, 'm') }, provenance: PROV(`stainless spire ${o.spire} m, architectural; its own wind design is owed (ASCE 7 Ch. 29)`) });
+      }
       if (f.kind !== 'crown' && !tube) for (const [x, y, face] of [[-4.5, y0 + cb / 2, 'south'], [4.5, y0 + cb / 2, 'south'], [-4.5, y1 - cb / 2, 'north'], [4.5, y1 - cb / 2, 'north']])
         m.create({ type: 'column', name: `${f.name} ${face} col ${x < 0 ? 'W' : 'E'}`, parent: lvl.id, params: { center: P([x, r3(y)], 'm'), width: P(cb, 'm'), depth: P(cb, 'm'), rotation: P(0, 'deg'), fc: P(fc, 'MPa'), fy: P(420, 'MPa') }, provenance: PROV(`${face}-face column ${cb} m square${face === 'south' && s ? `, moved ${s} m north with the setback (a transfer is owed where it moves)` : ''}`) });
     }
@@ -134,7 +149,7 @@ export function createNeedleTower(app, opts = {}) {
 /** The inputs of structure.towerGravity read from a model: concrete volumes, floor slabs, the mat and its rock. */
 export function gravityInputs(m) {
   let concrete = 0;
-  for (const e of m.all()) { if (['rebar', 'punching_zone', 'soil', 'soil_layer', 'context', 'damper'].includes(e.type)) continue; concrete += m.result(e.id)?.volume_m3 || 0; }
+  for (const e of m.all()) { if (['rebar', 'punching_zone', 'soil', 'soil_layer', 'context', 'damper', 'curtain_wall', 'spire'].includes(e.type)) continue; concrete += m.result(e.id)?.volume_m3 || 0; }
   const slabs = m.byType('slab'), mat = slabs.find(s => s.params.role?.value === 'mat');
   const floors = slabs.filter(s => s !== mat).map(s => ({ area: m.result(s.id)?.area_m2 || 0, sdl: s.params.sdl?.value ?? 0, ll: s.params.ll?.value ?? 0 }));
   if (!mat) return null;
@@ -142,7 +157,8 @@ export function gravityInputs(m) {
   const depth = soil ? soil.surface - zBot : null, layer = soil?.layers.find(l => depth >= l.top - 1e-9 && depth < l.bottom) || soil?.layers.at(-1);
   const xs = mat.params.outline.value.map(q => q[0]), ys = mat.params.outline.value.map(q => q[1]);
   const damper = m.byType('damper').reduce((s, d) => s + (d.params.mass?.value ?? 0), 0);
-  return { concrete_m3: concrete, floors, extra_kN: damper * 9.81, mat: { area: m.result(mat.id)?.area_m2 || 0, qa: layer?.kind === 'rock' ? layer.qa : null, layer: layer ? `${layer.name} at ${depth.toFixed(1)} m` : null, lx: Math.max(...xs) - Math.min(...xs), ly: Math.max(...ys) - Math.min(...ys), zBottom: zBot } };
+  const facade = m.byType('curtain_wall').reduce((s, c) => s + (m.result(c.id)?.glass_m2 || 0) * (c.params.weight?.value ?? 0), 0);   // kN
+  return { concrete_m3: concrete, floors, extra_kN: damper * 9.81 + facade, facade_kN: facade, mat: { area: m.result(mat.id)?.area_m2 || 0, qa: layer?.kind === 'rock' ? layer.qa : null, layer: layer ? `${layer.name} at ${depth.toFixed(1)} m` : null, lx: Math.max(...xs) - Math.min(...xs), ly: Math.max(...ys) - Math.min(...ys), zBottom: zBot } };
 }
 
 /**

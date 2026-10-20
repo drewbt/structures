@@ -43,7 +43,7 @@ test('the generated tower: every element regenerates, every storey has its walls
 
 test('context and ground: park across the street, rock under the mat, piles refused in rock', () => {
   const { m } = build();
-  assert.equal(m.byType('context').length, 2);
+  assert.ok(['park', 'street'].every(k => m.byType('context').some(c => c.params.kind.value === k)), 'park and street');
   const soil = soilInputs(m); assert.equal(soil.layers.at(-1).kind, 'rock');
   const mat = m.byType('slab').find(s => s.params.role?.value === 'mat'), b = m.result(mat.id).bounds;
   assert.ok(soil.surface - b.min[2] > soil.layers.at(-1).top, 'the mat bottom is in rock');
@@ -54,4 +54,18 @@ test('gravity summary: self-weight, superimposed and live loads add up by hand; 
   const r = towerGravity.run({ concrete_m3: 100, floors: [{ area: 50, sdl: 2, ll: 2 }, { area: 30, sdl: 1, ll: 4 }], mat: { area: 40, qa: 1000, layer: 'x' } });
   assert.equal(r.self_kN, 2400); assert.equal(r.sdl_kN, 130); assert.equal(r.L_kN, 220); assert.equal(r.total_kN, 2750);
   assert.equal(r.q_kPa, 2750 / 40); assert.equal(r.util, 2750 / 40 / 1000);
+});
+
+import { curtainWallMesh, manhattanBlocks } from '../../app/core/archgeom.js';
+test('facade: glass area = perimeter × storey height; materials carried per vertex; no concrete volume', () => {
+  const m = curtainWallMesh({ outline: [[0, 0], [20, 0], [20, 10], [0, 10]], z0: 0, h: 4 });
+  assert.equal(m.glass_m2, 60 * 4); assert.equal(m.volume_m3, undefined); assert.equal(m.materials.length, m.positions.length / 3);
+  assert.ok([...m.materials].includes(1) && [...m.materials].includes(3), 'glass and metal fins');
+});
+test('the generated tower carries a facade on every storey above grade, a spire, and context clear of the lot', () => {
+  const { m } = build(), storeys = m.byType('level').filter(l => (l.params.floor?.value ?? 0) >= 1);
+  assert.equal(m.byType('curtain_wall').length, storeys.length); assert.equal(m.byType('spire').length, 1);
+  const city = m.byType('context').find(c => c.params.kind.value === 'city'), lot = m.byType('slab').find(s => s.params.role?.value === 'mat').params.outline.value;
+  const lx0 = Math.min(...lot.map(q => q[0])), lx1 = Math.max(...lot.map(q => q[0])), ly0 = Math.min(...lot.map(q => q[1])), ly1 = Math.max(...lot.map(q => q[1]));
+  assert.ok(city.params.blocks.value.every(b => b.x1 < lx0 || b.x0 > lx1 || b.y1 < ly0 || b.y0 > ly1), 'no context building overlaps the lot');
 });

@@ -20,11 +20,12 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 export class PageArchitecture extends HTMLElement {
   connectedCallback() {
     this.app = this.closest('coral-app');
-    this.colorBy = 'util'; this.show = { concrete: true, bars: true, zones: true, earth: true }; this.xray = false; this.ghost = true;
+    this.colorBy = 'util'; this.show = { concrete: true, bars: true, zones: true, earth: true }; this.xray = false; this.ghost = true; this.renderMode = null;   // null: decided on first build (on when the model has a facade)
     this.innerHTML = `
       <div class="toolbar model-bar">
         <div class="group" aria-label="View">
           <button id="fit" title="Frame the whole model">Fit</button>
+          <button id="render" aria-pressed="false" title="Presentation render: facade, sky, lit rooms, city; analysis overlays hidden">Render</button>
           <button id="xray" aria-pressed="false" title="Draw concrete translucent to see reinforcement">X-ray</button>
           <button id="ghost" aria-pressed="true" title="Draw slabs translucent">Ghost slabs</button>
           <button id="show-earth" aria-pressed="true" title="Show the ground: soil layers and water table">Earth</button>
@@ -45,6 +46,7 @@ export class PageArchitecture extends HTMLElement {
       <div class="viewport">
         <canvas class="view3d"></canvas>
         <div class="hud">
+          <div class="caption" id="caption">Illustrative render: the facade, crown and spire are architecture drawn over the engineered structure; the city is illustrative massing, not a survey.</div>
           <div class="overlay-msg" id="msg">Drag to orbit · right-drag or Shift to pan · wheel to zoom · click an element</div>
           <div class="legend" id="legend" hidden></div>
           <div class="legend" id="earth-key" hidden></div>
@@ -63,6 +65,7 @@ export class PageArchitecture extends HTMLElement {
     const toggle = (id, fn) => { this.querySelector('#' + id).onclick = e => { fn(); this.syncButtons(); this.rebuild(); }; };
     this.querySelector('#fit').onclick = () => this.viewer?.fit();
     this.querySelector('#cut').oninput = e => { const v = parseFloat(e.target.value); const off = v >= parseFloat(e.target.max); this.viewer?.setCut(off ? null : v); this.querySelector('#cutv').textContent = off ? 'off' : `${v.toFixed(2)} m`; };
+    toggle('render', () => { this.renderMode = !this.renderMode; this.viewer?.setRender(this.renderMode); if (this.renderMode) this.heroView(); });
     toggle('xray', () => { this.xray = !this.xray; }); toggle('ghost', () => { this.ghost = !this.ghost; });
     toggle('show-bars', () => { this.show.bars = !this.show.bars; }); toggle('show-zones', () => { this.show.zones = !this.show.zones; }); toggle('show-earth', () => { this.show.earth = !this.show.earth; });
     toggle('color-util', () => { this.colorBy = 'util'; }); toggle('color-mat', () => { this.colorBy = 'material'; });
@@ -83,7 +86,7 @@ export class PageArchitecture extends HTMLElement {
   }
   syncButtons() {
     const set = (id, v) => this.querySelector('#' + id)?.setAttribute('aria-pressed', String(v));
-    set('xray', this.xray); set('ghost', this.ghost); set('show-bars', this.show.bars); set('show-zones', this.show.zones); set('show-earth', this.show.earth); set('color-util', this.colorBy === 'util'); set('color-mat', this.colorBy === 'material');
+    set('render', !!this.renderMode); set('xray', this.xray); set('ghost', this.ghost); set('show-bars', this.show.bars); set('show-zones', this.show.zones); set('show-earth', this.show.earth); set('color-util', this.colorBy === 'util'); set('color-mat', this.colorBy === 'material');
   }
   /** Governing utilisation of an element, or of the designed element that owns it (a pile's cap, a drop panel's slab). */
   utilOf(el) {
@@ -93,16 +96,31 @@ export class PageArchitecture extends HTMLElement {
   }
   disconnectedCallback() { for (const ev of ['regenerate', 'model', 'designs']) this.app.removeEventListener(ev, this.onRegen); this.app.removeEventListener('select', this.onSelect); }
 
+  /** A low view from the park towards the sunset, the whole tower and its spire in frame. */
+  heroView() {
+    const v = this.viewer; if (!v) return;
+    const b = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
+    for (const it of v.items) { const t = this.app.model.get(it.id)?.type; if (it.background && t !== 'curtain_wall' && t !== 'spire') continue; for (let k = 0; k < 3; k++) { b.min[k] = Math.min(b.min[k], it.mesh.bounds.min[k]); b.max[k] = Math.max(b.max[k], it.mesh.bounds.max[k]); } }
+    if (!isFinite(b.min[0])) return;
+    const H = Math.max(b.max[2], 1), aspect = (v.canvas.clientWidth || 1) / (v.canvas.clientHeight || 1), fovH = 2 * Math.atan(Math.tan(v.camera.fov / 2) * aspect), fov = Math.min(v.camera.fov, fovH);
+    v.camera.target = [(b.min[0] + b.max[0]) / 2, (b.min[1] + b.max[1]) / 2, H * 0.5]; v.camera.theta = 1.2; v.camera.phi = -0.02;   // across the park from the north-north-east, at drone height, towards the sunset
+    v.camera.dist = (H * 0.56) / Math.tan(fov / 2) * 1.12; v.needsDraw = true;
+  }
   rebuild() {
     const m = this.app.model; const items = []; let vol = 0, steel = 0, designed = 0;
+    if (this.renderMode === null) { this.renderMode = m.byType('curtain_wall').length > 0; this.viewer?.setRender(this.renderMode); this.syncButtons?.(); }
+    const R = this.renderMode;
     for (const e of m.all()) {
       const r = m.result(e.id); if (!r || !r.positions) continue;
       const bar = e.type === 'rebar', zone = e.type === 'punching_zone';
       if (bar) steel += e.params.mass_kg?.value ?? r.mass_kg ?? 0; else if (!zone) vol += r.volume_m3 || 0;
       if ((bar && !this.show.bars) || (zone && !this.show.zones)) continue;
+      if (R && (bar || zone)) continue;   // the presentation hides analysis overlays
+      if (e.type === 'curtain_wall' || e.type === 'spire') { items.push({ id: e.id, mesh: r, color: PALETTE[e.type], alpha: R ? 1 : 0.14, background: !R }); continue; }
       if (e.type === 'context') { if (this.show.earth) items.push({ id: e.id, mesh: r, color: PALETTE[`context_${e.params.kind?.value}`] || PALETTE.default, alpha: 1, background: true }); continue; }
       if (e.type === 'soil' || e.type === 'soil_layer') {   // the ground: seen through, never picked or coloured by design
         if (!this.show.earth) continue;
+        if (R) { if (e.type === 'soil') items.push({ id: e.id, mesh: r, color: [0.30, 0.31, 0.33, 1], alpha: 1, background: true }); continue; }   // render: a paved plaza, no cutaway
         if (e.type === 'soil') {   // the surface sheet, and the water table drawn from the profile's stated depth
           items.push({ id: e.id, mesh: r, color: PALETTE.soil, alpha: 0.18, background: true });
           const w = e.params.water_depth?.value, [[x0, y0], [x1, y1]] = e.params.extent.value, zw = (e.params.surface?.value ?? 0) - w;
@@ -112,10 +130,12 @@ export class PageArchitecture extends HTMLElement {
       }
       let color = zone ? ((e.params.util?.value ?? 0) > 1 ? PALETTE.punching_fail : PALETTE.punching_zone) : PALETTE[e.type] || PALETTE.default;
       if (this.colorBy === 'util' && !bar && !zone) { const u = this.utilOf(e); if (u !== null) { color = utilColor(u); designed++; } }
+      if (R) { const below = r.bounds && r.bounds.max[2] < -0.05; if (below) continue; items.push({ id: e.id, mesh: r, color: PALETTE[e.type] || PALETTE.default, alpha: 1 }); continue; }   // render: no ghosting, no utilisation colours, nothing below grade
       items.push({ id: e.id, mesh: r, color, alpha: this.xray && !bar && !zone ? 0.22 : this.ghost && e.type === 'slab' ? 0.35 : color[3] });
     }
     this.items = items;
-    if (this.viewer) { const first = !this.viewer.items.length; this.viewer.setItems(items); this.viewer.setSelection(this.app.selection); if (first && items.length) this.viewer.fit(); }
+    if (this.viewer) { const first = !this.viewer.items.length; this.viewer.setItems(items); this.viewer.setSelection(this.app.selection); if (first && items.length) { if (R) this.heroView(); else this.viewer.fit(); } }
+    this.classList.toggle('rendering', !!R);
     const lv = m.byType('level'); const zmax = Math.max(3, ...lv.map(l => (l.params.elevation?.value ?? 0) + (l.params.height?.value ?? 3))) + 1;
     const zmin = Math.floor(Math.min(-1, ...items.filter(it => it.mesh.bounds).map(it => it.mesh.bounds.min[2])));
     const cut = this.querySelector('#cut'); if (parseFloat(cut.min) !== zmin) cut.min = zmin; if (parseFloat(cut.max) !== zmax) { const wasOff = parseFloat(cut.value) >= parseFloat(cut.max); cut.max = zmax; if (wasOff) cut.value = zmax; }

@@ -113,6 +113,11 @@ the default is now 389 m, 74 storeys, 32 m wide, at 9.7 milli-g worst-case 10-ye
 copy opens on the tower and frames all of it on any screen. Lot and mat follow the tower's width (they had not).
 Unit 86/86, e2e 75/75.
 
+## 10 · Architecture and presentation render (2026-10-20)
+Curtain wall per storey, louvred mechanical bands, lit crown lantern, spire; illustrative Midtown blocks and park
+trees; Render mode in the WebGL viewer (dusk sky, reflective glass, lit rooms, haze, hero camera) as the default
+for a model with a facade (D-24). Facade weight in the analysis; comfort 9.73 milli-g. Unit 88/88, e2e 77/77.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency

@@ -1,7 +1,7 @@
 // tree.js - <coral-tree>: the model as a hierarchy. Project → Sources → drawings; Levels → elements
 // grouped by type. It renders FROM the model and selects INTO the app; it holds no data of its own.
-const TYPE_ORDER = ['wall', 'column', 'beam', 'slab', 'pilecap', 'damper', 'opening', 'drawing', 'trace'];
-const LABEL = { wall: 'Walls', column: 'Columns', beam: 'Beams', slab: 'Slabs', pilecap: 'Pile caps', damper: 'Dampers', opening: 'Openings', drawing: 'Drawings', trace: 'Traces', rebar: 'Reinforcement' };
+const TYPE_ORDER = ['wall', 'column', 'beam', 'slab', 'pilecap', 'damper', 'curtain_wall', 'spire', 'opening', 'drawing', 'trace'];
+const LABEL = { wall: 'Walls', column: 'Columns', beam: 'Beams', slab: 'Slabs', pilecap: 'Pile caps', damper: 'Dampers', curtain_wall: 'Facade', spire: 'Spire', opening: 'Openings', drawing: 'Drawings', trace: 'Traces', rebar: 'Reinforcement' };
 
 export class CoralTree extends HTMLElement {
   connectedCallback() {

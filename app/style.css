@@ -138,3 +138,6 @@ coral-app.model-stage coral-properties { font-size: 12.5px; }
 @media (max-width: 600px) { #earth-key { display: none; } }
 coral-nav #project { font: inherit; font-size: 13px; padding: 4px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--ink); max-width: 160px; }
 details.coverage { margin-top: 10px; } details.coverage summary { cursor: pointer; padding: 4px 0; }
+.hud .caption { display: none; font-size: 11px; color: rgba(255,255,255,0.78); max-width: 420px; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
+page-architecture.rendering .hud .caption { display: block; }
+page-architecture.rendering .hud .legend, page-architecture.rendering .hud .overlay-msg, page-architecture.rendering .hud .stats { display: none; }
