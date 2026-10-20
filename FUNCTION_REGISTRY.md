@@ -57,3 +57,14 @@ means its acceptance tests pass (TEST_REGISTRY.md); nothing here is promoted on 
 | geometry.soil_layer | 1.0.0 | a soil layer as a box over the profile extent (earth_m3, not concrete) |
 | structure.pileCapLayout | 1.1.0 | adds a fixed pile count option |
 | structure.pileCapDesign | 1.1.0 | pile geotechnical row uses each pile's computed allowable when present |
+| structure.towerGravity | 1.0.0 | gravity of a multi-storey model and mat bearing pressure |
+| tower.frame | 1.0.0 | wide-column frame of the lateral system for the engine |
+| tower.windChecks | 1.0.0 | drift, acceleration, across-wind screen, pier stresses, mat and anchors |
+| tower.seismicELF | 1.0.0 | ASCE 7-16 12.8 ELF from the engine's periods |
+| tower.seismicChecks | 1.0.0 | Cd drift, stability coefficient, pier stresses, mat |
+| tower.otherLoads | 1.0.0 | integrity, buoyancy, snow and drifts, cladding, gravity combinations |
+| wind.gustFlexible | 1.0.0 | ASCE 7-16 26.11.5 Gf |
+| wind.alongWindForces | 1.0.0 | 27.3 storey forces |
+| wind.alongWindAccel | 1.0.0 | C26.11 peak acceleration |
+| wind.acrossWind | 1.0.0 | NBCC Commentary I screen and vortex critical speed |
+| geometry.context / damper | 1.0.0 | site context sheets; damper block |

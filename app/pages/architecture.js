@@ -100,6 +100,7 @@ export class PageArchitecture extends HTMLElement {
       const bar = e.type === 'rebar', zone = e.type === 'punching_zone';
       if (bar) steel += e.params.mass_kg?.value ?? r.mass_kg ?? 0; else if (!zone) vol += r.volume_m3 || 0;
       if ((bar && !this.show.bars) || (zone && !this.show.zones)) continue;
+      if (e.type === 'context') { if (this.show.earth) items.push({ id: e.id, mesh: r, color: PALETTE[`context_${e.params.kind?.value}`] || PALETTE.default, alpha: 1, background: true }); continue; }
       if (e.type === 'soil' || e.type === 'soil_layer') {   // the ground: seen through, never picked or coloured by design
         if (!this.show.earth) continue;
         if (e.type === 'soil') {   // the surface sheet, and the water table drawn from the profile's stated depth
@@ -122,7 +123,7 @@ export class PageArchitecture extends HTMLElement {
     const soil = m.byType('soil')[0], key = this.querySelector('#earth-key'); key.hidden = !(soil && this.show.earth);
     if (soil) {
       const rgb = c => `rgb(${c.slice(0, 3).map(v => Math.round(v * 255)).join(',')})`, layers = m.children(soil.id).filter(l => l.type === 'soil_layer').sort((a, b) => a.params.top.value - b.params.top.value);
-      key.innerHTML = `<b>Ground</b> <span class="pill warn">assumed</span>${layers.map(l => { const k = l.params.kind?.value; return `<div class="sw"><i style="background:${rgb(PALETTE['soil_' + k] || PALETTE.soil_fill)}"></i>${esc(l.name)} ${l.params.top.value}–${l.params.bottom.value} m${k === 'clay' ? ` · su ${l.params.su?.value} kPa` : k === 'sand' ? ` · N60 ${l.params.N60?.value}` : ''}</div>`; }).join('')}${Number.isFinite(soil.params.water_depth?.value) ? `<div class="sw"><i style="background:${rgb(PALETTE.water)}"></i>water table ${soil.params.water_depth.value} m</div>` : ''}`;
+      key.innerHTML = `<b>Ground</b> <span class="pill warn">assumed</span>${layers.map(l => { const k = l.params.kind?.value; return `<div class="sw"><i style="background:${rgb(PALETTE['soil_' + k] || PALETTE.soil_fill)}"></i>${esc(l.name)} ${l.params.top.value}–${l.params.bottom.value} m${k === 'clay' ? ` · su ${l.params.su?.value} kPa` : k === 'sand' ? ` · N60 ${l.params.N60?.value}` : k === 'rock' ? ` · qa ${l.params.qa?.value} kPa` : ''}</div>`; }).join('')}${Number.isFinite(soil.params.water_depth?.value) ? `<div class="sw"><i style="background:${rgb(PALETTE.water)}"></i>water table ${soil.params.water_depth.value} m</div>` : ''}`;
     }
     const legend = this.querySelector('#legend'); legend.hidden = !(this.colorBy === 'util' && designed);
     legend.innerHTML = `<b>Governing utilisation</b><div class="ramp"></div><div class="ticks"><span>0</span><span>0.5</span><span>1.0</span><span class="bad">&gt; 1</span></div><div class="hint">${designed} designed elements coloured; others by material</div>`;

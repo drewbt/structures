@@ -108,3 +108,18 @@ column for floors above) are chosen to exercise every element path, not taken fr
 **A-24 · The reference frame's slab is a roof: no floors above.** Earlier builds added 600 kN dead and 250 kN
 live per column for floors that were not drawn; that load made one storey look like a tower to its foundations
 and is gone (2026-10-20).
+
+**A-25 · The needle tower is synthetic.** Proportions in the range published for Central Park South / West 57th
+Street towers (secondary sources, unverified); not a record of any building. Floor loads SDL 2.0 kPa, live
+1.92 kPa (7.2 kPa mechanical), no live-load reduction; concrete 24 kN/m³.
+
+**A-26 · Wind site, assumed:** ASCE 7-16 basic speed 51.4 m/s (115 mph, Risk Category II) and 10-year 34 m/s
+(76 mph), both read from the maps from memory and unverified; Exposure C because Central Park lies within 20 H
+upwind; inherent damping 1.5 % (service) and 2 % (ultimate); tuned mass damper equivalent damping by the Den
+Hartog optimum halved (approximation). Screening criteria (not code): drift H/500 and storey drift h/400 under
+the 10-year wind, peak acceleration 15 milli-g.
+
+**A-27 · The tower frame:** piers with gross sections (service stiffness ≈ Ig), perforated facade walls at
+their stated solidity, slab coupling 0.35 Ig over the core depth, outriggers as storey-deep beams at mid-height,
+rigid diaphragms, columns out of the lateral system, fixed at grade. Rock anchors 2500 kN working, two rows at
+1.5 m along the mat edge, to hold the 0.6D + 0.6W resultant in the middle third.

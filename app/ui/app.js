@@ -5,6 +5,7 @@
 // receives the same `app` and reads the same model. Routing is the URL hash: #source, #trace,
 // #architecture. The project is the `project` query parameter (default "section-haus").
 
+import { createNeedleTower } from '../core/tower.js';
 import { Model } from '../core/model.js';
 import { Api } from '../core/api.js';
 import { LocalApi } from '../core/api-local.js';
@@ -70,11 +71,13 @@ export class CoralApp extends HTMLElement {
       <span class="brand">Coral Concrete</span>${this.static ? '<span class="pill warn" title="Model kept in this browser; engine results precomputed from the local service">published copy</span>' : ''}
       <nav class="stages">${STAGES.map(s => `<a href="#${s.id}" class="${s.id === (ALIASES[this.stageId] || this.stageId) ? 'on' : ''}"><span class="n">${s.n}</span>${s.label}</a>`).join('')}</nav>
       <span class="spacer"></span>
-      <span class="status" id="status">${this.project} · rev ${m.rev}${this.status.saved ? '' : ' · unsaved'} · ${m.elements.size} elements${this.status.text ? ' · ' + this.status.text : ''}</span>
+      <select id="project" title="Project">${[...new Set([...(this.static ? [] : ['section-haus']), 'reference-frame', 'needle-tower', this.project])].map(p => `<option ${p === this.project ? 'selected' : ''}>${p}</option>`).join('')}</select>
+      <span class="status" id="status">rev ${m.rev}${this.status.saved ? '' : ' · unsaved'} · ${m.elements.size} elements${this.status.text ? ' · ' + this.status.text : ''}</span>
       <button id="undo" title="Undo (Ctrl+Z)">↶</button><button id="redo" title="Redo (Ctrl+Shift+Z)">↷</button>
       <button id="reload" title="Discard unsaved changes and reload from the service">Reload</button>
       <button id="save" class="primary" title="${this.static ? 'Commit a revision to this browser\'s storage' : 'Commit a revision to SQLite'} (Ctrl+S)">Save</button>`;
     this.nav.querySelector('#save').onclick = () => this.save();
+    this.nav.querySelector('#project').onchange = e => { location.href = `${location.pathname}?project=${encodeURIComponent(e.target.value)}#model`; };
     this.nav.querySelector('#reload').onclick = () => this.load();
     this.nav.querySelector('#undo').onclick = () => { this.model.undo(); this.regenerate(); };
     this.nav.querySelector('#redo').onclick = () => { this.model.redo(); this.regenerate(); };
@@ -84,6 +87,7 @@ export class CoralApp extends HTMLElement {
     this.model.loadWire(data);
     this.sources = await this.api.sources(this.project);
     this.status.saved = true; this.status.text = '';
+    if (this.project === 'needle-tower' && !this.model.elements.size) { createNeedleTower(this); this.status.text = 'synthetic needle tower generated (not yet saved)'; }   // generated on first open, from tower.js
     this.regenerate();
     this.dispatchEvent(new CustomEvent('sources'));
     return data;

@@ -100,6 +100,19 @@ register({
   inputs(model, el) { const surf = num(el, 'surface', 0), [[x0, y0], [x1, y1]] = num(el, 'extent'); return { center: [(x0 + x1) / 2, (y0 + y1) / 2], size: [x1 - x0, y1 - y0], z: surf }; },
   run({ center, size, z }) { const m = boxMesh({ center, size, z0: z - 0.015, z1: z - 0.005 }); delete m.volume_m3; return m; },
 });
+/** Site context (a park, a street): a flat sheet just under the ground surface. Not structure; no volume. */
+register({
+  name: 'geometry.context', version: '1.0.0', forType: 'context',
+  assumptions: ['drawn as a 300 mm slab whose top is 20 mm below elevation 0, so it never hides the ground surface or structure and its faces stay apart in the depth buffer at city scale'],
+  inputs(model, el) { return { outline: num(el, 'outline') }; },
+  run({ outline }) { const m = slabMesh({ outline, thickness: 0.3, zTop: -0.02 }); m.context_m2 = m.area_m2; delete m.volume_m3; return m; },
+});
+register({
+  name: 'geometry.damper', version: '1.0.0', forType: 'damper',
+  assumptions: ['a tuned mass damper drawn as a block of its stated plan size and height, 2 m below the top of its storey'],
+  inputs(model, el) { const lvl = levelOf(model, el), h = num(el, 'height', 3); return { center: num(el, 'center'), size: num(el, 'size'), z1: lvl.elevation + lvl.height - 2, z0: lvl.elevation + lvl.height - 2 - h }; },
+  run(inp) { const m = boxMesh(inp); delete m.volume_m3; return m; },
+});
 register({
   name: 'geometry.punching_zone', version: '1.0.0', forType: 'punching_zone',
   assumptions: ['the critical perimeter drawn at slab mid-depth as separate segments'],

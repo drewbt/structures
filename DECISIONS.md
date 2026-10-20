@@ -102,3 +102,20 @@ the foundation search runs over pile diameter × count × cap depth for the leas
 as the profile allows. The earth is drawn as a cutaway (inner faces only) so the piles stay visible; it is
 never picked, never fitted and never counted as concrete. Browser storage of the published copy is keyed by
 its seed so a rebuilt copy is not masked by an older saved model.
+
+**D-21 · A tower is modelled floor by floor; member design is refused for it, not approximated.** (2026-10-20)
+`core/tower.js` generates a synthetic needle tower (every storey: slab, east and west walls, core, columns or a
+facade tube, cellars, mat on rock, Central Park as context). The one-storey design path (DDM slabs, column
+takedown, pile caps) is refused for a model with walls or columns on more than one level; the drawer shows the
+gravity summary and the wind and vibration analysis instead.
+
+**D-22 · Wind and vibration: the engine for dynamics, ASCE 7-16 for loads, and the wind tunnel named as the
+code route.** (2026-10-20)
+The tower's lateral system is read from its own walls into a wide-column frame (`core/towerdyn.js`) and run in
+the stiffness engine for modes, then for wind at the ultimate and 10-year speeds with ASCE 7-16 flexible gust
+factors computed from those modes. Along-wind acceleration per C26.11; across-wind by the NBCC Commentary I
+expression, marked indicative outside its range. ASCE 7-16 27.1.3 sends a building governed by across-wind
+response to Chapter 31: no analytical result is called compliance. Coral's LBM wind tunnel (SvgCAD
+`physics.js`) is not in any reachable repository; its C++ port remains owed (stiffness GAPS.md).
+The form and system are chosen by `tools/optimise-tower.mjs`, a search whose every candidate runs the engine;
+its record is `docs/tower-wind.json`.

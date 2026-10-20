@@ -1,0 +1,4832 @@
+{
+ "when": "2026-10-20T05:56:52.005Z",
+ "engine_runs": 326,
+ "candidates": [
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 58945,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0484,
+   "ny": 0.1683,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 11.633
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 59278,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0478,
+   "ny": 0.1648,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 8.64
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 59612,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0472,
+   "ny": 0.1615,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 8.294
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 59194,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0646,
+   "ny": 0.1682,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 9.377
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 59527,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0639,
+   "ny": 0.1647,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7.251
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 59861,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0632,
+   "ny": 0.1614,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 59429,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0853,
+   "ny": 0.1681,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 5.56
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 59762,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0841,
+   "ny": 0.1646,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 4.339
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 60096,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0829,
+   "ny": 0.1613,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 4.211
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 66524,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1057,
+   "ny": 0.1818,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 111 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.734
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 66857,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1038,
+   "ny": 0.1784,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 75 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.172
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 67191,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1021,
+   "ny": 0.1752,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 72 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.125
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 66773,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1053,
+   "ny": 0.1816,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 111 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.734
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 67106,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1035,
+   "ny": 0.1782,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 75 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.172
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 67440,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1017,
+   "ny": 0.175,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 72 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.125
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 67008,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1052,
+   "ny": 0.1814,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 110 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.719
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 67341,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1034,
+   "ny": 0.1781,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 75 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.172
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 67675,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1016,
+   "ny": 0.1749,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.129
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 69391,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1048,
+   "ny": 0.1847,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 107 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.672
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 69724,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.103,
+   "ny": 0.1814,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 71 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.109
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 70057,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1013,
+   "ny": 0.1782,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.135
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 69640,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1045,
+   "ny": 0.1845,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 107 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.672
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 69973,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1027,
+   "ny": 0.1812,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.114
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 70306,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.101,
+   "ny": 0.178,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.142
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 69875,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1043,
+   "ny": 0.1843,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 106 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.656
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 70208,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1026,
+   "ny": 0.1811,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.119
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 70541,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1009,
+   "ny": 0.1779,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.147
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 66087,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0488,
+   "ny": 0.178,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 10.368
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 66420,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0482,
+   "ny": 0.1746,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7.724
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 66754,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0476,
+   "ny": 0.1713,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7.405
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 66326,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0647,
+   "ny": 0.1777,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 8.521
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 66659,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0641,
+   "ny": 0.1744,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 6.619
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 66993,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0634,
+   "ny": 0.1712,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 6.384
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 66548,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0864,
+   "ny": 0.1776,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 5.078
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 66881,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0853,
+   "ny": 0.1743,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 3.987
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 67214,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0843,
+   "ny": 0.1711,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 3.867
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 73465,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1099,
+   "ny": 0.1884,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 97 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.516
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 73798,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1081,
+   "ny": 0.1851,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 64 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 74132,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1064,
+   "ny": 0.182,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.022
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 73704,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1095,
+   "ny": 0.1881,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 97 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.516
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 74037,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1078,
+   "ny": 0.1849,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.004
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 74371,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1061,
+   "ny": 0.1817,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.028
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 73926,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1095,
+   "ny": 0.188,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 97 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.516
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 74259,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1077,
+   "ny": 0.1848,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.008
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 74592,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.106,
+   "ny": 0.1817,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.032
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 76265,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1092,
+   "ny": 0.1906,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 93 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.453
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 76598,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1074,
+   "ny": 0.1874,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.014
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 76931,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1058,
+   "ny": 0.1843,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.038
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 76504,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1088,
+   "ny": 0.1904,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 93 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.453
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 76837,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1071,
+   "ny": 0.1872,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.02
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 77170,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1055,
+   "ny": 0.1841,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.044
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 76725,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1087,
+   "ny": 0.1903,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 93 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.453
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 77059,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.107,
+   "ny": 0.1871,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.024
+   }
+  },
+  {
+   "opts": {
+    "width": 18,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 77392,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1054,
+   "ny": 0.184,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 1.047
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 60714,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0419,
+   "ny": 0.1646,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 14.224
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 61047,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0413,
+   "ny": 0.1613,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 10.467
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 61380,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0408,
+   "ny": 0.1582,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 10.022
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 61020,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.062,
+   "ny": 0.1646,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 10.287
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 61353,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0614,
+   "ny": 0.1613,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7.985
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 61687,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0608,
+   "ny": 0.1582,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7.698
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 61313,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0871,
+   "ny": 0.1644,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 5.478
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 61646,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.086,
+   "ny": 0.1612,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 4.297
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 61979,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0849,
+   "ny": 0.1581,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 4.168
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 69338,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1142,
+   "ny": 0.1795,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 100 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.563
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 69671,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1123,
+   "ny": 0.1763,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 68 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.063
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 70004,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1105,
+   "ny": 0.1733,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 65 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.016
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 69644,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1138,
+   "ny": 0.1793,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 100 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.563
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 69977,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1118,
+   "ny": 0.1762,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 68 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.063
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 70311,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.11,
+   "ny": 0.1731,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 65 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.016
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 69937,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1136,
+   "ny": 0.1792,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 100 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.563
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 70270,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1117,
+   "ny": 0.176,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 68 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.063
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 70603,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1099,
+   "ny": 0.173,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 64 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 72553,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1133,
+   "ny": 0.1827,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 96 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.5
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 72886,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1115,
+   "ny": 0.1796,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 64 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 73219,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1097,
+   "ny": 0.1766,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.981
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 72859,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1128,
+   "ny": 0.1825,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 96 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.5
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 73192,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.111,
+   "ny": 0.1794,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 63 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.984
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 73526,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1092,
+   "ny": 0.1765,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.988
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 73152,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1127,
+   "ny": 0.1824,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 95 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.484
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 73485,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1109,
+   "ny": 0.1793,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 63 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.984
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 73818,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1091,
+   "ny": 0.1764,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.993
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 67855,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0416,
+   "ny": 0.1744,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 13.071
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 68189,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0411,
+   "ny": 0.1712,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 9.645
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 68522,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0406,
+   "ny": 0.1681,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 9.222
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 68152,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0615,
+   "ny": 0.1743,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 9.617
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 68485,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0609,
+   "ny": 0.1711,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7.5
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 68819,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0604,
+   "ny": 0.1681,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7.224
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 68431,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0879,
+   "ny": 0.1741,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 5.074
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 68765,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0869,
+   "ny": 0.171,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 4.006
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 69098,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0859,
+   "ny": 0.168,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 3.883
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 76278,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.119,
+   "ny": 0.1861,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 87 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.359
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 76612,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1172,
+   "ny": 0.183,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 57 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.891
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 76945,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1154,
+   "ny": 0.18,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.881
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 76575,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1186,
+   "ny": 0.1858,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 87 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.359
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 76908,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1167,
+   "ny": 0.1828,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 56 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.875
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 77242,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.115,
+   "ny": 0.1798,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.887
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 76854,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1185,
+   "ny": 0.1857,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 86 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.344
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 77188,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1167,
+   "ny": 0.1826,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 56 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.875
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 77521,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1149,
+   "ny": 0.1797,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.891
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 79426,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1183,
+   "ny": 0.1885,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 82 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.281
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 79760,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1165,
+   "ny": 0.1855,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.874
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 80093,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1147,
+   "ny": 0.1826,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.894
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 79723,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1178,
+   "ny": 0.1883,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 82 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.281
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 80056,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.116,
+   "ny": 0.1853,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.88
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 80390,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1143,
+   "ny": 0.1824,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.9
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 80002,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1177,
+   "ny": 0.1882,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 82 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.281
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 80336,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1159,
+   "ny": 0.1852,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.884
+   }
+  },
+  {
+   "opts": {
+    "width": 20,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 80669,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1142,
+   "ny": 0.1823,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.904
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 62482,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0373,
+   "ny": 0.1612,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 16.376
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 62815,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0368,
+   "ny": 0.1581,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 11.963
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 63149,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0364,
+   "ny": 0.1552,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 11.436
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 62846,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0602,
+   "ny": 0.1612,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 10.787
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 63179,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0596,
+   "ny": 0.1581,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 8.391
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 63513,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0591,
+   "ny": 0.1552,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 8.081
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 63196,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0883,
+   "ny": 0.161,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 5.351
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 63530,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0873,
+   "ny": 0.1579,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 4.211
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 63863,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0863,
+   "ny": 0.1551,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 4.08
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 72151,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1223,
+   "ny": 0.1775,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 91 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.422
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 72484,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1203,
+   "ny": 0.1745,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 61 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.953
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 72818,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1184,
+   "ny": 0.1716,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 58 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.906
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 72515,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1217,
+   "ny": 0.1773,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 90 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.406
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 72848,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1198,
+   "ny": 0.1743,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 61 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.953
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 73182,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1179,
+   "ny": 0.1715,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 58 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.906
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 72865,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1216,
+   "ny": 0.1771,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 90 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.406
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 73199,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1196,
+   "ny": 0.1741,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 60 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.938
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 73532,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1177,
+   "ny": 0.1713,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 57 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.891
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 75714,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1214,
+   "ny": 0.181,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 86 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.344
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 76048,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1194,
+   "ny": 0.178,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 56 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.875
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 76381,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1176,
+   "ny": 0.1752,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.864
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 76078,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1208,
+   "ny": 0.1808,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 85 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.328
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 76412,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1189,
+   "ny": 0.1779,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 56 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.875
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 76745,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1171,
+   "ny": 0.1751,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.871
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 76429,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1206,
+   "ny": 0.1806,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 85 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.328
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 76762,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1187,
+   "ny": 0.1777,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 55 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 0.859
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 0.8,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 77095,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1169,
+   "ny": 0.1749,
+   "governing": {
+    "name": "seismic x: stability coefficient θ (P-delta)",
+    "util": 0.876
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 69624,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0368,
+   "ny": 0.1711,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 15.291
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 69957,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0364,
+   "ny": 0.168,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 11.197
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 70291,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.036,
+   "ny": 0.1652,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 10.687
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 69978,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0594,
+   "ny": 0.171,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 10.221
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 70312,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0589,
+   "ny": 0.168,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7.988
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 70645,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0584,
+   "ny": 0.1651,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 7.686
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 70315,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0889,
+   "ny": 0.1708,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 4.992
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 70649,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.088,
+   "ny": 0.1678,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 3.953
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": null,
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 70982,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.0871,
+   "ny": 0.165,
+   "governing": {
+    "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+    "util": 3.829
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 79092,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1277,
+   "ny": 0.1839,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 77 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.203
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 79425,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1257,
+   "ny": 0.181,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.802
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 79758,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1239,
+   "ny": 0.1782,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.801
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 79446,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1271,
+   "ny": 0.1837,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 77 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.203
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 79779,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1252,
+   "ny": 0.1808,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.805
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 80113,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1234,
+   "ny": 0.178,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.804
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 79783,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.127,
+   "ny": 0.1835,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 77 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.203
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 80116,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1251,
+   "ny": 0.1807,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.807
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.6,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 80450,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1232,
+   "ny": 0.1779,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.806
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 82588,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1269,
+   "ny": 0.1867,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 72 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.125
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 82921,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.125,
+   "ny": 0.1838,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.826
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 83255,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1232,
+   "ny": 0.181,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.826
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 82942,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1263,
+   "ny": 0.1864,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 72 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.125
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 83276,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1245,
+   "ny": 0.1836,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.829
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      40,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 83609,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1227,
+   "ny": 0.1808,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.828
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 0
+    }
+   },
+   "cost_m3eq": 83279,
+   "pass": false,
+   "across_ok": false,
+   "nx": 0.1262,
+   "ny": 0.1863,
+   "governing": {
+    "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 71 × 2500 kN (64 fit in two rows at 1.5 m)",
+    "util": 1.109
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 800
+    }
+   },
+   "cost_m3eq": 83613,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1243,
+   "ny": 0.1834,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.831
+   }
+  },
+  {
+   "opts": {
+    "width": 22,
+    "wallScale": 1,
+    "tube": {
+     "thickness": 0.8,
+     "solidity": 0.5
+    },
+    "outriggers": {
+     "floors": [
+      20,
+      40,
+      60,
+      75
+     ],
+     "thickness": 0.8
+    },
+    "damper": {
+     "mass": 1600
+    }
+   },
+   "cost_m3eq": 83946,
+   "pass": true,
+   "across_ok": false,
+   "nx": 0.1225,
+   "ny": 0.1807,
+   "governing": {
+    "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+    "util": 0.831
+   }
+  }
+ ],
+ "chosen": {
+  "width": 20,
+  "depth": 45,
+  "floors": 84,
+  "lobby": 9,
+  "typical": 4.6,
+  "mechanical": {
+   "floors": [
+    20,
+    40,
+    60,
+    75
+   ],
+   "height": 9
+  },
+  "crown": 27,
+  "taper": {
+   "from": 50,
+   "every": 5,
+   "step": 3,
+   "maxSetback": 18
+  },
+  "core": {
+   "x": [
+    -4,
+    4
+   ],
+   "y": [
+    22,
+    32
+   ]
+  },
+  "slab": 0.25,
+  "ext": [
+   [
+    1,
+    1.4
+   ],
+   [
+    21,
+    1.1
+   ],
+   [
+    41,
+    0.9
+   ],
+   [
+    61,
+    0.6
+   ]
+  ],
+  "coreWall": [
+   [
+    1,
+    0.6
+   ],
+   [
+    41,
+    0.45
+   ]
+  ],
+  "column": [
+   [
+    1,
+    0.9
+   ],
+   [
+    41,
+    0.75
+   ],
+   [
+    61,
+    0.6
+   ]
+  ],
+  "fc": [
+   [
+    1,
+    96
+   ],
+   [
+    31,
+    70
+   ],
+   [
+    61,
+    55
+   ]
+  ],
+  "lot": {
+   "x": [
+    -12,
+    12
+   ],
+   "y": [
+    -3,
+    45
+   ]
+  },
+  "cellars": 2,
+  "cellarHeight": 4.5,
+  "mat": 3.5,
+  "sdl": 2,
+  "ll": 1.92,
+  "outriggers": {
+   "floors": [
+    20,
+    40,
+    60,
+    75
+   ],
+   "thickness": 0.8
+  },
+  "damper": {
+   "mass": 1600
+  },
+  "tube": {
+   "thickness": 0.6,
+   "solidity": 0.5
+  },
+  "anchors": {
+   "capacity": 2500,
+   "edge": 1.5
+  },
+  "wallScale": 0.8,
+  "coreScale": 1,
+  "seismic": {
+   "Ss": 0.28,
+   "S1": 0.07,
+   "site_class": "B",
+   "TL": 6,
+   "Ie": 1
+  },
+  "wind": {
+   "V": 51.4,
+   "V10": 34,
+   "exposure": "C",
+   "beta_service": 0.015,
+   "beta_ultimate": 0.02
+  }
+ },
+ "chosen_checks": [
+  {
+   "name": "wind from east or west: top drift, 10-year wind",
+   "clause": "project criterion (ASCE 7-16 App. C)",
+   "demand": 0.6013903309783855,
+   "capacity": 0.8708,
+   "util": 0.6906,
+   "indicative": false
+  },
+  {
+   "name": "wind x: worst storey drift ratio, 10-year wind",
+   "clause": "project criterion (ASCE 7-16 App. C)",
+   "demand": 0.002032735588012038,
+   "capacity": 0.0025,
+   "util": 0.8131,
+   "indicative": false
+  },
+  {
+   "name": "wind x: along-wind peak acceleration, mode 1 at 0.110 Hz (milli-g)",
+   "clause": "C26.11; criterion ISO 10137 range",
+   "demand": 8.555403111342986,
+   "capacity": 15,
+   "util": 0.5704,
+   "indicative": false
+  },
+  {
+   "name": "wind x: across-wind peak acceleration at 0.173 Hz (milli-g) — INDICATIVE: H/√(WD) 14.5 > 6; wind tunnel required",
+   "clause": "NBCC 2015 Comm. I (screening)",
+   "demand": 16.566052013384006,
+   "capacity": 15,
+   "util": 1.1044,
+   "indicative": true
+  },
+  {
+   "name": "wind from north or south (the park): top drift, 10-year wind",
+   "clause": "project criterion (ASCE 7-16 App. C)",
+   "demand": 0.12308094650463987,
+   "capacity": 0.8708,
+   "util": 0.1413,
+   "indicative": false
+  },
+  {
+   "name": "wind y: worst storey drift ratio, 10-year wind",
+   "clause": "project criterion (ASCE 7-16 App. C)",
+   "demand": 0.00045514721232365083,
+   "capacity": 0.0025,
+   "util": 0.1821,
+   "indicative": false
+  },
+  {
+   "name": "wind y: along-wind peak acceleration, mode 2 at 0.173 Hz (milli-g)",
+   "clause": "C26.11; criterion ISO 10137 range",
+   "demand": 2.7303279281622204,
+   "capacity": 15,
+   "util": 0.182,
+   "indicative": false
+  },
+  {
+   "name": "wind y: across-wind peak acceleration at 0.110 Hz (milli-g) — INDICATIVE: reduced velocity 12.0 > 10, H/√(WD) 14.5 > 6; wind tunnel required",
+   "clause": "NBCC 2015 Comm. I (screening)",
+   "demand": 28.905797828876334,
+   "capacity": 15,
+   "util": 1.9271,
+   "indicative": true
+  },
+  {
+   "name": "pier base: peak compressive stress, 1.2D + 1.0W + 0.5L / 0.9D + 1.0W (elastic section, MPa)",
+   "clause": "screening vs φ 0.85 f′c, φ 0.65",
+   "demand": 28.087424109541587,
+   "capacity": 53.04,
+   "util": 0.5296,
+   "indicative": false
+  },
+  {
+   "name": "pier base: vertical steel for the peak tensile stress (ratio)",
+   "clause": "screening vs 2 % practical limit (ACI 18.10 / 11.6)",
+   "demand": 0.00919289022730122,
+   "capacity": 0.02,
+   "util": 0.4596,
+   "indicative": false
+  },
+  {
+   "name": "mat, wind x: rock anchors to keep 0.6D + 0.6W in the middle third: 64 × 2500 kN (64 fit in two rows at 1.5 m)",
+   "clause": "ASCE 7-16 2.4 combination 7; rigid mat; anchor capacity assumed",
+   "demand": 64,
+   "capacity": 64,
+   "util": 1,
+   "indicative": false
+  },
+  {
+   "name": "mat, wind x: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+   "clause": "ASCE 7-16 2.4 combination 5; rock qa assumed",
+   "demand": 2821.512179081128,
+   "capacity": 3830,
+   "util": 0.7367,
+   "indicative": false
+  },
+  {
+   "name": "mat, wind y: rock anchors to keep 0.6D + 0.6W in the middle third: 0 × 2500 kN (32 fit in two rows at 1.5 m)",
+   "clause": "ASCE 7-16 2.4 combination 7; rigid mat; anchor capacity assumed",
+   "demand": 0,
+   "capacity": 32,
+   "util": 0,
+   "indicative": false
+  },
+  {
+   "name": "mat, wind y: edge pressure under D + 0.6W (with anchor load) vs rock allowable (kPa)",
+   "clause": "ASCE 7-16 2.4 combination 5; rock qa assumed",
+   "demand": 1919.2516780315054,
+   "capacity": 3830,
+   "util": 0.5011,
+   "indicative": false
+  },
+  {
+   "name": "seismic x: worst storey drift Cd·δe/Ie over hsx (SDC B, T 7.91 s, Cs 0.0100 by minimum, Eq. 12.8-5)",
+   "clause": "ASCE 7-16 12.8.6, Table 12.12-1",
+   "demand": 0.01090965813777152,
+   "capacity": 0.02,
+   "util": 0.5455,
+   "indicative": false
+  },
+  {
+   "name": "seismic x: stability coefficient θ (P-delta)",
+   "clause": "ASCE 7-16 12.8.7",
+   "demand": 0.0977254386096002,
+   "capacity": 0.1,
+   "util": 0.9773,
+   "indicative": false
+  },
+  {
+   "name": "seismic y: worst storey drift Cd·δe/Ie over hsx (SDC B, T 5.78 s, Cs 0.0100 by minimum, Eq. 12.8-5)",
+   "clause": "ASCE 7-16 12.8.6, Table 12.12-1",
+   "demand": 0.0047517867172820845,
+   "capacity": 0.02,
+   "util": 0.2376,
+   "indicative": false
+  },
+  {
+   "name": "seismic y: stability coefficient θ (P-delta)",
+   "clause": "ASCE 7-16 12.8.7",
+   "demand": 0.03958304990849706,
+   "capacity": 0.1,
+   "util": 0.3958,
+   "indicative": false
+  },
+  {
+   "name": "seismic: pier base peak compressive stress, (1.2 + 0.2 SDS)D + E + 0.5L / (0.9 − 0.2 SDS)D + E (MPa)",
+   "clause": "ASCE 7-16 2.3.6; screening vs φ 0.85 f′c",
+   "demand": 22.40490975851302,
+   "capacity": 53.04,
+   "util": 0.4224,
+   "indicative": false
+  },
+  {
+   "name": "seismic: pier base vertical steel for the peak tensile stress (ratio)",
+   "clause": "screening vs 2 %",
+   "demand": 0,
+   "capacity": 0.02,
+   "util": 0,
+   "indicative": false
+  },
+  {
+   "name": "seismic, mat x: rock anchors to keep (0.6 − 0.14 SDS)D + 0.7E in the middle third: 0 × 2500 kN",
+   "clause": "ASCE 7-16 2.4.5 combination 8",
+   "demand": 0,
+   "capacity": 64,
+   "util": 0,
+   "indicative": false
+  },
+  {
+   "name": "seismic, mat y: rock anchors to keep (0.6 − 0.14 SDS)D + 0.7E in the middle third: 0 × 2500 kN",
+   "clause": "ASCE 7-16 2.4.5 combination 8",
+   "demand": 0,
+   "capacity": 32,
+   "util": 0,
+   "indicative": false
+  },
+  {
+   "name": "gravity: pier base peak compressive stress, 1.4D / 1.2D + 1.6L + 0.5S / 1.2D + 1.6S + L (MPa)",
+   "clause": "ASCE 7-16 2.3.1; screening vs φ 0.85 f′c",
+   "demand": 19.35054033828331,
+   "capacity": 53.04,
+   "util": 0.3648,
+   "indicative": false
+  },
+  {
+   "name": "mat: hydrostatic uplift, 6.5 m head, against 0.6D",
+   "clause": "ASCE 7-16 3.2.2, 2.4.1 (0.6D + H)",
+   "demand": 73457.28,
+   "capacity": 1099210.3487999921,
+   "util": 0.0668,
+   "indicative": false
+  },
+  {
+   "name": "structural integrity: 0.01 W notional storey shear enveloped by the ultimate wind storey shear",
+   "clause": "ASCE 7-16 1.4.3",
+   "demand": 0.7266185093339034,
+   "capacity": 1,
+   "util": 0.7266,
+   "indicative": false
+  }
+ ],
+ "note": "Every candidate is a full tower model run twice through the stiffness engine; checks per tower.windChecks, tower.seismicChecks and tower.otherLoads. Across-wind is indicative only: the wind tunnel test (ASCE 7-16 Ch. 31) is required."
+}

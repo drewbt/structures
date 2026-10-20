@@ -14,6 +14,9 @@ import { columnInputs, columnDesign, columnBars } from '../core/columns.js';
 import { slabInputs, flatSlabDesign, flatSlabBars } from '../core/slabs.js';
 import { loadTakedown, capInputs, pileCapLayout, pileCapDesign, pileCapBars } from '../core/foundations.js';
 import { soilInputs, pileLength, createSoilProfile, modelExtent } from '../core/geotech.js';
+import { towerGravity, createNeedleTower, gravityInputs } from '../core/tower.js';
+import { analyseTower, towerFrame } from '../core/towerdyn.js';
+import { asceCoverage } from '../core/coverage.js';
 import { axisFrame } from '../core/detail.js';
 import { sha256, canonicalJSON } from '../core/hash.js';
 import { createReferenceFrame } from '../core/reference.js';
@@ -34,7 +37,7 @@ export class PageStructure extends HTMLElement {
     globalThis.coralStructure = this;
     this.render();
     // the published copy opens complete: design everything as soon as the seeded model is in
-    if (this.app.static) { const go = () => { if (!this.designs.size && !this.busy && this.model.byType('column').length) this.designAll(); }; if (this.model.rev > 0) go(); else this.app.addEventListener('regenerate', go, { once: true }); }
+    if (this.app.static) { const go = () => { if (!this.designs.size && !this.tower && !this.busy && this.model.byType('column').length) this.designAll(); }; if (this.model.elements.size) go(); else this.app.addEventListener('regenerate', go, { once: true }); }
   }
   disconnectedCallback() { this.app.removeEventListener('regenerate', this.onChange); this.app.removeEventListener('select', this.onSelect); }
 
@@ -42,9 +45,32 @@ export class PageStructure extends HTMLElement {
   basis(kind, inputs, versions) { return sha256(canonicalJSON({ kind, inputs, versions })); }
 
   // ---- design ---------------------------------------------------------------------------------------
+  /** Elevations that carry walls or columns: more than one means a multi-storey building, which member design does not cover yet. */
+  storeys() { const m = this.model; return new Set([...m.byType('column'), ...m.byType('wall')].map(e => m.get(e.parent)?.params.elevation?.value ?? 0)).size; }   // distinct elevations, so two levels at one height are one storey
+  /** The gravity summary of a multi-storey model (structure.towerGravity): what can be computed honestly today. */
+  towerSummary() {
+    const m = this.model, gi = gravityInputs(m); if (!gi || !(gi.mat.area > 0)) return null;
+    const lv = m.byType('level').map(l => (l.params.elevation?.value ?? 0) + (l.params.height?.value ?? 0));
+    return { ...towerGravity.run(gi), concrete_m3: gi.concrete_m3, floors: gi.floors.length, height: Math.max(...lv), storeys: this.storeys() };
+  }
+  /** Wind and vibration through the engine (tower.frame → modes → wind cases → tower.windChecks). */
+  async towerWindAnalysis() {
+    const runs = [];
+    const run = async eng => { const r = await this.app.api.analyse(this.app.project, { element: 'tower', function: towerFrame.name, version: towerFrame.version, model: eng }); runs.push({ key: sha256(JSON.stringify(eng)), output: r.output, engine: r.engine }); return r.output; };
+    const res = await analyseTower(this.model, run, { gravityInputs, towerGravity }); res.runs = runs; return res;
+  }
   async designAll() {
     this.busy = true; this.status = 'designing…'; this.render();
     const m = this.model, designs = new Map(), errors = [];
+    if (this.storeys() > 1) {   // a tower: member design here assumes one storey of columns, so it is refused, not approximated
+      try { this.tower = this.towerSummary(); this.designs = designs; this.errors = []; this.takedown = null; this.towerWind = null;
+        this.status = `${this.storeys()} storeys: running wind and vibration through the engine…`; this.render();
+        try { this.towerWind = this.model.byType('wind').length ? await this.towerWindAnalysis() : null; this.towerWindError = null; } catch (err) { this.towerWind = null; this.towerWindError = err.message; }
+        this.status = `${this.storeys()} storeys: gravity${this.towerWind ? ', wind and vibration' : ''} screened; member design through the stacked floors is not implemented`; }
+      finally { this.busy = false; this.render(); this.app.dispatchEvent(new CustomEvent('designs')); }
+      return { designs, errors };
+    }
+    this.tower = null;
     try {
       // beams through the engine
       const beamReactions = [];
@@ -175,6 +201,7 @@ export class PageStructure extends HTMLElement {
     const head = `<h2>Design and detailing</h2>
       <div class="card"><div class="actions" style="justify-content:flex-start;flex-wrap:wrap">
         <button id="ref">Create reference frame (synthetic)</button>
+        <button id="tower">Create needle tower (synthetic)</button>
         <button id="design" class="primary">Design all</button>
         <button id="found" ${this.takedown ? '' : 'disabled'}>Create foundations under columns</button>
         <button id="gen" ${this.designs.size ? '' : 'disabled'}>Generate reinforcement</button>
@@ -182,15 +209,18 @@ export class PageStructure extends HTMLElement {
         <div class="hint">Engine ${engine ? 'stiffness ' + esc(engine.slice(0, 16)) + '…' : '<span class="pill bad">not configured</span>'} · ruleset ACI 318-19 <span class="pill warn">unverified against printed text</span>${this.errors?.length ? ` · <span class="pill bad">${this.errors.length} errors</span> ${esc(this.errors.join('; ').slice(0, 300))}` : ''}</div></div>
       <div class="toolbar" style="border:1px solid var(--line);border-radius:6px;margin-bottom:12px">${KINDS.map(([k, label]) => `<button data-kind="${k}" aria-pressed="${this.kind === k}">${label} (${k === 'loads' ? (this.takedown ? '✓' : '—') : m.byType(k).length})</button>`).join('')}</div>`;
     let body = '';
-    if (this.kind === 'loads') body = this.loadsView();
+    if (this.tower !== undefined && this.tower !== null) body = this.towerView();
+    else if (this.kind === 'loads') body = this.loadsView();
     else {
       const rows = list.map(e => { const d = this.designs.get(e.id), g = d?.design?.governing, st = this.barStatus(e.id);
         return `<tr data-id="${esc(e.id)}" style="cursor:pointer;${e.id === this.selected ? 'background:color-mix(in srgb, var(--accent) 12%, transparent)' : ''}"><td><b>${esc(e.name)}</b></td><td>${d?.error ? `<span class="pill bad">${esc(d.error)}</span>` : g ? esc(g.name) : '<span class="hint">not designed</span>'}</td><td>${g ? `<span class="pill ${g.util <= 1 ? 'ok' : 'bad'}">${f(g.util, 3)}</span>` : ''}</td><td><span class="pill ${st.cls}">${esc(st.text)}</span></td></tr>`; }).join('');
       body = `<div class="card"><table><thead><tr><th>Element</th><th>Governing check</th><th>Utilisation</th><th>Reinforcement</th></tr></thead><tbody>${rows || '<tr><td colspan="4" class="hint">none in the model</td></tr>'}</tbody></table></div>`;
       const sel = this.designs.get(this.selected); if (sel && sel.kind === this.kind && !sel.error) body += this.detailView(sel);
     }
+    if (!this.tower && this.designs.size) body += `<div class="card">${this.coverageView({ kind: 'frame' })}</div>`;
     this.innerHTML = head + body;
     this.querySelector('#ref').onclick = () => { createReferenceFrame(this.app); this.status = 'reference frame created'; this.render(); };
+    this.querySelector('#tower').onclick = () => { createNeedleTower(this.app); this.status = 'needle tower created'; this.designAll(); };
     this.querySelector('#design').onclick = () => this.designAll();
     this.querySelector('#found').onclick = () => { const n = this.createFoundations(); this.status = `${n} pile caps created; design again to check them`; this.render(); };
     this.querySelector('#gen').onclick = () => { const n = this.generateAll(); this.status = `${n} bars and rails generated`; this.render(); };
@@ -199,6 +229,42 @@ export class PageStructure extends HTMLElement {
     const combo = this.querySelector('#combo'); if (combo) combo.onchange = e => { this.combo = e.target.value; this.render(); };
     for (const b of this.querySelectorAll('[data-d]')) b.onclick = () => { this.diagram = b.dataset.d; this.render(); };
     this.drawDiagram();
+  }
+  towerView() {
+    const t = this.tower, kN = v => `${f(v / 1000, 0)} MN`;
+    return `<div class="card"><h3>Tower: gravity summary</h3><table>
+      <tr><th>storeys with walls or columns</th><td>${t.storeys}</td></tr>
+      <tr><th>height to top of crown</th><td>${f(t.height, 1)} m</td></tr>
+      <tr><th>floor slabs</th><td>${t.floors}</td></tr>
+      <tr><th>concrete</th><td>${f(t.concrete_m3, 0)} m³</td></tr>
+      <tr><th>self-weight (24 kN/m³)</th><td>${kN(t.self_kN)}</td></tr>
+      <tr><th>superimposed dead</th><td>${kN(t.sdl_kN)}</td></tr>
+      <tr><th>live (no reduction)</th><td>${kN(t.L_kN)}</td></tr>
+      <tr><th>total service gravity load</th><td><b>${kN(t.total_kN)}</b> (about ${f(t.total_kN / 9.81, 0)} t)</td></tr>
+      <tr><th>mat area</th><td>${f(t.mat_area, 1)} m², bearing on ${esc(t.bearing_layer || '—')}</td></tr>
+      <tr><th>average bearing pressure</th><td>${f(t.q_kPa, 0)} kPa vs allowable ${t.qa_kPa ? `${f(t.qa_kPa, 0)} kPa <span class="pill warn">assumed</span> <span class="pill ${t.util <= 1 ? 'ok' : 'bad'}">${f(t.util, 3)}</span>` : '<span class="pill bad">not on rock with a stated qa</span>'}</td></tr></table>
+      <p class="hint">${esc(towerGravity.name)}@${towerGravity.version}: ${towerGravity.assumptions.map(esc).join('; ')}.</p>
+      </div>${this.towerWindView()}`;
+  }
+  towerWindView() {
+    const w = this.towerWind;
+    if (!w) return `<div class="card"><h3>Wind and vibration</h3><p class="hint">${this.towerWindError ? `<span class="pill bad">${esc(this.towerWindError)}</span>` : 'not run: the model has no wind site'}</p></div>`;
+    const pass = w.checks.filter(c => !c.indicative).every(c => c.util <= 1) && !!w.seismic;
+    const row = c => `<tr><td>${esc(c.name)}</td><td class="mono">${esc(c.clause)}</td><td>${f(c.demand, 3)}</td><td>${f(c.capacity, 3)}</td><td>${c.indicative ? `<span class="pill warn">${f(c.util, 2)} indicative</span>` : `<span class="pill ${c.util <= 1 ? 'ok' : 'bad'}">${f(c.util, 3)}</span>`}</td></tr>`;
+    return `<div class="card"><h3>Wind, vibration and earthquake ${pass ? '<span class="pill ok">passes the analytical checks</span>' : '<span class="pill bad">fails</span>'}</h3>
+      <div class="hint">Frame of ${w.frame.nodes} nodes and ${w.frame.members} members, ${f(w.frame.mass_t, 0)} t, run in the stiffness engine (${esc(w.runs?.[0]?.engine?.slice(0, 12) || '')}…). Site: V ${w.site.V} m/s (10-year ${w.site.V10} m/s), Exposure ${esc(w.site.exposure)}, damping ${(w.site.beta_service * 100).toFixed(1)} % + damper ${(w.added.x * 100).toFixed(1)} % (x) / ${(w.added.y * 100).toFixed(1)} % (y). Gf ultimate x ${f(w.gf.ultimate.x, 3)}, y ${f(w.gf.ultimate.y, 3)}.</div>
+      ${w.seismic ? `<div class="hint" style="margin-top:4px">Earthquake: Ss ${w.seis.Ss} g, S1 ${w.seis.S1} g, site class ${esc(w.seis.site_class)} → SDS ${f(w.seismic.elf.SDS, 3)}, SD1 ${f(w.seismic.elf.SD1, 3)}, <b>SDC ${esc(w.seismic.elf.sdc)}</b>; ${esc(w.seismic.elf.system.name)} (R ${w.seismic.elf.system.R}, Cd ${w.seismic.elf.system.Cd}); Ta ${f(w.seismic.elf.Ta, 2)} s, Cu·Ta ${f(w.seismic.elf.CuTa, 2)} s; base shear x ${f(w.seismic.elf.x.V / 1000, 1)} MN, y ${f(w.seismic.elf.y.V / 1000, 1)} MN (Cs ${f(w.seismic.elf.x.Cs, 4)}, ${esc(w.seismic.elf.x.governs)}) against ultimate wind ${f(w.windBase.x / 1000, 1)} MN and ${f(w.windBase.y / 1000, 1)} MN. <span class="pill warn">site values assumed</span></div>` : '<div class="hint"><span class="pill bad">no seismic site: earthquake not checked</span></div>'}
+      <table style="margin-top:6px"><thead><tr><th>Mode</th><th>Frequency</th><th>Period</th><th>Direction</th></tr></thead><tbody>${w.modes.map((q, i) => `<tr><td>${i + 1}</td><td>${f(q.n, 3)} Hz</td><td>${f(1 / q.n, 1)} s</td><td>${q.dir === 't' ? 'torsion' : q.dir === 'x' ? 'east-west (slender)' : 'north-south'}</td></tr>`).join('')}</tbody></table>
+      <table style="margin-top:8px"><thead><tr><th>Check</th><th>Basis</th><th>Demand</th><th>Limit</th><th>Utilisation</th></tr></thead><tbody>${w.checks.map(row).join('')}</tbody></table>
+      <p class="hint"><b>Code status.</b> ASCE 7-16 (adopted by the NYC Building Code) gives analytical wind loads only for buildings whose response is not governed by across-wind loading or vortex shedding (27.1.3); a tower this slender must be designed from a wind tunnel test (Chapter 31). The rows above are the analytical route and its screening: they pass or fail as shown, and the across-wind rows are outside the range of the only expression available, so they are indicative. Compliance is established by the tunnel test, not by this page. Coral's own wind tunnel (the LBM port) is not built yet.</p>
+      ${this.coverageView({ kind: 'tower', tower: w, extras: w.extras })}
+      <p class="hint"><b>Not computed:</b> member design of walls and slabs through the stacked floors, transfers at setbacks, axial shortening and creep, construction sequence, the damper's own design.</p></div>`;
+  }
+  /** ASCE 7-16, every chapter, every run: applied, not applicable (why), or owed. */
+  coverageView(ctx) {
+    const rows = asceCoverage(ctx), n = k => rows.filter(r => r.status === k).length, cls = { applied: 'ok', 'not applicable': 'dim', owed: 'bad' };
+    return `<details class="coverage" ${ctx.open ? 'open' : ''}><summary><b>ASCE 7-16, chapter by chapter</b>: ${n('applied')} applied · ${n('not applicable')} not applicable · <span class="pill bad">${n('owed')} owed</span></summary>
+      <table style="margin-top:6px"><thead><tr><th>Ch.</th><th>Title</th><th>Status</th><th>What was done, or why not</th></tr></thead><tbody>${rows.map(r => `<tr><td class="mono">${esc(r.ch)}</td><td>${esc(r.title)}</td><td><span class="pill ${cls[r.status]}">${esc(r.status)}</span></td><td>${esc(r.note)}</td></tr>`).join('')}</tbody></table></details>`;
   }
   checksTable(d) { return `<table style="margin-top:8px"><thead><tr><th>Check</th><th>Clause</th><th>Demand</th><th>Capacity</th><th>Utilisation</th></tr></thead><tbody>${d.design.checks.map(k => `<tr><td>${esc(k.name)}</td><td class="mono">${esc(k.clause)}</td><td>${f(k.demand, 3)}</td><td>${f(k.capacity, 3)}</td><td>${k.superseded ? `<span class="pill dim" title="${esc(k.superseded)}">${f(k.util, 3)} superseded</span>` : `<span class="pill ${k.util <= 1 ? 'ok' : 'bad'}">${f(k.util, 3)}</span>`}</td></tr>`).join('')}</tbody></table>
     <div class="hint">Utilisation ≤ 1 satisfies the row; no row is a verdict on the structure. Units as the row's quantity requires (kN, kN·m, MPa, mm, mm²).</div>`; }

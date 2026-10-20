@@ -24,7 +24,13 @@ app/                the browser application: vanilla JS modules, native web comp
   core/structure.js the beam chain: beamModel → (service, engine) → beamResults → rcBeamDesign → beamBars
   core/columns.js   columns: interaction, slenderness, bars       core/slabs.js  flat slabs, drop panels, punching, stud rails
   core/foundations.js  load takedown, pile caps (sectional + strut-and-tie), piles
-  core/geotech.js   soil profile, bored-pile axial capacity, designed pile length
+  core/geotech.js   soil profile (fill, clay, sand, rock), bored-pile axial capacity, designed pile length
+  core/tower.js     the synthetic needle tower, floor by floor; gravity summary
+  core/towerdyn.js  the tower's lateral frame for the engine; wind, earthquake and other-chapter checks
+  core/wind.js      ASCE 7-16 gust factor, along-wind forces and acceleration; across-wind screening
+  core/coverage.js  every ASCE 7-16 chapter: applied / not applicable / owed
+  core/standards/asce7-16-{wind,seismic,other}.js   the rulesets as data
+  tools/optimise-tower.mjs   the form and system search through the engine binary
   core/detail.js    shared bar geometry (hooks, loops, helices)     core/reference.js  the synthetic reference frame
   core/standards/aci318-19.js   the design ruleset as data, a clause per value
   core/api.js       the service client

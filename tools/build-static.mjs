@@ -52,6 +52,13 @@ try {
   const p2 = await browser.newPage(); await p2.goto(`http://127.0.0.1:${port}/?project=empty-probe#architecture`); await p2.waitForFunction(() => globalThis.coralArch && coral.status.health);
   await p2.click('.add-menu summary'); await p2.click('#add-beam'); await p2.waitForSelector('dialog[open] #ok'); await p2.click('dialog[open] #ok'); await p2.waitForFunction(() => coral.model.byType('beam').length === 1);
   await p2.click('coral-nav a[href="#model"]'); await p2.waitForFunction(() => globalThis.coralArch && document.querySelector('page-architecture') === globalThis.coralArch); await p2.evaluate(() => coralArch.setDrawer(true)); await p2.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure); await p2.evaluate(() => coralStructure.designAll()); await harvest(p2);
+  // the needle tower: generated on first open; its two engine runs (modes; wind and gravity cases) are captured
+  const p3 = await browser.newPage(); await p3.goto(`http://127.0.0.1:${port}/?project=needle-tower-build#model`); await p3.waitForFunction(() => globalThis.coralArch && coral.status.health);
+  await p3.evaluate(async () => { const { createNeedleTower } = await import(`${location.origin}/core/tower.js`); if (!coral.model.byType('level').length) createNeedleTower(coral); });
+  await p3.evaluate(() => coralArch.setDrawer(true)); await p3.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure);
+  const tw = await p3.evaluate(async () => { await coralStructure.designAll(); return { runs: coralStructure.towerWind?.runs || [], err: coralStructure.towerWindError }; });
+  if (tw.err) throw new Error(`tower wind analysis: ${tw.err}`);
+  for (const r of tw.runs) { results[r.key] = r.output; console.log(`  engine result: tower ${r.key.slice(0, 12)}…`); }
   // assemble
   cpSync(join(root, 'app'), out, { recursive: true });
   rmSync(join(out, 'index.html'));

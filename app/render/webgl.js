@@ -26,7 +26,7 @@ void main() {
 
 export const PALETTE = {
   wall: [0.80, 0.78, 0.74, 1], slab: [0.70, 0.72, 0.74, 1], column: [0.55, 0.58, 0.62, 1], opening: [0.3, 0.6, 0.9, 0.5],
-  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], pile: [0.55, 0.50, 0.45, 1], soil_fill: [0.45, 0.40, 0.35, 1], soil_clay: [0.62, 0.40, 0.26, 1], soil_sand: [0.90, 0.76, 0.45, 1], soil: [0.55, 0.62, 0.42, 1], water: [0.25, 0.55, 0.85, 1], pilecap: [0.66, 0.64, 0.60, 1], drop_panel: [0.74, 0.74, 0.76, 1], punching_zone: [0.17, 0.60, 0.37, 1], punching_fail: [0.82, 0.24, 0.24, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
+  level: [0.5, 0.5, 0.5, 0.3], beam: [0.72, 0.70, 0.66, 1], rebar: [0.62, 0.22, 0.12, 1], pile: [0.55, 0.50, 0.45, 1], soil_fill: [0.45, 0.40, 0.35, 1], soil_clay: [0.62, 0.40, 0.26, 1], soil_sand: [0.90, 0.76, 0.45, 1], soil: [0.55, 0.62, 0.42, 1], soil_rock: [0.48, 0.50, 0.54, 1], context_park: [0.36, 0.62, 0.32, 1], context_street: [0.42, 0.42, 0.44, 1], water: [0.25, 0.55, 0.85, 1], pilecap: [0.66, 0.64, 0.60, 1], drop_panel: [0.74, 0.74, 0.76, 1], punching_zone: [0.17, 0.60, 0.37, 1], punching_fail: [0.82, 0.24, 0.24, 1], default: [0.6, 0.6, 0.6, 1], selected: [1.0, 0.62, 0.15, 1], hover: [0.35, 0.65, 1.0, 1],
 };
 
 function mat4Perspective(fovy, aspect, near, far) {
@@ -123,7 +123,7 @@ export class Viewer {
     bind('aPos', this.buf.pos, 3); bind('aNrm', this.buf.nrm, 3); bind('aCol', this.buf.col, 4); bind('aId', this.buf.id, 3);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.idx);
     const aspect = this.canvas.width / this.canvas.height;
-    gl.uniformMatrix4fv(this.loc.uProj, false, mat4Perspective(this.camera.fov, aspect, 0.05, 5000));
+    gl.uniformMatrix4fv(this.loc.uProj, false, mat4Perspective(this.camera.fov, aspect, Math.max(0.05, this.camera.dist / 2000), Math.max(5000, this.camera.dist * 10)));
     gl.uniformMatrix4fv(this.loc.uView, false, mat4LookAt(this.eye(), this.camera.target, [0, 0, 1]));
     gl.uniform1f(this.loc.uPick, pick ? 1 : 0); gl.uniform1f(this.loc.uCutZ, isFinite(this.cutZ) ? this.cutZ : 1e9);
     gl.uniform3f(this.loc.uLight, 0.4, -0.6, 1.0); gl.uniform3f(this.loc.uLight2, -0.7, 0.5, 0.3);

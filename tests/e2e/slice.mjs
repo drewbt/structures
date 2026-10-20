@@ -238,6 +238,21 @@ try {
     check(await page.evaluate(() => coral.model.elements.size) === before, 'one undo restores the slab and everything it owned');
     await page.evaluate(id => { coral.model.remove(id); coral.regenerate(); }, beamId);
     check(await page.evaluate(id => !coral.model.get(id) && coral.model.all().every(e => e.parent !== id), beamId), 'deleting the typed beam removes its bars');
+    // ---- the needle tower: every floor modelled; wind and vibration through the engine
+    const tp = await browser.newPage({ viewport: { width: 1500, height: 950 } }); tp.on('pageerror', e => errors.push(e.message));
+    await tp.goto(`${base}/?project=needle-tower#model`); await tp.waitForFunction(() => globalThis.coralArch?.items?.length > 500 && coral.status.health, null, { timeout: 30000 });
+    const tinfo = await tp.evaluate(() => ({ storeys: coral.model.byType('level').filter(l => l.params.floor?.value >= 1).length, errs: Object.keys(coral.lastRegenerate.errors).length, park: coral.model.byType('context').length, rock: coral.model.byType('soil_layer').some(l => l.params.kind.value === 'rock') }));
+    check(tinfo.storeys === 85 && tinfo.errs === 0 && tinfo.park === 2 && tinfo.rock, 'needle tower generated: 84 floors and the crown, Central Park context, rock under the mat, every element valid', JSON.stringify(tinfo));
+    await tp.evaluate(() => coralArch.setDrawer(true)); await tp.waitForFunction(() => globalThis.coralStructure && document.querySelector('page-structure') === globalThis.coralStructure);
+    await tp.evaluate(() => coralStructure.designAll());
+    const tw = await tp.evaluate(() => { const w = coralStructure.towerWind; return w ? { n: w.modes.map(q => [q.n, q.dir]), fails: w.checks.filter(c => !c.indicative && c.util > 1).map(c => c.name), ind: w.indicative.length, runs: w.runs.length, err: null } : { err: coralStructure.towerWindError }; });
+    check(!tw.err && tw.runs === 2 && tw.n.some(q => q[1] === 'x') && tw.n.some(q => q[1] === 'y'), 'tower wind and vibration ran through the engine: modes in both directions', JSON.stringify(tw).slice(0, 300));
+    check(tw.fails?.length === 0, 'the optimised tower passes every analytical (code-route) wind check', (tw.fails || []).join('; '));
+    check(tw.ind === 2 && await tp.evaluate(() => document.querySelector('page-structure').textContent.includes('wind tunnel test')), 'the across-wind rows are marked indicative and the page states that compliance needs a wind tunnel test');
+    const cov = await tp.evaluate(() => [...document.querySelectorAll('details.coverage tbody tr')].map(tr => [tr.cells[0].textContent, tr.cells[2].textContent]));
+    check(cov.length === 29 && cov.some(([c, st]) => c === '31' && st === 'owed') && cov.some(([c, st]) => c === '12' && st === 'applied') && cov.some(([c, st]) => c === '7' && st === 'applied'), 'every ASCE 7-16 chapter is listed for the tower: seismic and snow applied, the wind tunnel owed', cov.map(r => r.join(':')).join(' '));
+    check(await tp.evaluate(() => coralStructure.towerWind.seismic?.elf.sdc === 'B'), 'the earthquake check runs: SDC B for the assumed rock site');
+    await tp.waitForTimeout(300); await tp.screenshot({ path: join(out, 'tower-wind.png') }); await tp.close();
   }
   check(errors.length === 0, 'no page errors or console errors during the run', errors.join(' | ').slice(0, 300));
 } catch (err) {

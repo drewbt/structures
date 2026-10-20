@@ -1,7 +1,7 @@
 # Test registry
 
 Run everything: `./tests/run.sh` (build, service gate, unit tests, end to end). Last full run
-2026-10-20: service-gate 29/29, unit 73/73, e2e 67/67 (ground and designed pile lengths, D-20). The structural tests need the stiffness
+2026-10-20: service-gate 29/29, unit 86/86, e2e 73/73 (needle tower, wind, vibration, earthquake, ASCE 7 coverage, D-21/D-22). The structural tests need the stiffness
 binary (STIFFNESS_BIN, default /home/user/stiffness/build/stiffness); without it they are skipped
 (unit) or fail with a stated reason (e2e), never faked.
 
@@ -99,3 +99,18 @@ canvases is exercised manually only.
 
 e2e adds: the ground is in the model and not counted as concrete; every pile has a geotechnical row from the
 profile and passes; every pile is the shortest step that carries its load.
+
+## wind, vibration, earthquake (tests/unit/wind.test.mjs, tower.test.mjs)
+| test | oracle |
+|---|---|
+| Kz | ASCE 7-16 Table 26.10-1 values at 15-100 ft (B, C) |
+| leeward Cp | Figure 27.3-1 values |
+| gust factor | limits: rigid as n → large; falls with damping |
+| box section | I and Bredt J by hand |
+| tower frame, static | engine tip deflection = P H³ / 3 E ΣI (core centred on the tube, shear off) |
+| tower frame, modal | engine first frequency within 3 % of 1.875²/2π √(EI/m̄H⁴) |
+| seismic | SDC table edges; Cs branches 12.8-2/-3/-4/-5 by hand; k; Ta |
+| tower stack | heights add up; storeys touch; walls continuous; north face on the lot line |
+| gravity summary | sums by hand |
+e2e: the tower generates; wind and vibration run through the engine in two runs; no code-route check fails;
+the across-wind rows are indicative and the page says the tunnel is required; 29 ASCE chapters listed; SDC B.

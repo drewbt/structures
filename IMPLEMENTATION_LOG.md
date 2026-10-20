@@ -95,6 +95,18 @@ the model, pile capacity is computed from it, and pile length is the shortest th
 Ø450 piles of 5.5–10.5 m under the reference frame. The Model view draws the ground (layers, surface, water
 table) with a key and an Earth toggle. Unit 73/73 (7 new, closed forms worked by hand), e2e 67/67.
 
+## 8 · Needle tower: every floor, wind, vibration, earthquake, every ASCE 7 chapter (2026-10-20)
+A synthetic 435 m needle tower on Central Park South (`core/tower.js`): 84 floors and a crown, cellars, mat on
+Manhattan schist, the park as context. Its lateral system is read into a wide-column frame and run in the
+stiffness engine (`core/towerdyn.js`): modes, ASCE 7-16 wind with flexible gust factors, Commentary
+along-wind acceleration, across-wind screening, the ELF earthquake (SDC B), and the remaining chapters
+(integrity, buoyancy, snow and terrace drifts, cladding). `core/coverage.js` lists every ASCE 7-16 chapter on
+every run as applied, not applicable, or owed. `tools/optimise-tower.mjs` searched 162 forms and systems through
+the engine; the bare 24:1 tower fails badly (first mode 0.05 Hz); the least concrete passing design is 20 m wide
+(21.8:1) with a perforated concrete facade tube, four outriggers, a 1600 t damper and rock anchors. Across-wind
+and vortex shedding are outside the analytical method: the wind tunnel test (Ch. 31) is required and owed.
+Unit 86/86, e2e 73/73.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency

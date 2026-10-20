@@ -4,7 +4,8 @@
 // The profile is a model element (type "soil": ground surface, water table, factor of safety, plan extent)
 // with one child per layer (type "soil_layer": top and bottom depth below the surface, kind, unit weight and
 // the strength the method needs: undrained shear strength su for clay, SPT N60 for sand). Fill carries
-// nothing. Every number of a profile is ASSUMED until a site investigation replaces it (ASSUMPTIONS A-21).
+// nothing; rock carries a stated allowable bearing pressure qa (for mats and footings; rock sockets are not
+// implemented). Every number of a profile is ASSUMED until a site investigation replaces it (ASSUMPTIONS A-21).
 //
 // Methods (drilled shafts), stated per term and UNVERIFIED against the printed texts:
 //   clay side   fs = α su, α = 0.55 for su/pa ≤ 1.5, 0.55 − 0.1(su/pa − 1.5) to 2.5; the top 1.5 m below the
@@ -23,7 +24,7 @@ const num = (el, name, dflt) => { const p = el.params[name]; return p === undefi
 /** The model's soil profile as plain inputs, or null when the model has none. */
 export function soilInputs(model) {
   const s = model.byType('soil')[0]; if (!s) return null;
-  const layers = model.all().filter(e => e.type === 'soil_layer' && e.parent === s.id).map(l => ({ id: l.id, name: l.name, kind: num(l, 'kind', 'clay'), top: num(l, 'top', 0), bottom: num(l, 'bottom', 1), gamma: num(l, 'gamma', 18), su: num(l, 'su', 0), N60: num(l, 'N60', 0) })).sort((a, b) => a.top - b.top);
+  const layers = model.all().filter(e => e.type === 'soil_layer' && e.parent === s.id).map(l => ({ id: l.id, name: l.name, kind: num(l, 'kind', 'clay'), top: num(l, 'top', 0), bottom: num(l, 'bottom', 1), gamma: num(l, 'gamma', 18), su: num(l, 'su', 0), N60: num(l, 'N60', 0), qa: num(l, 'qa', 0) })).sort((a, b) => a.top - b.top);
   return { id: s.id, surface: num(s, 'surface', 0), water_depth: num(s, 'water_depth', Infinity), fs: num(s, 'fs', 2.5), layers };
 }
 
@@ -41,7 +42,8 @@ export function validateProfile(soil) {
     if (i && Math.abs(l.top - soil.layers[i - 1].bottom) > 1e-9) throw new Error(`soil layer ${l.name}: starts at ${l.top} m but the layer above ends at ${soil.layers[i - 1].bottom} m`);
     if (l.kind === 'clay' && !(l.su > 0)) throw new Error(`soil layer ${l.name}: clay needs su > 0`);
     if (l.kind === 'sand' && !(l.N60 > 0)) throw new Error(`soil layer ${l.name}: sand needs N60 > 0`);
-    if (!['clay', 'sand', 'fill'].includes(l.kind)) throw new Error(`soil layer ${l.name}: kind "${l.kind}" is not clay, sand or fill`);
+    if (l.kind === 'rock' && !(l.qa > 0)) throw new Error(`soil layer ${l.name}: rock needs an allowable bearing pressure qa > 0`);
+    if (!['clay', 'sand', 'fill', 'rock'].includes(l.kind)) throw new Error(`soil layer ${l.name}: kind "${l.kind}" is not clay, sand, fill or rock`);
   }
 }
 
@@ -70,6 +72,7 @@ export const pileCapacity = register({
     validateProfile(soil);
     if (!(D > 0) || !(L > 0)) throw new Error('pile capacity: diameter and length must be positive');
     const zt = soil.surface - zHead, zb = zt + L, per = Math.PI * D, byLayer = new Map();
+    if (soil.layers.some(l => l.kind === 'rock' && l.top < zb)) throw new Error('pile reaches rock: rock-socket design is not implemented');
     let Qs = 0;
     for (let a = Math.max(0, zt); a < zb - 1e-9; a += SLICE) {
       const b = Math.min(zb, a + SLICE), z = (a + b) / 2, l = layerAt(soil, z); let fs = 0;
@@ -115,7 +118,7 @@ export function createSoilProfile(model, { extent, surface = 0, profile = DEFAUL
   const s = model.create({ type: 'soil', name: 'Ground', params: { surface: P(surface, 'm'), water_depth: P(profile.water_depth, 'm'), fs: P(profile.fs), extent: P(extent, 'm') }, provenance: prov });
   for (const l of profile.layers) {
     const params = { kind: P(l.kind), top: P(l.top, 'm'), bottom: P(l.bottom, 'm'), gamma: P(l.gamma, 'kN/m3') };
-    if (l.su !== undefined) params.su = P(l.su, 'kPa'); if (l.N60 !== undefined) params.N60 = P(l.N60);
+    if (l.su !== undefined) params.su = P(l.su, 'kPa'); if (l.N60 !== undefined) params.N60 = P(l.N60); if (l.qa !== undefined) params.qa = P(l.qa, 'kPa');
     model.create({ type: 'soil_layer', name: l.name, parent: s.id, params, provenance: prov });
   }
   return s;
