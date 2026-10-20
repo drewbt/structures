@@ -18,6 +18,7 @@ export const STAGES = [
   { id: 'source', n: '00', label: 'Source', tag: 'page-source' },
   { id: 'trace', n: '01', label: 'Trace', tag: 'page-trace' },
   { id: 'model', n: '02', label: 'Model', tag: 'page-architecture' },
+  { id: 'feasibility', n: '03', label: 'Feasibility', tag: 'page-feasibility' },
 ];
 
 export class CoralApp extends HTMLElement {

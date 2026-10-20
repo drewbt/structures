@@ -109,3 +109,12 @@ the drawing captions into the source record (ASSUMPTIONS A-01).
 - Published heights of the towers added: Central Park Tower 472.4 m, 111 W 57th 435.3 m, 220 Central Park South 289.9 m, 53 W 53rd 320 m (from memory of the published figures; unverified here).
 - Twisting and tapering for wind (Shanghai Tower, Gensler): https://trendsideas.com/article/twisting-facade-of-chinas-tallest-building-reduces-sway-and-cuts-construction-costs ; tapering in supertalls: https://trepo.tuni.fi/bitstream/10024/142056/1/Use_of_aerodynamically_favorable_tapered_form_in_contemporary_supertall_buildings.pdf
 - Blocked by the environment's network policy: data.cityofnewyork.us (NYC building footprints, PLUTO), overpass-api.de.
+
+## Feasibility (2026-10, all secondary, unverified)
+- Park Lane Hotel sale to the Qatar Investment Authority, about $623M (2023): The Real Deal reporting.
+- Replacement building about two-thirds of the 442,000 sf hotel: 2013 press (WSJ) reporting.
+- Billionaires' Row sale prices $4,000-7,500/sf, top units above $10,000/sf; Manhattan average about $1,750/sf (Q3 2026); about 3,000 unsold new-development units: 2026 brokerage market reports.
+- Construction loans: banks SOFR + 275-400, debt funds SOFR + 400-650, 65-75 % LTC, fees 1-1.25 %: 2026 lender commentary.
+- NYC RPTT (1.425 % residential, 2.625 % commercial over $500k), NYS transfer tax 0.4 % (+0.25 % at $3M+ in NYC), mansion tax to 3.9 %: NYC Department of Finance and NYS published rates.
+- Offering plans and deposits (13 NYCRR Part 20; GBL 352-e, 352-h): NY Attorney General Real Estate Finance Bureau.
+- Carried interest three-year holding period: IRC § 1061.

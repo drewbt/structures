@@ -7,3 +7,4 @@ import './pages/source.js';
 import './pages/trace.js';
 import './pages/architecture.js';
 import './pages/structure.js';
+import './pages/feasibility.js';

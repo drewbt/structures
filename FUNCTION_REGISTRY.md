@@ -68,3 +68,4 @@ means its acceptance tests pass (TEST_REGISTRY.md); nothing here is promoted on 
 | wind.alongWindAccel | 1.0.0 | C26.11 peak acceleration |
 | wind.acrossWind | 1.0.0 | NBCC Commentary I screen and vortex critical speed |
 | geometry.context / damper | 1.0.0 | site context sheets; damper block |
+| feasibility.areas | 1.0.0 | sellable, terrace and gross area floor by floor from the model |

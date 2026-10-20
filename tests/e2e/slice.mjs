@@ -266,7 +266,16 @@ try {
     await sp.evaluate(() => coralStructure.designAll());
     const sw = await sp.evaluate(() => { const w = coralStructure.towerWind; return w ? { fails: w.checks.filter(c => !c.indicative && c.util > 1).map(c => c.name), worst: Math.max(...w.checks.filter(c => /acceleration/.test(c.name)).map(c => c.demand)), ind: w.indicative.length } : { err: coralStructure.towerWindError }; });
     check(sw.fails?.length === 0 && sw.worst <= 10 && sw.ind === 0, 'Park Lane study: every check passes, comfortable (≤ 10 milli-g), and the across-wind estimate is inside its method\'s range', JSON.stringify(sw).slice(0, 300));
-    await sp.evaluate(() => coralArch.setDrawer(false)); await sp.waitForTimeout(500); await sp.screenshot({ path: join(out, 'park-lane.png') }); await sp.close();
+    await sp.evaluate(() => coralArch.setDrawer(false)); await sp.waitForTimeout(500); await sp.screenshot({ path: join(out, 'park-lane.png') });
+    // ---- feasibility: the appraisal of the same model, and an assumption kept in the model
+    await sp.goto(`${base}/?project=park-lane#feasibility`); await sp.waitForSelector('page-feasibility .kpis', { timeout: 60000 });
+    const fe = await sp.evaluate(() => { const c = coralFeasibility.compute(); return { sell: c.r.areas.sellable_sf, gdv: c.r.rev.net, stages: c.stages.length, exits: c.exits.length, banner: document.querySelector('.feas-banner').textContent.includes('Not an offering'), bases: c.r.cost.lines.every(l => l.basis) }; });
+    check(fe.sell > 100000 && fe.gdv > 0 && fe.stages >= 7 && fe.exits >= 5 && fe.banner && fe.bases, 'feasibility: areas from the model, revenue, cost plan with bases, process stages and exits, labelled not an offering', JSON.stringify(fe));
+    const fBefore = await sp.evaluate(() => coralFeasibility.compute().r.profit);
+    await sp.fill('input[data-k="land_price"]', '300'); await sp.press('input[data-k="land_price"]', 'Tab'); await sp.waitForTimeout(800);
+    const after = await sp.evaluate(() => ({ p: coralFeasibility.compute().r.profit, el: coral.model.byType('feasibility')[0]?.params.overrides.value.land_price }));
+    check(after.el === 300 && after.p > fBefore, 'feasibility: an edited assumption is stored in the model and moves the result', JSON.stringify({ fBefore, ...after }));
+    await sp.screenshot({ path: join(out, 'feasibility.png') }); await sp.close();
     check(tw.ind === 2 && await tp.evaluate(() => document.querySelector('page-structure').textContent.includes('wind tunnel test')), 'the across-wind rows are marked indicative and the page states that compliance needs a wind tunnel test');
     const cov = await tp.evaluate(() => [...document.querySelectorAll('details.coverage tbody tr')].map(tr => [tr.cells[0].textContent, tr.cells[2].textContent]));
     check(cov.length === 29 && cov.some(([c, st]) => c === '31' && st === 'owed') && cov.some(([c, st]) => c === '12' && st === 'applied') && cov.some(([c, st]) => c === '7' && st === 'applied'), 'every ASCE 7-16 chapter is listed for the tower: seismic and snow applied, the wind tunnel owed', cov.map(r => r.join(':')).join(' '));

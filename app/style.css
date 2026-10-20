@@ -141,3 +141,29 @@ details.coverage { margin-top: 10px; } details.coverage summary { cursor: pointe
 .hud .caption { display: none; font-size: 11px; color: rgba(255,255,255,0.78); max-width: 420px; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
 page-architecture.rendering .hud .caption { display: block; }
 page-architecture.rendering .hud .legend, page-architecture.rendering .hud .overlay-msg, page-architecture.rendering .hud .stats { display: none; }
+/* feasibility (page 03) */
+.feas .feas-banner { border: 1px solid var(--warn); background: color-mix(in srgb, var(--warn) 10%, var(--panel)); border-radius: 6px; padding: 8px 12px; font-size: 12.5px; margin-bottom: 12px; }
+.feas .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin: 10px 0 14px; }
+.feas .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+.feas .kpi .kl { color: var(--dim); font-size: 12px; } .feas .kpi .kv { font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; margin: 2px 0; } .feas .kpi .ks { color: var(--dim); font-size: 11.5px; }
+.feas .kpi.bad .kv { color: var(--bad); } .feas .kpi.warn .kv { color: var(--warn); } .feas .kpi.ok .kv { color: var(--ok); }
+.feas .reading { margin: 0; padding-left: 18px; } .feas .reading li { margin: 4px 0; }
+.feas .small { font-size: 11.5px; } .feas .dim { color: var(--dim); } .feas .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.feas .okc { color: var(--ok); font-variant-numeric: tabular-nums; } .feas .badc { color: var(--bad); font-variant-numeric: tabular-nums; } .feas .dimrow td { opacity: 0.75; } .feas tr.tot td { font-weight: 650; }
+.feas .feas-2col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; } @media (max-width: 900px) { .feas .feas-2col { grid-template-columns: 1fr; } }
+.feas .gantt { position: relative; } .feas .g-axis { position: relative; height: 16px; margin-left: 190px; font-size: 11px; color: var(--dim); } .feas .g-axis span { position: absolute; }
+.feas .g-row { display: grid; grid-template-columns: 180px 1fr; gap: 4px 10px; padding: 6px 0; border-top: 1px solid var(--line); }
+.feas .g-name { font-weight: 600; font-size: 13px; } .feas .g-track { position: relative; height: 14px; background: color-mix(in srgb, var(--line) 50%, transparent); border-radius: 3px; align-self: center; }
+.feas .g-bar { position: absolute; top: 0; bottom: 0; background: var(--accent); border-radius: 3px; }
+.feas .g-who { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; } .feas .g-who em { flex-basis: 100%; color: var(--dim); font-style: normal; font-size: 11.5px; }
+.feas svg.cash { width: 100%; height: auto; max-height: 260px; } .feas svg.cash .axis { stroke: var(--line); } .feas svg.cash .c-in { fill: var(--ok); } .feas svg.cash .c-out { fill: var(--bad); opacity: 0.8; }
+.feas svg.cash .c-loan { fill: none; stroke: var(--accent); stroke-width: 2; } .feas svg.cash .lbl { fill: var(--dim); font-size: 10px; }
+.feas .cash-legend .sw { display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 10px; border-radius: 2px; vertical-align: -1px; } .feas .sw.in { background: var(--ok); } .feas .sw.out { background: var(--bad); } .feas .sw.loan { background: var(--accent); }
+.feas .sens td, .feas .sens th { text-align: center; white-space: nowrap; } .feas .exits td:nth-child(n+2):nth-child(-n+5) { white-space: nowrap; }
+.feas details summary { cursor: pointer; font-weight: 600; margin: 6px 0; }
+.feas .assume { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px 14px; margin-bottom: 8px; }
+.feas .assume label { display: grid; grid-template-columns: 1fr 110px 90px; gap: 2px 6px; align-items: center; font-size: 12.5px; }
+.feas .assume label small { grid-column: 1 / -1; color: var(--dim); font-size: 11px; }
+.feas .assume input { font: inherit; padding: 3px 6px; border: 1px solid var(--line); border-radius: 3px; background: var(--bg); color: var(--ink); width: 100%; } .feas .assume input.set { border-color: var(--accent); }
+.feas .assume em { font-style: normal; color: var(--dim); font-size: 11px; }
+@media (max-width: 640px) { .feas .g-row { grid-template-columns: 1fr; } .feas .g-who { grid-column: 1; } .feas .g-axis { margin-left: 0; } }

@@ -165,3 +165,12 @@ the smaller enclosure; above the roof an open crown of blades leans in and turns
 only the core rises through it. Its wind area is the blade solidity (about 0.2), not the outline. Adding the
 crown exposed two gaps that are now closed: pier stresses are screened at every storey, not only the base, and
 the 1.4.3 notional load runs as its own engine case.
+
+**D-27 · Feasibility reads the model; the market is an editable, sourced assumption.** Page 03 appraises the
+model on screen: sellable area floor by floor from slab areas less the core (penthouse interiors inside the glass
+line, terraces outside it), and structure, facade and damper costed from the model's own concrete volume, facade
+area and damper mass. Prices, rates, finance and time are assumptions with their basis, kept in the model as one
+`feasibility` element so they save, undo and travel with the project. A quarterly cash flow funds costs with equity
+first, then a loan sized on cost including interest. Break-evens (land at zero profit and at the target IRR, the
+price factor that meets each) are solved by bisection on the full appraisal, not by formula. The page and every
+brochure render say plainly: design study, not an offering, not advice.

@@ -135,3 +135,10 @@ Data © OpenStreetMap contributors, ODbL 1.0.
 least 1.2 m inside the facade plus half its thickness, 70 % solid; slab edges cantilever from it to the curved
 facade (cantilever design owed). The core steps down with the plate, not below 60 % of its base size, as lift
 banks drop off. Apartments lie between tube and facade; the tube's openings serve them.
+
+**A-30 · Feasibility inputs.** Every market and cost number in core/feasibility.js FEAS_DEFAULTS is an assumption
+from secondary reporting (brokerage reports, trade press, 2023-2026) or judgement, stated with its basis: land at
+the reported 2023 sale price ($623M), Billionaires' Row pricing about $4,000-9,000/sf, SOFR about 3.6 % plus a
+debt-fund spread, 60 % loan to cost. The zoning allowance (about 295,000 sf) comes from 2013 press reporting and is
+NOT a zoning analysis. Efficiency 82 % of floor less core. Tax notes in the exit comparison are general
+descriptions, not advice.

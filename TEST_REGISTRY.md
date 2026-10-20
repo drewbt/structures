@@ -121,3 +121,6 @@ unit adds: curtain wall glass area = perimeter × height, materials per vertex, 
 
 ## site (tests/unit/site.test.mjs)
 site data carries source and licence, later towers flagged, no neighbour on the site; every plate inside the lot and holding the tube 2 m round the core; the taper and turn as stated; penthouses set back with balustrades; the crown open (solidity < 0.5) with no tube; crown blade mesh. e2e: the study opens on the real site, every check passes, ≤ 10 milli-g, across-wind inside its range.
+
+## feasibility (tests/unit/feasibility.test.mjs)
+IRR on known flows; gross area equals the model's slab area, nothing sold in cellars, plant, lobby or amenity floors, terraces only on penthouses; structure and damper lines equal the model quantity × rate, lines sum to the total, every line has a basis; every dollar of cost funded, income equals net sales, equity flows reconcile with profit; break-evens give zero profit when re-appraised; profit monotone in price and cost; stages and exits complete. e2e: the page opens on park-lane, labelled not an offering, and an edited assumption is stored in the model and moves the result.

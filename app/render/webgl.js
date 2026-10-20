@@ -21,7 +21,7 @@ vec3 sky(vec3 d) {
   vec2 sh = normalize(uSun.xy); float toward = length(d.xy) > 1e-4 ? dot(normalize(d.xy), sh) * 0.5 + 0.5 : 0.5;
   vec3 hor = mix(vec3(0.40, 0.42, 0.62), vec3(0.98, 0.60, 0.36), pow(toward, 2.5));   // warm only towards the sun; the far sky cools to violet
   vec3 zen = vec3(0.035, 0.07, 0.20), mid = mix(vec3(0.20, 0.26, 0.52), vec3(0.30, 0.34, 0.58), toward), gnd = vec3(0.05, 0.055, 0.08);
-  vec3 c = t >= 0.0 ? mix(hor, mix(mid, zen, smoothstep(0.12, 0.75, t)), smoothstep(0.0, 0.22, t)) : mix(hor * 0.45, gnd, smoothstep(0.0, 0.12, -t));
+  vec3 c = t >= 0.0 ? mix(hor, mix(mid, zen, smoothstep(0.12, 0.75, t)), smoothstep(0.0, 0.22, t)) : mix(hor, gnd, smoothstep(0.0, 0.10, -t));   // continuous through the horizon: no line where the ground ends
   float s = max(dot(d, normalize(uSun)), 0.0);
   c += vec3(1.0, 0.62, 0.32) * (pow(s, 48.0) * 1.2 + pow(s, 6.0) * 0.18);
   return c;
@@ -78,6 +78,7 @@ void main() {
   float dist = length(vW - uEye), fog = 1.0 - exp(-dist / (m == 5 ? uFog * 0.45 : uFog));   // the city sits back in the haze
   vec3 haze = mix(sky(normalize(vec3(V.xy, 0.03))), vec3(0.16, 0.19, 0.30), m == 5 ? 0.75 : 0.45);   // a cool dusk haze, cooler still over the city
   c = mix(c, haze, clamp(fog, 0.0, 0.85));
+  c = mix(c, sky(normalize(vec3(V.xy, 0.01))), smoothstep(2500.0, 14000.0, dist));   // the ground melts into the sky at the horizon: no edge band
   gl_FragColor = vec4(c, m == 0 ? vCol.a : 1.0);
 }`;
 

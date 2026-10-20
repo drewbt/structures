@@ -144,3 +144,22 @@ reasons, gates on independent oracles) adopted as process.
 in-browser engine.
 
 **Next:** NEXT_ACTION.md.
+
+## 12 · Feasibility, the process and the exits; brochure renders (2026-10-20)
+
+**Implemented:** core/feasibility.js (areas, quantities, revenue, cost plan, cash flow, IRR, residual land,
+break-even prices, sensitivity, process stages, exit comparison); page 03 Feasibility (KPIs, reading, who-is-paid
+timeline, exits, cash-flow chart, cost plan, sensitivity, floor schedule, editable assumptions kept in the model);
+tools/brochure.mjs and six renders in docs/brochure; the sky now runs continuously through the horizon and far
+ground fades into it (no edge band).
+
+**Verified:** 100 unit tests (7 new), 81 e2e checks (2 new). Park Lane as modelled: 331,000 gsf, 186,000 sf
+sellable, about $818M net sales against $1.35B cost before $0.2B finance: a loss of about $740M at the $623M land
+price. Zero profit needs land near $48M or prices about 2.0× (average about $8,500/sf).
+
+**Changed:** the street-level brochure shot was dropped: the tower stands on the rear lot behind the Central Park
+South frontage and cannot be seen from the street at this height. Replaced by a penthouse-terrace view.
+
+**Blocked:** no zoning analysis (ZR, lot area, transfers) and no current land valuation; both drive the result.
+
+**Next:** a larger, wider form tested against the appraisal; zoning check; land negotiated as a JV contribution.
