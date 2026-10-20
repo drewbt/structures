@@ -74,26 +74,33 @@ export function option(market, site, prod) {
   const lot_sf = site.acres * 43560, gsf = prod.plate_sf * prod.floors;
   if (prod.floors > market.max_floors || gsf > market.max_far * lot_sf || prod.plate_sf > market.coverage * lot_sf) return null;
   const units = Math.max(1, Math.round(gsf * 0.75 / prod.unit_sf)), sellQ = Math.max(2, Math.ceil(units * (1 - 0.4) / market.absorption_units_q));
-  const parking = units * (market.parking_per_unit ?? 0) / gsf;
+  const parking = units * (market.parking_per_unit ?? 0) / gsf, landCost = site.land ?? site.acres * market.land_per_acre;   // a real parcel brings its own price
   // buyers pay for views, amenity and prestige: a low-rise sells below the market's luxury condo $/sf, a tower above
   const tier = prod.floors <= 7 ? (market.lowrise_factor ?? 0.85) : prod.floors <= 14 ? 1 : prod.floors <= 40 ? (market.highrise_factor ?? 1.08) : (market.supertall_factor ?? 1.15), psf = market.price_psf * tier;
   const a = {
     price_base: psf, price_podium: psf, price_penthouse: psf * (market.top_premium ?? 1.6),
     price_step: prod.floors > 7 ? (market.floor_premium ?? 0.5) : 0,
-    other_hard: market.hard_psf * prod.ct.factor + parking, demolition: 0, carry_tax: (market.carry_pct ?? 1.2) / 100 * site.acres * market.land_per_acre / 1e6,
+    other_hard: market.hard_psf * prod.ct.factor + parking, demolition: 0, carry_tax: (market.carry_pct ?? 1.2) / 100 * landCost / 1e6,
     q_entitle: market.entitle_q ?? 4, q_demolish: prod.floors > 14 ? 2 : 1, q_build: Math.round(4 + prod.floors * 0.35), q_sell: sellQ, presold: 40,
     ...(market.a || {}),
   };
   const levels = productLevels(prod), q = { concrete_m3: 0, facade_m2: 0, damper_t: 0, levels };
-  const A = Object.fromEntries(Object.entries({ ...a, land_price: site.acres * market.land_per_acre / 1e6, zoning_allowance: gsf, amenity_podium_floors: 0 }).map(([k, v]) => [k, { v }]));
+  const A = Object.fromEntries(Object.entries({ ...a, land_price: landCost / 1e6, zoning_allowance: gsf, amenity_podium_floors: 0 }).map(([k, v]) => [k, { v }]));
   const r = appraise(null, A, q);
   return { market: market.name, region: market.region, acres: site.acres, floors: prod.floors, plate_sf: prod.plate_sf, type: prod.ct.type, units, gsf, far: gsf / lot_sf,
-    land: site.acres * market.land_per_acre, gdv: r.rev.net, cost: r.cost.total + r.cf.interest + r.cf.loan_fee, profit: r.profit, margin: r.margin_on_cost, irr: r.cf.irr, equity: r.cf.equity, years: r.cf.quarters / 4,
+    land: landCost, site: site.name ?? null, gdv: r.rev.net, cost: r.cost.total + r.cf.interest + r.cf.loan_fee, profit: r.profit, margin: r.margin_on_cost, irr: r.cf.irr, equity: r.cf.equity, years: r.cf.quarters / 4,
     land_share: r.cost.land / r.rev.net, assumptions: A, levels };
 }
 
+/** The best scheme for one real parcel: every height and plate the site allows, best profit meeting `target` IRR (else best IRR). */
+export function bestForSite(market, site, { floors = [3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 20, 25, 30], plates = [6000, 9000, 12000, 16000, 20000, 25000, 30000], target = 0.15 } = {}) {
+  const all = []; for (const f of floors) for (const p of plates) { const o = option(market, site, makeProduct({ floors: f, plate_sf: p, unit_sf: market.unit_sf ?? 2000 })); if (o) all.push(o); }
+  const ok = all.filter(o => (o.irr ?? -1) >= target).sort((a, b) => b.profit - a.profit);
+  return { best: ok[0] || all.sort((a, b) => (b.irr ?? -1) - (a.irr ?? -1))[0] || null, meeting: ok.length, tried: all.length };
+}
+
 /** Search every market over site sizes, heights and plates; returns all feasible options, best IRR first. */
-export function searchSpace(markets, { acres = [0.25, 0.5, 1, 2, 4], floors = [3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 20, 25, 30, 35, 40, 50], plates = [6000, 9000, 12000, 16000, 20000, 25000] } = {}) {
+export function searchSpace(markets, { acres = [0.25, 0.5, 1, 2, 4, 8], floors = [3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 20, 25, 30, 35, 40, 50], plates = [6000, 9000, 12000, 16000, 20000, 25000] } = {}) {
   const out = [];
   for (const m of markets) for (const ac of acres) for (const f of floors) for (const p of plates) {
     const o = option(m, { acres: ac }, makeProduct({ floors: f, plate_sf: p, unit_sf: m.unit_sf ?? 2000 })); if (o) out.push(o);
