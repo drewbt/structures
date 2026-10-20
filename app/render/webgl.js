@@ -98,8 +98,10 @@ export class Viewer {
   /** Frame the scene: fit the bounds of all items. */
   fit(bounds) {
     if (!bounds) { const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity]; for (const it of this.items) if (it.mesh?.bounds && !it.background) for (let k = 0; k < 3; k++) { min[k] = Math.min(min[k], it.mesh.bounds.min[k]); max[k] = Math.max(max[k], it.mesh.bounds.max[k]); } bounds = isFinite(min[0]) ? { min, max } : { min: [-5, -5, 0], max: [5, 5, 3] }; }
-    const c = [0, 1, 2].map(k => (bounds.min[k] + bounds.max[k]) / 2), size = Math.max(...[0, 1, 2].map(k => bounds.max[k] - bounds.min[k]), 1);
-    this.camera.target = c; this.camera.dist = size * 1.4 / Math.tan(this.camera.fov / 2) * 0.6; this.needsDraw = true;
+    // the bounding sphere inside the narrower of the two fields of view, so a tall tower fits a phone and a wide site a desktop
+    const c = [0, 1, 2].map(k => (bounds.min[k] + bounds.max[k]) / 2), r = Math.max(0.5, Math.hypot(...[0, 1, 2].map(k => bounds.max[k] - bounds.min[k])) / 2);
+    const aspect = (this.canvas.clientWidth || 1) / (this.canvas.clientHeight || 1), fovH = 2 * Math.atan(Math.tan(this.camera.fov / 2) * aspect);
+    this.camera.target = c; this.camera.dist = r / Math.sin(Math.min(this.camera.fov, fovH) / 2) * 1.02; this.needsDraw = true;
   }
   eye() { const c = this.camera; return [c.target[0] + c.dist * Math.cos(c.phi) * Math.cos(c.theta), c.target[1] + c.dist * Math.cos(c.phi) * Math.sin(c.theta), c.target[2] + c.dist * Math.sin(c.phi)]; }
 

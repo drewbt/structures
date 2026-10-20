@@ -107,6 +107,12 @@ the engine; the bare 24:1 tower fails badly (first mode 0.05 Hz); the least conc
 and vortex shedding are outside the analytical method: the wind tunnel test (Ch. 31) is required and owed.
 Unit 86/86, e2e 73/73.
 
+## 9 · Comfort: height and form for sway (2026-10-20)
+Optimised for occupant comfort (D-23): 144 towers through the engine; the 435 m form cannot be made comfortable;
+the default is now 389 m, 74 storeys, 32 m wide, at 9.7 milli-g worst-case 10-year acceleration. The published
+copy opens on the tower and frames all of it on any screen. Lot and mat follow the tower's width (they had not).
+Unit 86/86, e2e 75/75.
+
 ## Iteration report
 
 **Implemented:** C++ service with normalized SQLite store and HTTP API; browser model with dependency

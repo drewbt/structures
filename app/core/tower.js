@@ -21,16 +21,16 @@ const PROV = note => ({ source: 'needle-tower (synthetic)', trace: '', method: '
 const r3 = v => Math.round(v * 1000) / 1000;
 
 export const TOWER_DEFAULTS = {
-  width: 20, depth: 45,                 // m: east-west (the slender direction) and north-south. 20 m: the least-concrete design that passes (tools/optimise-tower.mjs, docs/tower-wind.json); 18 m (24:1) also passes with a tube, at more concrete
-  floors: 84, lobby: 9.0, typical: 4.6, mechanical: { floors: [20, 40, 60, 75], height: 9.0 }, crown: 27,
-  taper: { from: 50, every: 5, step: 3, maxSetback: 18 },
+  width: 32, depth: 45,                 // m: east-west (the slender direction) and north-south. Chosen for comfort by tools/optimise-comfort.mjs (docs/tower-comfort.json): the tallest form at or under 10 milli-g
+  floors: 74, lobby: 9.0, typical: 4.6, mechanical: { floors: [18, 36, 53, 66], height: 9.0 }, crown: 27,   // 74 floors, 389 m: 84 floors (435 m) could not be made comfortable
+  taper: { from: 44, every: 5, step: 3, maxSetback: 18 },
   core: { x: [-4, 4], y: [22, 32] },
   slab: 0.25, ext: [[1, 1.4], [21, 1.1], [41, 0.9], [61, 0.6]], coreWall: [[1, 0.6], [41, 0.45]],
   column: [[1, 0.9], [41, 0.75], [61, 0.6]], fc: [[1, 96], [31, 70], [61, 55]],
-  lot: { x: [-12, 12], y: [-3, 45] }, cellars: 2, cellarHeight: 4.5, mat: 3.5,
+  lot: null, cellars: 2, cellarHeight: 4.5, mat: 3.5,   // lot: null = the tower's width + 2 m each side
   sdl: 2.0, ll: 1.92,                   // kPa on every floor: finishes + partitions; residential live (40 psf)
-  outriggers: { floors: [20, 40, 60, 75], thickness: 0.8 },   // outrigger walls at these storeys (mechanical floors), core to the east and west walls
-  damper: { mass: 1600 },               // tuned mass damper at the crown (t); 0 = none
+  outriggers: { floors: [18, 36, 53, 66], thickness: 0.8 },   // outrigger walls at these storeys (mechanical floors), core to the east and west walls
+  damper: { mass: 3200 },               // tuned mass damper at the crown (t); 0 = none
   tube: { thickness: 0.6, solidity: 0.5 },                           // { thickness, solidity }: north and south facades as perforated concrete walls joined to the east and west walls (a tube)
   anchors: { capacity: 2500, edge: 1.5 },   // rock anchors at the mat edges if overturning needs them: working capacity kN each, distance from the edge (m)                  // tuned mass damper at the crown (t); 0 = none
   wallScale: 0.8, coreScale: 1.0,       // multipliers on the wall and core thickness tables
@@ -49,6 +49,17 @@ export const MANHATTAN_PROFILE = {
 };
 
 const by = (table, k) => table.reduce((v, [from, x]) => (k >= from ? x : v), table[0][1]);
+
+/**
+ * A tower of `floors` storeys with its mechanical floors, outriggers and taper placed at the same fractions of
+ * the height as the 84-storey default, so a shorter tower is the same design shortened, not a different one.
+ */
+export function towerForm({ floors, width, taperFrac = 50 / 84, tube, damper, depth = 45 } = {}) {
+  const mech = [0.24, 0.48, 0.71, 0.89].map(f => Math.max(2, Math.round(f * floors)));
+  return { ...TOWER_DEFAULTS, floors, width: width ?? TOWER_DEFAULTS.width, depth, mechanical: { floors: mech, height: TOWER_DEFAULTS.mechanical.height },
+    outriggers: { floors: mech, thickness: TOWER_DEFAULTS.outriggers.thickness }, taper: { ...TOWER_DEFAULTS.taper, from: Math.round(taperFrac * floors) },
+    tube: tube ?? TOWER_DEFAULTS.tube, damper: damper ?? TOWER_DEFAULTS.damper };
+}
 
 /** The floor stack: name, elevation, height and kind, from the cellars to the crown. */
 export function floorStack(o = TOWER_DEFAULTS) {
@@ -72,6 +83,7 @@ export function setback(k, o = TOWER_DEFAULTS) {
 
 export function createNeedleTower(app, opts = {}) {
   const o = { ...TOWER_DEFAULTS, ...opts }, m = app.model, ids = { levels: [] };
+  if (!opts.lot) o.lot = { x: [-(o.width / 2 + 2), o.width / 2 + 2], y: [-3, o.depth] };   // the lot follows the tower: 2 m each side, 3 m to the south
   const W = o.width / 2, [lx0, lx1] = o.lot.x, [ly0, ly1] = o.lot.y;
   m.batch('needle tower', () => {
     ids.soil = createSoilProfile(m, { extent: [[lx0 - 20, ly0 - 20], [lx1 + 20, ly1 + 20]], surface: 0, profile: MANHATTAN_PROFILE, note: 'ASSUMED midtown Manhattan profile: fill, glacial till, Manhattan schist from 10 m; rock bearing 3830 kPa is of the order of the NYC Building Code presumptive value for medium-hard rock (unverified); no borings' }).id;

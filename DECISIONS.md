@@ -119,3 +119,13 @@ response to Chapter 31: no analytical result is called compliance. Coral's LBM w
 `physics.js`) is not in any reachable repository; its C++ port remains owed (stiffness GAPS.md).
 The form and system are chosen by `tools/optimise-tower.mjs`, a search whose every candidate runs the engine;
 its record is `docs/tower-wind.json`.
+
+**D-23 · Comfort first: the tower is the tallest form whose sway is comfortable.** (2026-10-20)
+The owner's brief: occupants must be comfortable and the design must not invite claims. Design target 10 milli-g
+peak acceleration under the 10-year wind, along- and across-wind, the low end of the residential range and two
+thirds of the 15 milli-g criterion; the margin covers the across-wind screen being outside its calibration.
+`tools/optimise-comfort.mjs` ran 144 full towers through the engine (height 297-435 m, width 20-32 m, taper,
+damper 1600-4800 t). No 84-storey (435 m) form reaches 10 milli-g (best 13.3); the tallest that does is 74
+storeys, 389 m, 32 m wide (12:1), facade tube, four outriggers, 3200 t damper: 9.7 milli-g
+(docs/tower-comfort.json). That is now the default tower; docs/tower-wind.json keeps the earlier
+least-concrete 435 m search, which met the code route but not comfort. The tunnel test remains the confirmation.

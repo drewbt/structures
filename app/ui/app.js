@@ -23,7 +23,7 @@ export class CoralApp extends HTMLElement {
   connectedCallback() {
     const q = new URLSearchParams(location.search);
     this.static = !!globalThis.CORAL_STATIC;   // the published build: storage in this browser, precomputed engine results
-    this.project = q.get('project') || (this.static ? 'reference-frame' : 'section-haus');
+    this.project = q.get('project') || (this.static ? 'needle-tower' : 'section-haus');   // the published copy opens on the tower
     this.model = new Model(this.project);
     this.api = this.static ? new LocalApi() : new Api('');
     this.selection = new Set();

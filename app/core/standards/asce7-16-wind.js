@@ -41,6 +41,7 @@ export const CRITERIA = {
   drift_ratio: 1 / 500,                      // top deflection / height under the 10-year wind (Appendix C commentary range H/600-H/400)
   storey_drift: 1 / 400,                     // inter-storey under the 10-year wind
   accel_mg: 15,                              // peak resultant acceleration, top occupied floor, 10-year wind, residential (ISO 10137 / CTBUH range 10-18 milli-g)
+  comfort_mg: 10,                            // design target: the low end of the residential range, 2/3 of accel_mg; margin for the across-wind screening method (project choice)
 };
 
 /** Across-wind screening (NBCC 2015 Structural Commentary I, unverified) and vortex shedding. */

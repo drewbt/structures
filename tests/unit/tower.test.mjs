@@ -8,15 +8,15 @@ import { pileCapacity, soilInputs } from '../../app/core/geotech.js';
 
 function build() { const m = new Model('t'); const app = { model: m, regenerate() { return m.regenerate(); } }; const ids = createNeedleTower(app); return { m, ids, r: m.regenerate() }; }
 
-test('floor stack: cellars, lobby, 83 storeys with 4 mechanical, crown; heights add up and storeys touch', () => {
+test('floor stack: cellars, lobby, typical and 4 mechanical storeys, crown; heights add up and storeys touch', () => {
   const fs = floorStack();
   assert.equal(fs.filter(f => f.kind === 'cellar').length, 2);
-  assert.equal(fs.filter(f => f.k >= 1 && f.k <= O.floors).length, 84);
+  assert.equal(fs.filter(f => f.k >= 1 && f.k <= O.floors).length, O.floors);
   assert.equal(fs.filter(f => f.kind === 'mechanical').length, 4);
   for (let i = 1; i < fs.length; i++) assert.ok(Math.abs(fs[i].elevation - (fs[i - 1].elevation + fs[i - 1].height)) < 1e-9, `${fs[i].name} sits on ${fs[i - 1].name}`);
-  const top = fs.at(-1).elevation + fs.at(-1).height, hand = 9 + 4 * 9 + 79 * 4.6 + 27;
+  const top = fs.at(-1).elevation + fs.at(-1).height, hand = O.lobby + 4 * O.mechanical.height + (O.floors - 5) * O.typical + O.crown;
   assert.ok(Math.abs(top - hand) < 1e-9, `${top} vs ${hand}`);
-  assert.ok(top / O.width > 21, `slenderness ${(top / O.width).toFixed(1)}`);
+  assert.ok(top / O.width > 10, `slenderness ${(top / O.width).toFixed(1)}`);
 });
 
 test('setbacks step the south face back, never past the core, and never move the north (park) face', () => {
