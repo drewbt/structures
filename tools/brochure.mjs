@@ -56,7 +56,8 @@ await page.addStyleTag({ content: `
   #brochure-title small { display: block; font: 600 11px/1.6 system-ui, sans-serif; letter-spacing: .28em; text-transform: uppercase; opacity: .85; margin-bottom: 6px; }` });
 await page.evaluate(() => { const a = globalThis.coralArch; if (!a.renderMode) { a.renderMode = true; a.viewer.setRender(true); a.syncButtons?.(); } a.app.selection.clear?.(); a.viewer.setSelection(new Set()); });
 
-for (const s of SHOTS.filter(x => !ONLY || ONLY.some(o => x.name.startsWith(o)))) {
+for (const s0 of SHOTS.filter(x => !ONLY || ONLY.some(o => x.name.startsWith(o)))) {
+  const s = { ...s0, clean: !!process.env.CLEAN };
   await page.evaluate(({ s, LABEL, KICKER }) => {
     const a = globalThis.coralArch, v = a.viewer;
     v.camera.fov = (s.fov ?? 45) * Math.PI / 180; v.sun = s.sun;
@@ -65,7 +66,7 @@ for (const s of SHOTS.filter(x => !ONLY || ONLY.some(o => x.name.startsWith(o)))
     else Object.assign(v.camera, { target: s.target, theta: s.theta, phi: s.phi, dist: s.dist });
     v.needsDraw = true;
     for (const id of ['brochure-label', 'brochure-title']) document.getElementById(id)?.remove();
-    document.body.insertAdjacentHTML('beforeend', `<div id="brochure-title"><small>${KICKER}</small>${s.title}</div><div id="brochure-label">${LABEL}</div>`);
+    if (!s.clean) document.body.insertAdjacentHTML('beforeend', `<div id="brochure-title"><small>${KICKER}</small>${s.title}</div><div id="brochure-label">${LABEL}</div>`);
   }, { s, LABEL, KICKER });
   await page.waitForTimeout(6000);
   await page.screenshot({ path: join(out, `${s.name}.png`) });

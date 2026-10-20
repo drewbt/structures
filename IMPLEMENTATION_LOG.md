@@ -178,3 +178,18 @@ spendable buyer deposits in the cash flow.
 capacity of each parcel unconfirmed.
 
 **Next:** confirm Dorado zoning (R-I density) and location; model the front-runner in Coral; price check with brokers.
+
+## 14 · Dorado concept, brochure and developer deck (2026-10-20)
+
+**Implemented:** core/lowrise.js (beachfront boutique: 4 storeys, 20 through-residences, stepped terraces, solid
+garden facade with windows, pool deck, palms, illustrative neighbours); ocean, sand, lawn, deck, pool, road and
+palm context; water, bark and foliage materials; a daylight sky and exposure; project `dorado`; brochure tool
+per project with clean (unlabelled) renders. Concept brochure (5 spreads) and a 14-slide developer pitch deck
+published as artifacts, both labelled concept / not an offering.
+
+**Changed:** the scheme appraised on its own model at a conservative $800/gsf build cost needs about $2,100/sf
+to reach 15 % (avg residence ~$6.9M); $2,400/sf gives ~26 %; $1,800/sf ~3 %. Screening fix: island low-rise is
+concrete (no wood-frame saving); a comment had swallowed the market's demolition and carry inputs (regression
+test added).
+
+**Verified:** 105 unit tests, 81 e2e checks.
